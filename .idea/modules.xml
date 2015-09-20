@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/IndoorNaviDemo/IndoorNaviDemo.iml" filepath="$PROJECT_DIR$/IndoorNaviDemo/IndoorNaviDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IndoorNaviLib/IndoorNaviLib.iml" filepath="$PROJECT_DIR$/IndoorNaviLib/IndoorNaviLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TouchImageView/TouchImageView.iml" filepath="$PROJECT_DIR$/TouchImageView/TouchImageView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartparkingAndroidClient.iml" filepath="$PROJECT_DIR$/smartparkingAndroidClient.iml" />
+    </modules>
+  </component>
+</project>

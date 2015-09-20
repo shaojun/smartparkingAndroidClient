@@ -1,0 +1,261 @@
+[Tue May 20 11:29:41 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:29:42 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:29:42 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 11:29:42 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 11:29:42 2014] [notice] Parent: Created child process 1240
+[Tue May 20 11:29:42 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 11:29:44 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:29:45 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:29:45 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 11:29:45 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 11:29:45 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 11:29:45 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 11:29:45 2014] [notice] Child 1240: Child process is running
+[Tue May 20 11:29:45 2014] [notice] Child 1240: Acquired the start mutex.
+[Tue May 20 11:29:45 2014] [notice] Child 1240: Starting 64 worker threads.
+[Tue May 20 11:29:45 2014] [notice] Child 1240: Listening on port 443.
+[Tue May 20 11:29:45 2014] [notice] Child 1240: Listening on port 80.
+[Tue May 20 11:33:15 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:33:15 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue May 20 11:33:17 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:33:17 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 11:33:17 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 11:33:17 2014] [notice] Parent: Created child process 1556
+[Tue May 20 11:33:18 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 11:33:19 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:33:21 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 11:33:21 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 11:33:21 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 11:33:21 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 11:33:21 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 11:33:22 2014] [notice] Child 1556: Child process is running
+[Tue May 20 11:33:22 2014] [notice] Child 1556: Acquired the start mutex.
+[Tue May 20 11:33:22 2014] [notice] Child 1556: Starting 64 worker threads.
+[Tue May 20 11:33:22 2014] [notice] Child 1556: Listening on port 443.
+[Tue May 20 11:33:22 2014] [notice] Child 1556: Listening on port 80.
+[Tue May 20 14:02:41 2014] [notice] Parent: Received shutdown signal -- Shutting down the server.
+[Tue May 20 14:02:41 2014] [notice] Child 1556: Exit event signaled. Child process is ending.
+[Tue May 20 14:02:42 2014] [notice] Child 1556: Released the start mutex
+[Tue May 20 14:02:42 2014] [notice] Child 1556: All worker threads have exited.
+[Tue May 20 14:02:42 2014] [notice] Child 1556: Child process is exiting
+[Tue May 20 14:02:42 2014] [notice] Parent: Child process exited successfully.
+[Tue May 20 14:02:45 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:02:46 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:02:46 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 14:02:46 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 14:02:46 2014] [notice] Parent: Created child process 1780
+[Tue May 20 14:02:46 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 14:02:47 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:02:48 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:02:48 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 14:02:48 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 14:02:48 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 14:02:48 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 14:02:48 2014] [notice] Child 1780: Child process is running
+[Tue May 20 14:02:48 2014] [notice] Child 1780: Acquired the start mutex.
+[Tue May 20 14:02:48 2014] [notice] Child 1780: Starting 64 worker threads.
+[Tue May 20 14:02:48 2014] [notice] Child 1780: Listening on port 443.
+[Tue May 20 14:02:48 2014] [notice] Child 1780: Listening on port 80.
+[Tue May 20 14:08:39 2014] [notice] Parent: Received shutdown signal -- Shutting down the server.
+[Tue May 20 14:08:39 2014] [notice] Child 1780: Exit event signaled. Child process is ending.
+[Tue May 20 14:08:40 2014] [notice] Child 1780: Released the start mutex
+[Tue May 20 14:08:40 2014] [notice] Child 1780: All worker threads have exited.
+[Tue May 20 14:08:40 2014] [notice] Child 1780: Child process is exiting
+[Tue May 20 14:08:40 2014] [notice] Parent: Child process exited successfully.
+[Tue May 20 14:08:43 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:08:44 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:08:44 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 14:08:44 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 14:08:44 2014] [notice] Parent: Created child process 3036
+[Tue May 20 14:08:44 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 14:08:45 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:08:46 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:08:46 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 14:08:46 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 14:08:46 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 14:08:46 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 14:08:46 2014] [notice] Child 3036: Child process is running
+[Tue May 20 14:08:46 2014] [notice] Child 3036: Acquired the start mutex.
+[Tue May 20 14:08:46 2014] [notice] Child 3036: Starting 64 worker threads.
+[Tue May 20 14:08:46 2014] [notice] Child 3036: Listening on port 443.
+[Tue May 20 14:08:46 2014] [notice] Child 3036: Listening on port 80.
+[Tue May 20 14:56:11 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:56:11 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue May 20 14:56:12 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:56:13 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 14:56:13 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 14:56:13 2014] [notice] Parent: Created child process 1568
+[Tue May 20 14:56:13 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 14:56:14 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:56:16 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 14:56:16 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 14:56:16 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 14:56:16 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 14:56:16 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 14:56:17 2014] [notice] Child 1568: Child process is running
+[Tue May 20 14:56:17 2014] [notice] Child 1568: Acquired the start mutex.
+[Tue May 20 14:56:17 2014] [notice] Child 1568: Starting 64 worker threads.
+[Tue May 20 14:56:17 2014] [notice] Child 1568: Listening on port 443.
+[Tue May 20 14:56:17 2014] [notice] Child 1568: Listening on port 80.
+[Tue May 20 15:25:58 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 15:25:59 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue May 20 15:26:00 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 15:26:00 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Tue May 20 15:26:00 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Tue May 20 15:26:00 2014] [notice] Parent: Created child process 1468
+[Tue May 20 15:26:01 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Tue May 20 15:26:02 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 15:26:03 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue May 20 15:26:03 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Tue May 20 15:26:03 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Tue May 20 15:26:03 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Tue May 20 15:26:03 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Tue May 20 15:26:04 2014] [notice] Child 1468: Child process is running
+[Tue May 20 15:26:04 2014] [notice] Child 1468: Acquired the start mutex.
+[Tue May 20 15:26:04 2014] [notice] Child 1468: Starting 64 worker threads.
+[Tue May 20 15:26:04 2014] [notice] Child 1468: Listening on port 443.
+[Tue May 20 15:26:04 2014] [notice] Child 1468: Listening on port 80.
+[Wed Jun 04 10:59:36 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 10:59:37 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 10:59:37 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 10:59:38 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 10:59:38 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 10:59:38 2014] [notice] Parent: Created child process 1540
+[Wed Jun 04 10:59:38 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 10:59:39 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 10:59:40 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 10:59:40 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 10:59:40 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 10:59:40 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 10:59:40 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 10:59:42 2014] [notice] Child 1540: Child process is running
+[Wed Jun 04 10:59:42 2014] [notice] Child 1540: Acquired the start mutex.
+[Wed Jun 04 10:59:42 2014] [notice] Child 1540: Starting 64 worker threads.
+[Wed Jun 04 10:59:42 2014] [notice] Child 1540: Listening on port 443.
+[Wed Jun 04 10:59:42 2014] [notice] Child 1540: Listening on port 80.
+[Wed Jun 04 11:02:02 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 11:02:02 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 11:02:03 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 11:02:03 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 11:02:03 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 11:02:03 2014] [notice] Parent: Created child process 1540
+[Wed Jun 04 11:02:04 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 11:02:05 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 11:02:06 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 11:02:06 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 11:02:06 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 11:02:06 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 11:02:06 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 11:02:06 2014] [notice] Child 1540: Child process is running
+[Wed Jun 04 11:02:06 2014] [notice] Child 1540: Acquired the start mutex.
+[Wed Jun 04 11:02:06 2014] [notice] Child 1540: Starting 64 worker threads.
+[Wed Jun 04 11:02:06 2014] [notice] Child 1540: Listening on port 443.
+[Wed Jun 04 11:02:06 2014] [notice] Child 1540: Listening on port 80.
+[Wed Jun 04 16:41:25 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:41:26 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 16:41:26 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:41:27 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 16:41:27 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 16:41:27 2014] [notice] Parent: Created child process 1576
+[Wed Jun 04 16:41:28 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 16:41:28 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:41:29 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:41:29 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 16:41:29 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 16:41:29 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 16:41:29 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 16:41:30 2014] [notice] Child 1576: Child process is running
+[Wed Jun 04 16:41:30 2014] [notice] Child 1576: Acquired the start mutex.
+[Wed Jun 04 16:41:30 2014] [notice] Child 1576: Starting 64 worker threads.
+[Wed Jun 04 16:41:30 2014] [notice] Child 1576: Listening on port 443.
+[Wed Jun 04 16:41:30 2014] [notice] Child 1576: Listening on port 80.
+[Wed Jun 04 16:43:31 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:43:32 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 16:43:33 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:43:33 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 16:43:33 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 16:43:33 2014] [notice] Parent: Created child process 1552
+[Wed Jun 04 16:43:33 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 16:43:34 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:43:36 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:43:36 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 16:43:36 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 16:43:36 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 16:43:36 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 16:43:38 2014] [notice] Child 1552: Child process is running
+[Wed Jun 04 16:43:38 2014] [notice] Child 1552: Acquired the start mutex.
+[Wed Jun 04 16:43:38 2014] [notice] Child 1552: Starting 64 worker threads.
+[Wed Jun 04 16:43:38 2014] [notice] Child 1552: Listening on port 443.
+[Wed Jun 04 16:43:38 2014] [notice] Child 1552: Listening on port 80.
+[Wed Jun 04 16:52:12 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:52:12 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 16:52:13 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:52:13 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 16:52:13 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 16:52:13 2014] [notice] Parent: Created child process 1516
+[Wed Jun 04 16:52:14 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 16:52:14 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:52:15 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:52:15 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 16:52:15 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 16:52:15 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 16:52:15 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 16:52:16 2014] [notice] Child 1516: Child process is running
+[Wed Jun 04 16:52:16 2014] [notice] Child 1516: Acquired the start mutex.
+[Wed Jun 04 16:52:16 2014] [notice] Child 1516: Starting 64 worker threads.
+[Wed Jun 04 16:52:16 2014] [notice] Child 1516: Listening on port 443.
+[Wed Jun 04 16:52:16 2014] [notice] Child 1516: Listening on port 80.
+[Wed Jun 04 16:59:08 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:59:09 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Wed Jun 04 16:59:10 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:59:10 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Wed Jun 04 16:59:10 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Wed Jun 04 16:59:10 2014] [notice] Parent: Created child process 1560
+[Wed Jun 04 16:59:10 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Wed Jun 04 16:59:12 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:59:13 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Wed Jun 04 16:59:13 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Wed Jun 04 16:59:13 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Wed Jun 04 16:59:13 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Wed Jun 04 16:59:13 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Wed Jun 04 16:59:13 2014] [notice] Child 1560: Child process is running
+[Wed Jun 04 16:59:13 2014] [notice] Child 1560: Acquired the start mutex.
+[Wed Jun 04 16:59:13 2014] [notice] Child 1560: Starting 64 worker threads.
+[Wed Jun 04 16:59:13 2014] [notice] Child 1560: Listening on port 443.
+[Wed Jun 04 16:59:13 2014] [notice] Child 1560: Listening on port 80.
+[Fri Nov 07 09:32:40 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:32:40 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Nov 07 09:32:41 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:32:42 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Fri Nov 07 09:32:42 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Fri Nov 07 09:32:42 2014] [notice] Parent: Created child process 1564
+[Fri Nov 07 09:32:42 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Fri Nov 07 09:32:43 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:32:44 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:32:45 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Fri Nov 07 09:32:45 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Fri Nov 07 09:32:45 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Fri Nov 07 09:32:45 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Fri Nov 07 09:32:45 2014] [notice] Child 1564: Child process is running
+[Fri Nov 07 09:32:45 2014] [notice] Child 1564: Acquired the start mutex.
+[Fri Nov 07 09:32:45 2014] [notice] Child 1564: Starting 64 worker threads.
+[Fri Nov 07 09:32:46 2014] [notice] Child 1564: Listening on port 443.
+[Fri Nov 07 09:32:46 2014] [notice] Child 1564: Listening on port 80.
+[Fri Nov 07 09:35:36 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:35:36 2014] [warn] pid file C:/Program Files/Apache Software Foundation/Apache2.2/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Nov 07 09:35:38 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:35:39 2014] [notice] Apache/2.2.23 (Win32) mod_ssl/2.2.23 OpenSSL/0.9.8x configured -- resuming normal operations
+[Fri Nov 07 09:35:39 2014] [notice] Server built: Aug 24 2012 11:45:16
+[Fri Nov 07 09:35:39 2014] [notice] Parent: Created child process 1736
+[Fri Nov 07 09:35:40 2014] [notice] Disabled use of AcceptEx() WinSock2 API
+[Fri Nov 07 09:35:42 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:35:43 2014] [warn] RSA server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Fri Nov 07 09:35:43 2014] [error] python_init: Python version mismatch, expected '2.5', found '2.5.6'.
+[Fri Nov 07 09:35:43 2014] [error] python_init: Python executable found 'C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin\\httpd.exe'.
+[Fri Nov 07 09:35:43 2014] [error] python_init: Python path being used 'C:\\Windows\\system32\\python25.zip;C:\\Python25\\Lib;C:\\Python25\\DLLs;C:\\Python25\\Lib\\lib-tk;;C:\\Program Files\\Apache Software Foundation\\Apache2.2\\bin'.
+[Fri Nov 07 09:35:43 2014] [notice] mod_python: Creating 8 session mutexes based on 0 max processes and 64 max threads.
+[Fri Nov 07 09:35:44 2014] [notice] Child 1736: Child process is running
+[Fri Nov 07 09:35:44 2014] [notice] Child 1736: Acquired the start mutex.
+[Fri Nov 07 09:35:44 2014] [notice] Child 1736: Starting 64 worker threads.
+[Fri Nov 07 09:35:44 2014] [notice] Child 1736: Listening on port 443.
+[Fri Nov 07 09:35:44 2014] [notice] Child 1736: Listening on port 80.

@@ -1,0 +1,423 @@
+package com.SmartParking.Demo.Sampling;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.List;
+
+import com.SmartParking.Demo.Mapping.R;
+import com.SmartParking.Lookup.PositionDescriptor;
+import com.SmartParking.Sampling.BleFingerprintCollector;
+import com.SmartParking.Sampling.ScannedBleDevice;
+import com.SmartParking.Util.Tuple;
+import com.SmartParking.Util.Util;
+import com.ortiz.touch.TouchImageView;
+import com.ortiz.touch.TouchImageView.OnTouchImageViewListener;
+
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.PowerManager;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+	private static final String LOG_TAG = "SmarkParking.Demo.Main";
+	private BluetoothAdapter mBluetoothAdapter = null;
+	private PowerManager.WakeLock screenOnLock = null;
+	private MarkableTouchImageView image;
+	private TextView scrollPositionTextView;
+	private TextView zoomedRectTextView;
+	private TextView currentZoomTextView;
+	private TextView currentCoorTextView;
+	private TextView promptActionTextView;
+	private EditText commentsEditText;
+	private Button buttonSave;
+	private Button buttonLoad;
+	private Button buttonPersist;
+	private Button buttonSampling;
+
+	private DecimalFormat df;
+	boolean enableCountdown = false;
+	// pan and zooming related...
+	private RectF zoomedRect = null;
+	private float currentZoom = 1;
+	private boolean isZoomed = false;
+	private float currentAbsoluteTop = 0;
+	private float currentAbsoluteLeft = 0;
+
+	private String privateDataFileName = "SmartParking22.data";// Environment.getDataDirectory()+
+	// "/com.SmartParking.Demo.Sampling/SmartParking.data";
+	private FileOutputStream fileOutputStream = null;
+	private ObjectOutputStream objectOutputStream = null;
+
+	private FileInputStream fileInputStream = null;
+	private ObjectInputStream objectInputStream = null;
+
+	private ArrayList<PositionDescriptor> PositionDescriptors = new ArrayList<PositionDescriptor>();
+	private PositionDescriptor currentPositionDescriptor;
+
+	@Override
+	protected void onStop() {
+		super.onStop(); // Always call the superclass method first
+
+		this.screenOnLock.release();
+
+	}
+
+	protected void onRestart() {
+		super.onRestart(); // Always call the superclass method first
+		this.screenOnLock.acquire();
+
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		/******************************
+		 * make sure the Phone support and enabled the BLE.
+		 */
+		if (!this.getPackageManager().hasSystemFeature(
+				PackageManager.FEATURE_BLUETOOTH_LE)) {
+			throw new UnsupportedOperationException(
+					"Target device didn't support BLE.");
+		}
+		// Initializes Bluetooth adapter.
+		this.mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE))
+				.getAdapter();
+		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, 0);
+		}
+
+		/******************************
+		 * make sure the screen always on.
+		 */
+		PowerManager pm = (PowerManager) this
+				.getSystemService(Context.POWER_SERVICE);
+		this.screenOnLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+				| PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+		this.screenOnLock.acquire();
+
+		//
+		// DecimalFormat rounds to 2 decimal places.
+		//
+		df = new DecimalFormat("#.##");
+		// scrollPositionTextView = (TextView)
+		// findViewById(R.id.scroll_position);
+		// zoomedRectTextView = (TextView) findViewById(R.id.zoomed_rect);
+		// currentZoomTextView = (TextView) findViewById(R.id.current_zoom);
+		image = (MarkableTouchImageView) findViewById(R.id.imgControl);
+		currentCoorTextView = (TextView) findViewById(R.id.current_coordinate);
+		promptActionTextView = (TextView) findViewById(R.id.promptAction);
+		commentsEditText = (EditText) findViewById(R.id.commentsEditText);
+		buttonSave = (Button) findViewById(R.id.buttonSave);
+		buttonLoad = (Button) findViewById(R.id.buttonLoad);
+		buttonPersist = (Button) findViewById(R.id.buttonPersist);
+		buttonSampling = (Button) findViewById(R.id.buttonSampling);
+
+		/******************************
+		 * init the coutdown ticker
+		 */
+		Thread thread = new Thread() {
+			int countUp = 0;
+
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						sleep(1000);
+						if (enableCountdown) {
+							countUp++;
+							runOnUiThread(new Runnable() {
+
+								@Override
+								public void run() {
+									promptActionTextView.setText("-> "
+											+ countUp + " <- " + "s elapsed");
+								}
+							});
+						} else {
+							countUp = 0;
+						}
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		thread.start();
+
+		/******************************
+		 * init the zoom and pan variables.
+		 */
+		zoomedRect = image.getZoomedRect();
+		currentZoom = image.getCurrentZoom();
+		isZoomed = image.isZoomed();
+
+		buttonSampling.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					enableCountdown = true;
+					if (false == BleFingerprintCollector.getDefault().Start(
+							mBluetoothAdapter)) {
+						Toast.makeText(getBaseContext(),
+								"Failed to start collect FP",
+								android.widget.Toast.LENGTH_LONG).show();
+					}
+
+					break;
+				}
+
+				case MotionEvent.ACTION_UP: {
+					enableCountdown = false;
+					List<ScannedBleDevice> collected = BleFingerprintCollector
+							.getDefault().Stop();
+					if (collected == null || collected.size() == 0) {
+						Toast.makeText(getBaseContext(),
+								"Nothing was collected",
+								android.widget.Toast.LENGTH_SHORT).show();
+						return false;
+					}
+
+					Log.e(LOG_TAG,
+							"Scanning stopped, raw content listed below: ");
+					for (ScannedBleDevice s : collected) {
+						Log.e(LOG_TAG, "	" + s.toSimpleString());
+					}
+
+					HashSet<ScannedBleDevice> averagedFingerprints = Util
+							.DistinctAndAvgFingerprint(collected);
+					Log.e(LOG_TAG, "Averaged content listed below: ");
+					for (ScannedBleDevice s : averagedFingerprints) {
+						Log.e(LOG_TAG, "	" + s.toSimpleString());
+					}
+
+					currentPositionDescriptor = new PositionDescriptor(
+							commentsEditText.getText().toString(),
+							currentAbsoluteLeft, currentAbsoluteTop,
+							averagedFingerprints);
+					buttonPersist.setEnabled(true);
+					buttonSave.setEnabled(true);
+				}
+					break;
+				}
+
+				return true;
+
+			}
+		});
+
+		buttonSave.setEnabled(false);
+		buttonSave.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (currentPositionDescriptor == null) {
+					Toast.makeText(
+							getBaseContext(),
+							"No sample was found(curTotalCount: "
+									+ PositionDescriptors.size() + ")",
+							android.widget.Toast.LENGTH_SHORT).show();
+					return;
+				}
+
+				// re-udpate again
+				currentPositionDescriptor.Description = commentsEditText
+						.getText().toString();
+				PositionDescriptors.add(currentPositionDescriptor);
+				Toast.makeText(
+						getBaseContext(),
+						"1 sample was added(newTotalCount: "
+								+ PositionDescriptors.size() + ")",
+						android.widget.Toast.LENGTH_SHORT).show();
+				currentPositionDescriptor = null;
+			}
+		});
+
+		buttonPersist.setEnabled(false);
+		buttonPersist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				try {
+					/* always delete previous one and create a new one */
+					File f = new File(privateDataFileName);
+					f.delete();
+					fileOutputStream = getBaseContext().openFileOutput(
+							privateDataFileName, Context.MODE_PRIVATE);
+					objectOutputStream = new ObjectOutputStream(
+							fileOutputStream);
+					objectOutputStream.writeObject(PositionDescriptors);
+					objectOutputStream.flush();
+				} catch (Exception e) {
+					Toast.makeText(getBaseContext(), "Failed to save samples",
+							android.widget.Toast.LENGTH_LONG).show();
+					e.printStackTrace();
+				} finally {
+					try {
+						objectOutputStream.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				Toast.makeText(
+						getBaseContext(),
+						"Succeed to persist " + PositionDescriptors.size()
+								+ " pieces of samples",
+						android.widget.Toast.LENGTH_SHORT).show();
+
+			}
+		});
+
+		buttonLoad.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					fileInputStream = getBaseContext().openFileInput(
+							privateDataFileName);
+					objectInputStream = new ObjectInputStream(fileInputStream);
+					ArrayList<PositionDescriptor> loadData = (ArrayList<PositionDescriptor>) objectInputStream
+							.readObject();
+
+					List<Tuple<Float, Float>> centerCoordinates = new ArrayList<Tuple<Float, Float>>();
+					for (PositionDescriptor desc : loadData) {
+						centerCoordinates.add(new Tuple<Float, Float>(desc.X,
+								desc.Y));
+					}
+					// return simpleClass;
+					Toast.makeText(
+							getBaseContext(),
+							"Succeed to load " + loadData.size()
+									+ " pieces of samples",
+							android.widget.Toast.LENGTH_SHORT).show();
+					image.drawCirclesByXandY(centerCoordinates);
+				} catch (Exception e) {
+					Toast.makeText(getBaseContext(), "Failed to load data",
+							android.widget.Toast.LENGTH_LONG).show();
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					try {
+						objectInputStream.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		//
+		// Set the OnTouchImageViewListener which updates edit texts
+		// with zoom and scroll diagnostics.
+		//
+		image.setOnTouchImageViewListener(new OnTouchImageViewListener() {
+			@Override
+			public void onMove() {
+				PointF point = image.getScrollPosition();
+				zoomedRect = image.getZoomedRect();
+				currentZoom = image.getCurrentZoom();
+				isZoomed = image.isZoomed();
+				// scrollPositionTextView.setText("x: " + df.format(point.x)
+				// + " y: " + df.format(point.y));
+				// zoomedRectTextView.setText("left: "
+				// + df.format(zoomedRect.left) + " top: "
+				// + df.format(zoomedRect.top) + "\nright: "
+				// + df.format(zoomedRect.right) + " bottom: "
+				// + df.format(zoomedRect.bottom));
+				// currentZoomTextView.setText("getCurrentZoom(): " +
+				// currentZoom
+				// + " isZoomed(): " + isZoomed);
+			}
+		});
+
+		image.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// Log.e(LOG_TAG, "image OnTouchListener, zoomedRect.top: "
+				// + zoomedRect.top + ", getY():" + event.getY()
+				// + ", curZoom:" + currentZoom);
+				if (Float.isNaN(zoomedRect.top))
+					zoomedRect.top = 0f;
+				if (Float.isNaN(zoomedRect.left))
+					zoomedRect.left = 0f;
+				currentAbsoluteTop = zoomedRect.top * image.getHeight()
+						+ event.getY() / currentZoom;
+				currentAbsoluteLeft = zoomedRect.left * image.getWidth()
+						+ event.getX() / currentZoom;
+
+				Log.e(LOG_TAG,
+						"image OnTouchListener, image.getHeight():"
+								+ image.getHeight() + ", image.getWidth():"
+								+ image.getWidth() + ", zoomedRect.top: "
+								+ zoomedRect.top + ", zoomedRect.left:"
+								+ zoomedRect.left + ", getX():" + event.getX()
+								+ ", getY():" + event.getY() + ", curZoom:"
+								+ currentZoom);
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					if (zoomedRect != null) {
+
+						// currentCoorTextView.setText("Raw X:" + event.getX()
+						// + ",Tx:" + currentAbsoluteLeft + ", Raw Y:"
+						// + event.getY() + ",Ty:" + currentAbsoluteTop);
+						// v.invalidate();
+						// Bitmap newBT = com.SmartParking.Util.Util
+						// .DrawCircleOnBitmap(BitmapFactory
+						// .decodeResource(getResources(),
+						// R.drawable.samplemap_1),
+						// absoluteLeft, absoluteTop, 15);
+						// image.setImageBitmap(newBT);
+						// image.drawCircleByXandY(absoluteLeft,
+						// absoluteTop);
+						image.drawCircleByXandY(event.getX(), event.getY());
+					}
+				}
+
+				return true;
+			}
+		});
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}

@@ -1,0 +1,45 @@
+package com.example.ownedibeacon;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
+public class ProcessWebservice extends AsyncTask<String, Integer, String> {
+	private String LOG_TAG = "ProcessWebservice";
+
+	@Override
+	protected String doInBackground(String... params) {
+		try {
+			String address = "http://api.map.baidu.com/geocoder?address=shanghai&output=json&key=hmPHrgM19gjizHyYsEUqhFPw&city=shanghai";
+
+			HttpGet request = new HttpGet(address);
+
+			HttpClient client = new DefaultHttpClient();
+			// HttpRequest hr = new HttpRequest();
+			// HttpUriRequest rr = new HttpUriRequest();
+			Log.e(LOG_TAG, "executing...");
+			HttpResponse response = client.execute(request);
+
+			if (response.getStatusLine().getStatusCode() == 200) {
+
+				String resultStr = EntityUtils.toString(response.getEntity());
+				Log.e(LOG_TAG, "web service returned: " + resultStr);
+				return resultStr;
+				// Toast.makeText(this, "success", Toast.LENGTH_LONG).show();
+			}
+		} catch (Exception ee) {
+			ee.printStackTrace();
+			return ee.getMessage();
+		}
+	}
+
+	protected void onPostExecute(String result) {
+		//showDialog("Downloaded " + result + " bytes");
+	}
+}

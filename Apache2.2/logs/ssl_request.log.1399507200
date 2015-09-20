@@ -1,0 +1,5 @@
+[04/Jun/2014:16:46:27 +0800] 10.196.30.228 TLSv1 RC4-SHA "GET /ftsv1/auth=GEWayne434343/get_data/get_new_tables/ HTTP/1.1" 71
+[04/Jun/2014:16:46:57 +0800] 10.196.30.228 TLSv1 RC4-SHA "GET /ftsv1/auth=GEWayne434343/get_data/get_fpos_transactions/?trackingid=1&begindatetime='2013-08-08%2016:49:56' HTTP/1.1" 124
+[04/Jun/2014:16:47:59 +0800] 10.196.30.228 TLSv1 RC4-SHA "GET /ftsv1/auth=GEWayne434343/get_data/get_new_tables/ HTTP/1.1" 71
+[04/Jun/2014:16:49:30 +0800] 10.196.30.228 TLSv1 RC4-SHA "GET /ftsv1/auth=GEWayne434343/get_data/get_fpos_transactions/?trackingid=1&begindatetime='2013-08-08%2016:52:29' HTTP/1.1" 124
+[04/Jun/2014:16:49:51 +0800] 10.196.30.228 TLSv1 RC4-SHA "GET /rebootfusion.php HTTP/1.1" 6

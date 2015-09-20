@@ -1,0 +1,13 @@
+package com.example.ownedibeacon;
+
+import android.os.AsyncTask;
+
+public class ProcessWebservice  extends AsyncTask<String,Integer, String> {
+
+	@Override
+	protected String doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

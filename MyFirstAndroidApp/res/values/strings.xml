@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Animate</string>
+    <string name="button_AddMarker">AddMarker</string>
+    <string name="app_name">FirstTry</string>
+    
+    
+    
+    <string name="title_activity_navigation_input">NavigationInputActivity</string>
+    <string name="inputDestText">input your dest</string>
+    <string name="button_DestinationEnter">SearchParkingPosition</string>
+
+</resources>

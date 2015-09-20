@@ -1,0 +1,295 @@
+package com.example.ownedibeacon;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ParcelUuid;
+import android.os.PowerManager;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothAdapter.LeScanCallback;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+	private static final String LOG_TAG = "ParsingUUID";
+	private static final String TAG = "ForIbeacon";
+	private BluetoothAdapter mBluetoothAdapter;
+	private Handler mHandler;
+	// Device scan callback.
+	private BluetoothAdapter.LeScanCallback mLeScanCallback;
+	private Hashtable<String, RemoteBleDevice> mLeDevices = new Hashtable<String, RemoteBleDevice>();
+	private TextView bleScanState = null;
+
+	PowerManager pm = null;
+	PowerManager.WakeLock screenOnLock = null;
+
+	private Handler asyncOperationHandler = new Handler();
+	@Override
+	public void Test() {
+	
+	//启动一个后台线程
+		asyncOperationHandler.post(new Runnable(){
+	 @Override
+	public void run() {
+	//这里下载数据
+	 try{
+	 URL url= new URL("http://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hukou_Waterfall.jpg/800px-Hukou_Waterfall.jpg");
+	 HttpURLConnection conn= (HttpURLConnection)url.openConnection();
+	 conn.setConnectTimeout(0);
+	 conn.setDoInput(true);
+	 conn.connect();
+	 InputStream inputStream=conn.getInputStream();
+	 bitmap= BitmapFactory.decodeStream(inputStream);
+	 Message msg=new Message();
+	 msg.what=1;
+	 handler.sendMessage(msg);
+
+	 }catch (MalformedURLException e1) {
+	 e1.printStackTrace();
+	 }catch (IOException e) {
+	// TODO Auto-generated catch block
+	 e.printStackTrace();
+	 }
+	 }
+	 });
+	break;
+	}
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop(); // Always call the superclass method first
+		// this.mBluetoothAdapter.cancelDiscovery();
+		this.mBluetoothAdapter.stopLeScan(this.mLeScanCallback);
+		this.screenOnLock.release();
+
+	}
+
+	protected void onRestart() {
+		super.onRestart(); // Always call the superclass method first
+		this.screenOnLock.acquire();
+		mBluetoothAdapter.startLeScan(mLeScanCallback);
+	}
+
+	public void OnWebServiceFinished(String result)
+	{
+		Log.e(LOG_TAG, "Webservice done, result: ");
+		Log.e(LOG_TAG, result);
+		Toast.makeText(this, "succeed", Toast.LENGTH_LONG).show();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		TextView bleState = (TextView) findViewById(R.id.BLEState);
+		this.bleScanState = (TextView) findViewById(R.id.BLEScanState);
+
+		if (!getPackageManager().hasSystemFeature(
+				PackageManager.FEATURE_BLUETOOTH_LE)) {
+			bleState.setText("No!!");
+			Toast.makeText(this, "No support for BLE", Toast.LENGTH_LONG)
+					.show();
+			// finish();
+		} else {
+			bleState.setText("Yes!");
+			this.pm = ((PowerManager) getSystemService(Context.POWER_SERVICE));
+			this.screenOnLock = pm.newWakeLock(
+					PowerManager.SCREEN_DIM_WAKE_LOCK
+							| PowerManager.ON_AFTER_RELEASE, TAG);
+			try {
+				ProcessWebservice ws = new ProcessWebservice(this);
+				AsyncTask<String, Integer, String> rrrr = ws.execute("");
+				String myDesire = "";
+				
+			} catch (Exception e) {
+				Toast.makeText(this, "failed", Toast.LENGTH_LONG).show();
+			}
+
+			/* init the BT, make sure it is get opened in device */
+			final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+			this.mBluetoothAdapter = bluetoothManager.getAdapter();
+			// Ensures Bluetooth is available on the device and it is enabled.
+			// If not,
+			// displays a dialog requesting user permission to enable Bluetooth.
+			if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+				Intent enableBtIntent = new Intent(
+						BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(enableBtIntent, 1);
+			}
+
+			/* scanning... */
+			this.mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+				@Override
+				public void onLeScan(final BluetoothDevice device, int rssi,
+						byte[] scanRecord) {
+					final int tempRssi = rssi;
+					final byte[] tempScanRecord = scanRecord;
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							// mLeDevices.add(device);
+							// mLeDeviceListAdapter.notifyDataSetChanged();
+							NewBleDeviceFound(device, tempRssi, tempScanRecord);
+						}
+					});
+				}
+			};
+
+			// Stops scanning after a pre-defined scan period.
+			// mHandler.postDelayed(new Runnable() {
+			// @Override
+			// public void run() {
+			// mBluetoothAdapter.stopLeScan(mLeScanCallback);
+			// }
+			// }, 60000);
+			this.screenOnLock.acquire();
+			mBluetoothAdapter.startLeScan(mLeScanCallback);
+
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	private void NewBleDeviceFound(BluetoothDevice bleDevice, int rssi,
+			byte[] scanRecord) {
+		String btAddress = bleDevice.getAddress();
+		// new device, then add.
+		if (!this.mLeDevices.containsKey(btAddress)) {
+			RemoteBleDevice d = new RemoteBleDevice();
+			d.BLEDevice = bleDevice;
+			d.RSSI = rssi;
+			// d.scanRecord = scanRecord;
+			d.UUIDs = this.parseUUIDs(scanRecord);
+			this.mLeDevices.put(btAddress, d);
+
+			String scanRecordHexLogString = "		";
+			for (byte bb : scanRecord) {
+				// log the hex string from byte
+				scanRecordHexLogString += String.format("%02X ", bb);
+			}
+
+			Log.e(LOG_TAG, "scanRecord Hex Log String:");
+			Log.e(LOG_TAG, scanRecordHexLogString);
+
+		} else {
+			RemoteBleDevice existed = this.mLeDevices.get(btAddress);
+			existed.RSSI = rssi;
+			existed.UUIDs = this.parseUUIDs(scanRecord);
+		}
+
+		for (String adrs : this.mLeDevices.keySet()) {
+			RemoteBleDevice target = (RemoteBleDevice) (this.mLeDevices
+					.get(adrs));
+			// not sure how to use this property
+			// ParcelUuid[] btUUIDs = bleDevice.getUuids();
+			List<UUID> btUUIDs = target.UUIDs;
+			String btName = bleDevice.getName();
+
+			String displayText = "Adrs: " + btAddress + ", Name: " + btName
+					+ ", RSSI: " + rssi + ", ";
+
+			if (btUUIDs == null || btUUIDs.size() == 0) {
+				displayText += "UUIDs count: 0" + "\r\n";
+			} else {
+				displayText += "UUIDs count: " + btUUIDs.size() + ", ";
+				int idCounter = 0;
+				for (UUID uuid : btUUIDs) {
+					displayText += "UUID[" + idCounter + "]: "
+							+ uuid.toString();
+					idCounter++;
+				}
+			}
+
+			displayText += "\r\n";
+			displayText += "---------------------------";
+			this.bleScanState.setText(displayText);
+		}
+
+	}
+
+	private List<UUID> parseUUIDs(final byte[] advertisedData) {
+		List<UUID> uuids = new ArrayList<UUID>();
+
+		int offset = 0;
+		while (offset < (advertisedData.length - 2)) {
+			int len = advertisedData[offset++];
+			if (len == 0)
+				break;
+
+			int type = advertisedData[offset++];
+			switch (type) {
+			case 0x02: // Partial list of 16-bit UUIDs
+			case 0x03: // Complete list of 16-bit UUIDs
+				while (len > 1) {
+					int uuid16 = advertisedData[offset++];
+					uuid16 += (advertisedData[offset++] << 8);
+					len -= 2;
+					uuids.add(UUID.fromString(String.format(
+							"%08x-0000-1000-8000-00805f9b34fb", uuid16)));
+				}
+				break;
+			case 0x06:// Partial list of 128-bit UUIDs
+			case 0x07:// Complete list of 128-bit UUIDs
+				// Loop through the advertised 128-bit UUID's.
+				while (len >= 16) {
+					try {
+						// Wrap the advertised bits and order them.
+						ByteBuffer buffer = ByteBuffer.wrap(advertisedData,
+								offset++, 16).order(ByteOrder.LITTLE_ENDIAN);
+						long mostSignificantBit = buffer.getLong();
+						long leastSignificantBit = buffer.getLong();
+						uuids.add(new UUID(leastSignificantBit,
+								mostSignificantBit));
+					} catch (IndexOutOfBoundsException e) {
+						// Defensive programming.
+						Log.e(LOG_TAG, e.toString());
+						continue;
+					} finally {
+						// Move the offset to read the next uuid.
+						offset += 15;
+						len -= 16;
+					}
+				}
+				break;
+			default:
+				offset += (len - 1);
+				break;
+			}
+		}
+
+		return uuids;
+	}
+}

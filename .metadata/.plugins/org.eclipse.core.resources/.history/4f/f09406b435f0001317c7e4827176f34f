@@ -1,0 +1,557 @@
+package com.SmartParking.Demo.Sampling;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import com.SmartParking.Demo.Mapping.R;
+import com.SmartParking.Lookup.PositionDescriptor;
+import com.SmartParking.Sampling.BleFingerprintCollector;
+import com.SmartParking.Sampling.OnBleSampleCollectedListener;
+import com.SmartParking.Sampling.ScannedBleDevice;
+import com.SmartParking.UI.ExpandableListViewAdapter;
+import com.SmartParking.UI.ExpandableListViewItem;
+import com.SmartParking.UI.MarkableTouchImageView;
+import com.SmartParking.Util.Tuple;
+import com.SmartParking.Util.Util;
+import com.ortiz.touch.TouchImageView.OnTouchImageViewListener;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.MediaStore;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ImageView.ScaleType;
+
+public class MainActivity extends Activity implements
+		OnBleSampleCollectedListener {
+	private static final String LOG_TAG = "SmarkParking.Demo.Main";
+	private BluetoothAdapter mBluetoothAdapter = null;
+	private PowerManager.WakeLock screenOnLock = null;
+	private MarkableTouchImageView image;
+	private TextView scrollPositionTextView;
+	private TextView zoomedRectTextView;
+	private TextView currentZoomTextView;
+	private TextView currentCoorTextView;
+	private TextView promptActionTextView;
+	private TextView logTextView;
+	private EditText commentsEditText;
+	// private Button buttonSave;
+	private Button buttonLoad;
+	private Button buttonPersist;
+	private Button buttonSampling;
+	private ExpandableListView pendingSampleExpandableListView = null;
+
+	private DecimalFormat df;
+	boolean enableSampling = false;
+	// pan and zooming related...
+	private RectF zoomedRect = null;
+	private float currentZoom = 1;
+	private boolean isZoomed = false;
+	private float currentAbsoluteTop = 0;
+	private float currentAbsoluteLeft = 0;
+	private float lastClickedX = 0;
+	private float lastClickedY = 0;
+
+	// Environment.getDataDirectory()+
+	// "/com.SmartParking.Demo.Sampling/SmartParking.data";
+	private FileOutputStream fileOutputStream = null;
+	private ObjectOutputStream objectOutputStream = null;
+
+	private FileInputStream fileInputStream = null;
+	private ObjectInputStream objectInputStream = null;
+
+	private List<ScannedBleDevice> collectedSample = new ArrayList<ScannedBleDevice>();
+	public static ArrayList<PositionDescriptor> InMemPositionDescriptors = new ArrayList<PositionDescriptor>();
+	private Lock syncLock = new ReentrantLock();
+	private static int RESULT_LOAD_IMAGE = 1;
+	public static Bitmap MainActivityBitmapSource = null;
+
+	private boolean shouldIgnoreCurrentSample = false;
+
+	@Override
+	protected void onStop() {
+		super.onStop(); // Always call the superclass method first
+
+		this.screenOnLock.release();
+		// Log.e(LOG_TAG, "MainActivity stopping the BleFingerprintCollector");
+		// BleFingerprintCollector.getDefault().Stop();
+		// BleFingerprintCollector.getDefault().RemoveOnBleSampleCollectedListener(this);
+
+	}
+
+	protected void onRestart() {
+		super.onRestart(); // Always call the superclass method first
+		this.screenOnLock.acquire();
+		if (!BleFingerprintCollector.getDefault().isRunning
+				&& false == BleFingerprintCollector.getDefault().Start(
+						mBluetoothAdapter)) {
+			Toast.makeText(getBaseContext(), "Failed to start collect FP",
+					android.widget.Toast.LENGTH_LONG).show();
+			return;
+		}
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		/******************************
+		 * make sure the Phone support and enabled the BLE.
+		 */
+		if (!this.getPackageManager().hasSystemFeature(
+				PackageManager.FEATURE_BLUETOOTH_LE)) {
+			throw new UnsupportedOperationException(
+					"Target device didn't support BLE.");
+		}
+		// Initializes Bluetooth adapter.
+		this.mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE))
+				.getAdapter();
+		if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, 0);
+		}
+
+		if (!BleFingerprintCollector.getDefault().isRunning
+				&& false == BleFingerprintCollector.getDefault().Start(
+						mBluetoothAdapter)) {
+			Toast.makeText(getBaseContext(), "Failed to start collect FP",
+					android.widget.Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		BleFingerprintCollector.getDefault().AddOnBleSampleCollectedListener(
+				this);
+
+		/******************************
+		 * make sure the screen always on.
+		 */
+		PowerManager pm = (PowerManager) this
+				.getSystemService(Context.POWER_SERVICE);
+		this.screenOnLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+				| PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+		this.screenOnLock.acquire();
+
+		//
+		// DecimalFormat rounds to 2 decimal places.
+		//
+		df = new DecimalFormat("#.##");
+		// scrollPositionTextView = (TextView)
+		// findViewById(R.id.scroll_position);
+		// zoomedRectTextView = (TextView) findViewById(R.id.zoomed_rect);
+		// currentZoomTextView = (TextView) findViewById(R.id.current_zoom);
+		image = (MarkableTouchImageView) findViewById(R.id.imgControl);
+		image.setScaleType(ScaleType.CENTER);
+
+		// image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+		currentCoorTextView = (TextView) findViewById(R.id.current_coordinate);
+		promptActionTextView = (TextView) findViewById(R.id.promptAction);
+		logTextView = (TextView) findViewById(R.id.logTextView);
+		commentsEditText = (EditText) findViewById(R.id.commentsEditText);
+		// buttonSave = (Button) findViewById(R.id.buttonSave);
+		buttonLoad = (Button) findViewById(R.id.buttonLoad);
+		buttonPersist = (Button) findViewById(R.id.buttonPersist);
+		buttonSampling = (Button) findViewById(R.id.buttonSampling);
+		pendingSampleExpandableListView = (ExpandableListView) findViewById(R.id.pendingSampleExpandableListView);
+
+		Button buttonViewSampleData = (Button) findViewById(R.id.buttonViewSampleData);
+		buttonViewSampleData.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this,
+						ViewSamplingDataActivity.class);
+				i.putExtra("TestIntent", "useless");
+				startActivity(i);
+			}
+		});
+
+		Button buttonStartNavi = (Button) findViewById(R.id.buttonStartNavi);
+		buttonStartNavi.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, NaviActivity.class));
+			}
+		});
+
+		Button buttonSelectPic = (Button) findViewById(R.id.buttonSelectPic);
+		buttonSelectPic.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(
+						Intent.ACTION_PICK,
+						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				startActivityForResult(i, RESULT_LOAD_IMAGE);
+			}
+		});
+
+		/******************************
+		 * init the coutdown ticker
+		 */
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						sleep(300);
+						if (MainActivity.this.enableSampling) {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									promptActionTextView
+											.setText("-> "
+													+ MainActivity.this.collectedCycleCount
+													+ " <- "
+													+ " cycles elapsed");
+								}
+							});
+						}
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		thread.start();
+
+		Object data = Helper.ReadObjectFromFile(Helper.privateDataFileName,
+				getBaseContext());
+		if (data != null) {
+			this.InMemPositionDescriptors = (ArrayList<PositionDescriptor>) data;
+			Toast.makeText(
+					getBaseContext(),
+					"existed data loaded(total "
+							+ this.InMemPositionDescriptors.size() + ")",
+					android.widget.Toast.LENGTH_SHORT).show();
+		}
+
+		/******************************
+		 * init the zoom and pan variables.
+		 */
+		zoomedRect = image.getZoomedRect();
+		currentZoom = image.getCurrentZoom();
+		isZoomed = image.isZoomed();
+
+		buttonSampling.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// one round of sampling will be averaged here, will be empty
+				// when persisted
+				// or abandoned.
+				HashSet<ScannedBleDevice> averagedFingerprints = null;
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					MainActivity.this.collectedCycleCount.set(0);
+					MainActivity.this.enableSampling = true;
+					break;
+				}
+
+				case MotionEvent.ACTION_UP: {
+					// MainActivity.this.collectedCycleCount.set(0);
+					MainActivity.this.enableSampling = false;
+					MainActivity.this.shouldIgnoreCurrentSample = false;
+					MainActivity.this.syncLock.lock();
+					try {
+						if (MainActivity.this.collectedSample.size() == 0) {
+							Toast.makeText(getBaseContext(),
+									"Nothing was collected",
+									android.widget.Toast.LENGTH_SHORT).show();
+							return true;
+						}
+
+						// Log.e(LOG_TAG,
+						// "Scanning stopped, raw content listed below: ");
+						// for (ScannedBleDevice s : collected) {
+						// Log.e(LOG_TAG, "	" + s.toSimpleString());
+						// }
+
+						averagedFingerprints = Util
+								.DistinctAndAvgFingerprint(MainActivity.this.collectedSample);
+
+						// empty the list for next round of sampling.
+						MainActivity.this.collectedSample = new ArrayList<ScannedBleDevice>();
+
+						ArrayList<PositionDescriptor> loadedBuildInSampleData = Helper
+								.LoadSamplingData(Helper.privateDataFileName,
+										getBaseContext());
+						if (loadedBuildInSampleData != null
+								&& loadedBuildInSampleData.size() != 0) {
+							final ArrayList<Tuple<Double, PositionDescriptor>> sortedSimilarityList = new ArrayList<Tuple<Double, PositionDescriptor>>();
+							for (PositionDescriptor pd : loadedBuildInSampleData) {
+								sortedSimilarityList
+										.add(new Tuple<Double, PositionDescriptor>(
+												Util.CaculateSimilarity(
+														averagedFingerprints,
+														pd.Fingerprints), pd));
+							}
+
+							Collections.sort(sortedSimilarityList,
+									new SimilarityComparator());
+							if (sortedSimilarityList.get(sortedSimilarityList
+									.size() - 1).first >= 94) {
+								new AlertDialog.Builder(MainActivity.this)
+										.setIcon(
+												android.R.drawable.ic_dialog_alert)
+										.setTitle("sure?")
+										.setMessage(
+												"Selective not good, 'Yes' to ignore?")
+										.setPositiveButton(
+												"Yes",
+												new DialogInterface.OnClickListener() {
+
+													@Override
+													public void onClick(
+															DialogInterface dialog,
+															int which) {
+														MainActivity.this.shouldIgnoreCurrentSample = true;
+													}
+
+												})
+										.setNegativeButton("No", null).show();
+							}
+						}
+
+					} finally {
+						MainActivity.this.syncLock.unlock();
+					}
+
+					if (!MainActivity.this.shouldIgnoreCurrentSample) {
+
+						String positionComments = "";
+						// String debug = commentsEditText.getText().toString();
+						if (commentsEditText.getText().toString()
+								.equalsIgnoreCase("")) {
+							// set a default value, they're p0,p1,p2...
+							positionComments = "p"
+									+ InMemPositionDescriptors.size();
+						}
+
+						InMemPositionDescriptors.add(new PositionDescriptor(
+								positionComments, currentAbsoluteLeft,
+								currentAbsoluteTop, averagedFingerprints));
+						buttonPersist.setEnabled(true);
+
+						List<ExpandableListViewItem> itemList = new ArrayList<ExpandableListViewItem>();
+						ExpandableListViewItem parentNode = new ExpandableListViewItem(
+								"[" + "0" + "]" + " X: " + currentAbsoluteLeft
+										+ ", Y: " + currentAbsoluteTop + "->"
+										+ positionComments);
+						for (ScannedBleDevice sDevice : averagedFingerprints) {
+							parentNode.addChildItem(new ExpandableListViewItem(
+									sDevice.DeviceName + ", mac:"
+											+ sDevice.MacAddress + ", rssi:"
+											+ sDevice.RSSI));
+						}
+
+						itemList.add(parentNode);
+						ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(
+								getBaseContext(), itemList);
+						pendingSampleExpandableListView.setAdapter(adapter);
+					}
+				}
+					break;
+				}
+
+				return true;
+
+			}
+		});
+
+		buttonPersist.setEnabled(false);
+		buttonPersist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Helper.WriteObjectToFile(InMemPositionDescriptors,
+						Helper.privateDataFileName, getBaseContext());
+				Toast.makeText(
+						getBaseContext(),
+						"Succeed to persist " + InMemPositionDescriptors.size()
+								+ " pieces of samples",
+						android.widget.Toast.LENGTH_SHORT).show();
+				buttonPersist.setEnabled(false);
+			}
+		});
+
+		buttonLoad.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Object data = Helper.ReadObjectFromFile(
+						Helper.privateDataFileName, getBaseContext());
+				if (data != null) {
+					ArrayList<PositionDescriptor> loadData = (ArrayList<PositionDescriptor>) data;
+					List<Tuple<Tuple<Float, Float>, String>> centerCoordinates = new ArrayList<Tuple<Tuple<Float, Float>, String>>();
+					for (PositionDescriptor desc : loadData) {
+						centerCoordinates
+								.add(new Tuple<Tuple<Float, Float>, String>(
+										new Tuple<Float, Float>(desc.X, desc.Y),
+										desc.Description));
+					}
+					// return simpleClass;
+					Toast.makeText(
+							getBaseContext(),
+							"Succeed to load " + loadData.size()
+									+ " pieces of samples",
+							android.widget.Toast.LENGTH_SHORT).show();
+					image.drawCirclesByXandY(centerCoordinates);
+				}
+			}
+		});
+		//
+		// Set the OnTouchImageViewListener which updates edit texts
+		// with zoom and scroll diagnostics.
+		//
+		image.setOnTouchImageViewListener(new OnTouchImageViewListener() {
+			@Override
+			public void onMove() {
+				PointF point = image.getScrollPosition();
+				zoomedRect = image.getZoomedRect();
+				currentZoom = image.getCurrentZoom();
+				isZoomed = image.isZoomed();
+			}
+		});
+
+		image.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// Log.e(LOG_TAG,
+				// "image OnTouchListener, image.getHeight():"
+				// + image.getHeight() + ", image.getWidth():"
+				// + image.getWidth() + ", zoomedRect.top: "
+				// + zoomedRect.top + ", zoomedRect.left:"
+				// + zoomedRect.left + ", getX():" + event.getX()
+				// + ", getY():" + event.getY() + ", curZoom:"
+				// + currentZoom);
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					lastClickedX = event.getX();
+					lastClickedY = event.getY();
+					break;
+				}
+				case MotionEvent.ACTION_UP: {
+					break;
+				}
+				}
+
+				return true;
+			}
+		});
+
+		image.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				if (zoomedRect != null) {
+					if (Float.isNaN(zoomedRect.top))
+						zoomedRect.top = 0f;
+					if (Float.isNaN(zoomedRect.left))
+						zoomedRect.left = 0f;
+					currentAbsoluteTop = zoomedRect.top * image.getHeight()
+							+ lastClickedY / currentZoom;
+					currentAbsoluteLeft = zoomedRect.left * image.getWidth()
+							+ lastClickedX / currentZoom;
+					image.drawCircleByXandY(currentAbsoluteLeft,
+							currentAbsoluteTop);
+					if (zoomedRect != null) {
+
+						logTextView.setText("RawX:" + lastClickedX + ", Tx:"
+								+ currentAbsoluteLeft + ", zoLeft:"
+								+ zoomedRect.left + "\r\n" + "RawY:"
+								+ lastClickedY + ", Ty:" + currentAbsoluteTop
+								+ ", zoTop:" + zoomedRect.top);
+						image.drawCircleByXandY(currentAbsoluteLeft,
+								currentAbsoluteTop);
+					}
+				}
+				return true;
+			}
+		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
+				&& null != data) {
+			Uri selectedImage = data.getData();
+			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+			Cursor cursor = getContentResolver().query(selectedImage,
+					filePathColumn, null, null, null);
+			cursor.moveToFirst();
+
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			String picturePath = cursor.getString(columnIndex);
+			cursor.close();
+
+			// ImageView imageView = (ImageView) findViewById(R.id.imgView);
+			MainActivityBitmapSource = BitmapFactory.decodeFile(picturePath);
+			this.image.setImageBitmap(MainActivityBitmapSource);
+		}
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	private AtomicInteger collectedCycleCount = new AtomicInteger();
+
+	protected void onDestroy() {
+		super.onDestroy();// Always call the superclass method first
+		BleFingerprintCollector.getDefault().Stop();
+	}
+
+	@Override
+	public void onSampleCollected(List<ScannedBleDevice> samples) {
+		if (this.enableSampling) {
+			this.syncLock.lock();
+			try {
+
+				this.collectedSample.addAll(samples);
+				this.collectedCycleCount.incrementAndGet();
+
+			} finally {
+				this.syncLock.unlock();
+			}
+		}
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.example.anotherfenix3proxy.Fenix3NotificationListenerService.java&apos; to &apos;AnotherFenix3NotificationListenerService.java&apos;&#x0D;&#x0A;- Original project: &apos;AnotherFenix3Proxy&apos;&#x0D;&#x0A;- Original element: &apos;com.example.anotherfenix3proxy.Fenix3NotificationListenerService.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.example.anotherfenix3proxy.AnotherFenix3NotificationListenerService.java&apos;" description="Rename compilation unit &apos;Fenix3NotificationListenerService.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;com.example.anotherfenix3proxy{Fenix3NotificationListenerService.java" name="AnotherFenix3NotificationListenerService.java" references="false" stamp="1439773091337" version="1.0"/>
+</session>

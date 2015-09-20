@@ -1,0 +1,7 @@
+package com.example.ownedibeacon;
+
+import android.os.AsyncTask;
+
+public class ProcessWebservice  extends AsyncTask<String,int, String> {
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;car_busy.png&apos; to &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original project: &apos;IndoorNaviDemo&apos;&#x0D;&#x0A;- Destination element: &apos;drawable-hdpi&apos;&#x0D;&#x0A;- Original element: &apos;car_busy.png&apos;" description="Copy file" element1="res/drawable-hdpi/car_busy.png" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1437368874816" target="/NotificationProxy/res/drawable-hdpi" units="0" version="1.0"/>
+</session>

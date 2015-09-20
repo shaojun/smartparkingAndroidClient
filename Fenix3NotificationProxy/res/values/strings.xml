@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fenix3NotificationProxy</string>
+    <string name="setPriviledgeButtonText">设置通知权限</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

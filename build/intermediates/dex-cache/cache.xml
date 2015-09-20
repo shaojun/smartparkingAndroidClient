@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\bin\AMap_ Location_v1.4.0.1_20150910.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8a6dfe28301d0feba0609488544d179640547668">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\AMap_ Location_v1.4.0.1_20150910-01ea38199864c1b2a0cfb265e39a7a4bd3835116.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\TouchImageView\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6a16e0761064fe62bdbda3853e1ee645f1d638ac">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\classes-8702430d38995a71035908fcae292becc206b037.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="010980679ed8899deb7a4861222f970fa46afca8">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\classes-ddbab875521da601c80a35cb9a155b481000d4cd.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\libs\Android_2DMapApi_V2.5.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c111d9a441220cc379a91401de8888087e70fafc">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\Android_2DMapApi_V2.5.0-b129d68d1999d7c9a4e35871472accbad4da7c89.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\libs\MapApiServices.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e84628aa8eea7b9892768f19c41dbe02abc7f666">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\MapApiServices-889abf3959b9ece3fa61a6f9efec8ebd1c74f117.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\jars\libs\android-support-v4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5896b0a4e377ac4242eb2bc785220c1c4fc052f4">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\pre-dexed\debug\android-support-v4-f819395ead723fd16779f8f1bf5222b28fc9f372.jar" />
+    </item>
+    <item
+        jar="C:\Fun\Code\ReposOnGitHub\parkingFirstAndroid_AndroidStudio\IndoorNaviDemo\build\intermediates\exploded-aar\parkingFirstAndroid_AndroidStudio\IndoorNaviLib\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="897e0e8ac1575e627c8d31c9a87898cde4263fc7">
+        <dex dex="C:\Fun\Code\ReposOnGitHub\parkingFirstAndroid_AndroidStudio\IndoorNaviDemo\build\intermediates\pre-dexed\debug\classes-106a0ad04a5c5a0bc466775e1c386a8f19bace8e.jar" />
+    </item>
+
+</items>

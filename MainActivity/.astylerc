@@ -1,0 +1,5 @@
+--break-blocks
+--delete-empty-lines
+--add-brackets
+--indent=tab=4
+-A2
