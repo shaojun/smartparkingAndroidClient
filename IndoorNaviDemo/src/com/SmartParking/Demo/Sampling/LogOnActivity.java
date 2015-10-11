@@ -23,7 +23,6 @@ import org.json.JSONObject;
 public class LogOnActivity extends Activity {
     private static final String LOG_TAG = "SmarkParking.Demo.LogOn";
     private static SharedPreferences logOnSharedPreferences = null;
-    public static UserInfo userInfo;
     private boolean test = true;
 
     @Override
@@ -50,7 +49,7 @@ public class LogOnActivity extends Activity {
                     userInfo.CreationTime = "1983";
                     userInfo.IsActive = true;
                     userInfo.Groups.add("SuperUsers");
-                    LogOnActivity.userInfo = userInfo;
+                    UserInfo.CurrentUserInfo = userInfo;
                     findViewById(R.id.editTextPwd).setEnabled(true);
                     Intent i = new Intent(LogOnActivity.this, OverallMapActivity.class);
                     startActivity(i);
@@ -101,7 +100,7 @@ public class LogOnActivity extends Activity {
                                                 userInfo.Groups.add(userInfoGroupsJSONArray.getString(i));
                                             }
 
-                                            LogOnActivity.userInfo = userInfo;
+                                            UserInfo.CurrentUserInfo = userInfo;
                                             SharedPreferences.Editor Ed = logOnSharedPreferences.edit();
                                             Ed.putString("UserName", userInfo.UserName);
                                             Ed.putString("Password", ((EditText) findViewById(R.id.editTextPwd)).getText().toString());

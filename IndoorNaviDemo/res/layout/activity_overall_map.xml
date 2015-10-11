@@ -17,18 +17,34 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:orientation="horizontal"
             android:layout_marginBottom="10dp"
-            >
-            <EditText
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewDisplayUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="You're User XXX"
+                android:textColor="#70ff0a" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <EditText
                 android:id="@+id/editTextTargetPlace"
-                android:singleLine="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#7ed6cb"
                 android:hint="查询目标地附近的停车场"
+                android:singleLine="true"
                 android:textColor="#0E2F44"></EditText>
+
             <Button
                 android:id="@+id/buttonGoSearch"
                 android:layout_width="wrap_content"
@@ -40,7 +56,6 @@
         <com.amap.api.maps2d.MapView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            />
+            android:layout_height="fill_parent" />
     </LinearLayout>
 </RelativeLayout>

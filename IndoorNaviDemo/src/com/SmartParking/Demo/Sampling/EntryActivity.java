@@ -161,7 +161,7 @@ public class EntryActivity extends Activity {
 					EntryActivity.SelectedBuildingMap = Helper
 							.GetImageBitmapFromUrl(singleBitmapUrl);
 
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					Toast.makeText(getBaseContext(),

@@ -28,7 +28,7 @@ public class AsyncRestTask {
     }
 
     /**
-     * @param serviceSubUrl will combine with Service.ServiceUrl, expected value is like "users/", "buildings/" and etc...
+     * @param serviceSubUrl will combine with Service.ServiceUrl depends on its a full or sub url, expected value is like "users/", "buildings/" or "http://rest.shaojun.xyz:8090/buildings/1/"
      * @param userName      userName and pwd are for authenticate accessed Web rest API.
      * @param action        "GET", "POST"
      */
@@ -37,7 +37,12 @@ public class AsyncRestTask {
     }
 
     private AsyncRestTask(String serviceSubUrl, String userName, String pwd, String action, OnAsyncRestTaskFinishedListener listener) {
-        this.restClient = new RestClient(Service.ServiceUrl + serviceSubUrl);
+        if (serviceSubUrl.contains(Service.ServiceUrl)) {
+            // input is a full url.
+            this.restClient = new RestClient(serviceSubUrl);
+        } else {
+            this.restClient = new RestClient(Service.ServiceUrl + serviceSubUrl);
+        }
         this.userName = userName;
         this.password = pwd;
         this.action = action;

@@ -20,7 +20,7 @@
     <string name="UuidEditText">2f234454-cf6d-4a0f-adf2-f4911ba9ffa6</string>
     <string name="ViewData">View detail</string>
     <string name="action_settings">Settings</string>
-    <string name="app_name">SmarkParkingDemo</string>
+    <string name="app_name">优先停车</string>
     <string name="buttonCleanAll">cleanAll</string>
     <string name="buttonLoadPic">L</string>
     <string name="buttonShowAllSamplingPointText">Show sampled points</string>

@@ -120,7 +120,7 @@ ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndro
 activity#com.SmartParking.Demo.Sampling.LogOnActivity
 ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:45:9-53:20
 	android:label
-		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:47:13-58
+		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:47:13-45
 	android:theme
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:48:13-77
 	android:name

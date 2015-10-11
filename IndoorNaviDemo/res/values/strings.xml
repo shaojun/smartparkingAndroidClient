@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, TouchImageViewActivity!</string>
-    <string name="app_name">SmarkParkingDemo</string>
+    <string name="app_name">优先停车</string>
 
     <!-- Activities -->
     <string name="single_touchimageview">Single TouchImageView</string>

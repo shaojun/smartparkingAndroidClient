@@ -56,7 +56,7 @@ public class MarkableTouchImageView extends TouchImageView {
 		}
 	}
 
-	private static final String LOG_TAG = "SmarkParking.Demo.MarkableTouchImageView";
+	private static final String LOG_TAG = "MarkableTouchImageView";
 	private Paint circlesPaint;
 	private Paint circlesTextPaint;
 
@@ -211,8 +211,7 @@ public class MarkableTouchImageView extends TouchImageView {
 							&& x < (1 * (zoomedSelectableBitmap.getWidth() + relativeXandY.first))
 							&& y > (relativeXandY.second * 1)
 							&& y < (1 * (zoomedSelectableBitmap.getHeight() + relativeXandY.second))) {
-						Log.e(LOG_TAG, "you touched bitmap: "
-								+ imageWithText.Id);
+						Log.e(LOG_TAG, "you touched bitmap: "+ imageWithText.Id);
 						doesThisTimeSelectedOnSth = true;
 						MarkableTouchImageView.this.selectedBitmapId = imageWithText.Id;
 						MarkableTouchImageView.this.invalidate();

@@ -2,6 +2,7 @@ package com.SmartParking.Demo.Sampling;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,14 +12,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.SmartParking.Demo.Mapping.R;
+import com.SmartParking.Util.Tuple;
 import com.SmartParking.WebService.AsyncRestTask;
 import com.SmartParking.WebServiceEntity.Board;
 import com.SmartParking.WebServiceEntity.Building;
 import com.SmartParking.WebService.OnAsyncRestTaskFinishedListener;
+import com.SmartParking.WebServiceEntity.UserInfo;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -191,11 +196,13 @@ public class OverallMapActivity extends Activity implements LocationSource,
     }
 
     private GeocodeSearch geocoderSearch;
-
+    ProgressDialog progress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overall_map);
+        TextView displayNameTextView = (TextView) findViewById(R.id.textViewDisplayUserName);
+        displayNameTextView.setText("Welcome: " + UserInfo.CurrentUserInfo.UserName);
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
         mapView = (MapView) findViewById(R.id.map);
@@ -215,6 +222,8 @@ public class OverallMapActivity extends Activity implements LocationSource,
         SharedPreferences logOnSharedPreferences = this.getSharedPreferences("LogOn", 0);
         final String userName = logOnSharedPreferences.getString("UserName", null);
         final String password = logOnSharedPreferences.getString("Password", null);
+        progress = ProgressDialog.show(this, "获取中...",
+                "读取停车场位置信息", true);
         Thread pollingBuilding = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -222,6 +231,7 @@ public class OverallMapActivity extends Activity implements LocationSource,
                     AsyncRestTask.Create("buildings/", userName, password, "GET", new OnAsyncRestTaskFinishedListener() {
                         @Override
                         public void OnError(String errorMsg) {
+                            progress.dismiss();
                             new AlertDialog.Builder(
                                     OverallMapActivity.this)
                                     .setIcon(
@@ -234,8 +244,8 @@ public class OverallMapActivity extends Activity implements LocationSource,
 
                         @Override
                         public void OnFinished(Object json) {
+                            progress.dismiss();
                             if (json instanceof JSONObject) {
-                                JSONObject node = (JSONObject) json;
                                 new AlertDialog.Builder(
                                         OverallMapActivity.this)
                                         .setIcon(
@@ -357,6 +367,7 @@ public class OverallMapActivity extends Activity implements LocationSource,
                 }
             }
         });
+
     }
 
     @Override
@@ -423,12 +434,22 @@ public class OverallMapActivity extends Activity implements LocationSource,
             markerOption.icon(BitmapDescriptorFactory
                     .fromResource(R.drawable.parking_area));
             this.aMap.addMarker(markerOption);
-            this.markerAndBuildingRelationship.put(markerOption, building);
+            this.markerAndBuildingRelationship.add(new Tuple<>(markerOption, building));
         }
     }
 
-    private Hashtable<MarkerOptions, Building> markerAndBuildingRelationship
-            = new Hashtable<>();
+    private Boolean testMarkerOptionsAndMarkerIfEqual(MarkerOptions markerOption, Marker marker) {
+        if (markerOption.getTitle().equals(marker.getTitle())
+                && markerOption.getSnippet().equals(marker.getSnippet())
+                && markerOption.getPosition().equals(marker.getPosition())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private ArrayList<Tuple<MarkerOptions, Building>> markerAndBuildingRelationship
+            = new ArrayList<>();
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -449,53 +470,58 @@ public class OverallMapActivity extends Activity implements LocationSource,
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        final Building selectedBuilding = this.markerAndBuildingRelationship.get(marker);
-        if (selectedBuilding == null) return;
-        if (LogOnActivity.userInfo.Groups.contains("Technicians")
-                || LogOnActivity.userInfo.Groups.contains("SuperUsers")) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("进入后台模式?")
-                    .setMessage(
-                            "进入 '" + marker.getTitle() + "' 的后台模式进行操作吗？")
-                    .setPositiveButton("进入后台",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent i = new Intent(OverallMapActivity.this, MainActivity.class);
-                                    i.putExtra("BuildingDetailUrl", selectedBuilding.DetailUrl);
-                                    startActivity(i);
-                                }
-                            })
-                    .setNegativeButton("取消", null)
-                    .setNeutralButton("进入普通模式",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent i = new Intent(OverallMapActivity.this, NaviActivity.class);
-                                    i.putExtra("BuildingDetailUrl", selectedBuilding.DetailUrl);
-                                    startActivity(i);
-                                }
-                            }).show();
-        } else {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("查看详细?")
-                    .setMessage(
-                            "进入并预订 '" + marker.getTitle() + "' 的车位吗？")
-                    .setPositiveButton("是",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    Intent i = new Intent(OverallMapActivity.this, NaviActivity.class);
-                                    i.putExtra("BuildingDetailUrl", selectedBuilding.DetailUrl);
-                                    startActivity(i);
-                                }
-                            })
-                    .setNegativeButton("取消", null).show();
+        for (Tuple<MarkerOptions, Building> pair : markerAndBuildingRelationship) {
+            final Tuple<MarkerOptions, Building> steadyPair = pair;
+            if (this.testMarkerOptionsAndMarkerIfEqual(pair.first, marker)) {
+                if (UserInfo.CurrentUserInfo.Groups.contains("Technicians")
+                        || UserInfo.CurrentUserInfo.Groups.contains("SuperUsers")) {
+                    new AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("进入后台模式?")
+                            .setMessage(
+                                    "进入 '" + marker.getTitle() + "' 的后台模式进行操作吗？")
+                            .setPositiveButton("进入后台",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                            Intent i = new Intent(OverallMapActivity.this, MainActivity.class);
+                                            i.putExtra("Building", steadyPair.second);
+                                            startActivity(i);
+                                        }
+                                    })
+                            .setNegativeButton("取消", null)
+                            .setNeutralButton("进入普通模式",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                            Intent i = new Intent(OverallMapActivity.this, NaviActivity.class);
+                                            i.putExtra("Building", steadyPair.second);
+                                            startActivity(i);
+                                        }
+                                    }).show();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("查看详细?")
+                            .setMessage(
+                                    "进入并预订 '" + marker.getTitle() + "' 的车位吗？")
+                            .setPositiveButton("是",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                            Intent i = new Intent(OverallMapActivity.this, NaviActivity.class);
+                                            i.putExtra("Building", steadyPair.second);
+                                            startActivity(i);
+                                        }
+                                    })
+                            .setNegativeButton("取消", null).show();
+                }
+
+                break;
+            }
         }
     }
 

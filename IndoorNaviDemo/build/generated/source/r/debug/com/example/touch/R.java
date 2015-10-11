@@ -17,14 +17,14 @@ public final class R {
 	}
 	public static final class id {
 		public static final int bottomImage = 0x7f080016;
-		public static final int current_coordinate = 0x7f080026;
-		public static final int current_zoom = 0x7f080025;
-		public static final int img = 0x7f080021;
-		public static final int scroll_position = 0x7f080023;
+		public static final int current_coordinate = 0x7f080027;
+		public static final int current_zoom = 0x7f080026;
+		public static final int img = 0x7f080022;
+		public static final int scroll_position = 0x7f080024;
 		public static final int topImage = 0x7f080015;
-		public static final int top_text_line = 0x7f080022;
-		public static final int view_pager = 0x7f080027;
-		public static final int zoomed_rect = 0x7f080024;
+		public static final int top_text_line = 0x7f080023;
+		public static final int view_pager = 0x7f080028;
+		public static final int zoomed_rect = 0x7f080025;
 	}
 	public static final class layout {
 		public static final int activity_main = 0x7f030002;
