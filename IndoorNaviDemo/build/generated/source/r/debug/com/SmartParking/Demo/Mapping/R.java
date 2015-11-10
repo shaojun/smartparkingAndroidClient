@@ -102,16 +102,16 @@ public final class R {
     public static final class string {
         public static final int AccText=0x7f060000;
         public static final int ComForPosition=0x7f060001;
-        public static final int ConfirmLoad=0x7f060002;
-        public static final int ConfirmPersist=0x7f060003;
-        public static final int ConfirmSampling=0x7f060004;
-        public static final int ConfirmSave=0x7f060005;
-        public static final int ExposeMeBtn=0x7f060006;
-        public static final int LogText=0x7f060007;
-        public static final int StartNaviButtonText=0x7f060008;
-        public static final int Uuid2EditText=0x7f060009;
-        public static final int Uuid3EditText=0x7f06000a;
-        public static final int UuidEditText=0x7f06000b;
+        public static final int ConfirmPersist=0x7f060002;
+        public static final int ConfirmSampling=0x7f060003;
+        public static final int ConfirmSave=0x7f060004;
+        public static final int ExposeMeBtn=0x7f060005;
+        public static final int LogText=0x7f060006;
+        public static final int StartNaviButtonText=0x7f060007;
+        public static final int Uuid2EditText=0x7f060008;
+        public static final int Uuid3EditText=0x7f060009;
+        public static final int UuidEditText=0x7f06000a;
+        public static final int ViewAllBtnText=0x7f06000b;
         public static final int ViewData=0x7f06000c;
         public static final int action_settings=0x7f06000d;
         public static final int app_name=0x7f06000e;

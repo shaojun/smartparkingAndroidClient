@@ -32,6 +32,19 @@ public class ScannedBleDevice implements Serializable {
 
 	public long ScannedTime;
 
+	public ScannedBleDevice(String uuid, String majorId, String minorId, String macAddress, Integer tx, Integer rssi, Float distance)
+	{
+		this.IbeaconProximityUUID = Util.hexStringToByteArray(uuid);
+		this.Major = Util.hexStringToByteArray(majorId);
+		this.Minor = Util.hexStringToByteArray(minorId);
+		this.MacAddress = macAddress;
+		this.Tx = Byte.parseByte(tx.toString());
+		this.RSSI = rssi;
+		this.Distance = distance;
+	}
+
+	public ScannedBleDevice(){}
+
 	@Override
 	public String toString() {
 		String displayText = "====" + "MacAdrs: " + this.MacAddress + "===="

@@ -17,20 +17,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d18af166-9fd5-42e4-b40c-4d38bb2d35b5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/SampleDescriptor.java" />
-      <change type="DELETED" beforePath="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\classes\debug\com\SmartParking\Demo\Sampling\MainActivity$8$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\classes\debug\com\SmartParking\Demo\Sampling\MainActivity$8$1.class" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Action.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/AggregatedContent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/BulkRestClient.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/EntityBase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/OnActionFinishedListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/RestAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestEntityResultDumper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Task.java" />
+      <change type="DELETED" beforePath="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\classes\debug\com\SmartParking\Demo\Sampling\NaviActivity$9$1.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\classes\debug\com\SmartParking\Demo\Sampling\OverallMapActivity$1$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviLib\src\com\SmartParking\WebService\AsyncRestTask.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/AsyncRestTask$innerTask.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/AsyncRestTask$innerTask.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/AsyncRestTask$innerTask.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/AsyncRestTask$innerTask.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/AsyncRestTask.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/AsyncRestTask.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/AsyncRestTask.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/AsyncRestTask.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Board.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Board.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Board.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Board.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Building.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Building.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Building.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Building.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/EntryActivity$5.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/EntryActivity$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/DrawImage.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/DrawImage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/Helper$ParkingPositionStatus.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/Helper$ParkingPositionStatus.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/Helper.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/Helper.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/apk/IndoorNaviDemo-debug-unaligned.apk" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/apk/IndoorNaviDemo-debug-unaligned.apk" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/apk/IndoorNaviDemo-debug.apk" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/apk/IndoorNaviDemo-debug.apk" />
@@ -53,9 +59,23 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity$8.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity$8.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity$9.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity$9.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/MainActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Order.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/Order.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Order.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/Order.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1$1$1.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView$1.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/UI/MarkableTouchImageView$2.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/UI/MarkableTouchImageView$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView$2.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/UI/MarkableTouchImageView.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/UI/MarkableTouchImageView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/MarkableTouchImageView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$1.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$2.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$3.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$4.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$5.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$6$1.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$6$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$6.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$6.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$7.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$7.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$8.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$9.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/NaviActivity.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1$1.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$2.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$2.class" />
@@ -63,18 +83,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$4.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$4.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$5.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity$5.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/OverallMapActivity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$id.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/example/indoornavilib/R$id.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/example/indoornavilib/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/example/touch/R$id.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/example/touch/R$id.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$layout.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$layout.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$menu.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$menu.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$string.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$string.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$style.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R$style.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Mapping/R.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/outputs/aar/TouchImageView-release.aar" afterPath="$PROJECT_DIR$/TouchImageView/build/outputs/aar/TouchImageView-release.aar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/UserInfo.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebServiceEntity/UserInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/UserInfo.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebServiceEntity/UserInfo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/ViewSamplingDataActivity.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/ViewSamplingDataActivity.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/RestClient.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/WebService/RestClient.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/RestClient.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/WebService/RestClient.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/Sampling/ScannedBleDevice.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/debug/com/SmartParking/Sampling/ScannedBleDevice.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/Sampling/ScannedBleDevice.class" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/classes/release/com/SmartParking/Sampling/ScannedBleDevice.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/SimilarityComparator.class" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/classes/debug/com/SmartParking/Demo/Sampling/SimilarityComparator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/pre-dexed/debug/classes-ddbab875521da601c80a35cb9a155b481000d4cd.jar" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/pre-dexed/debug/classes-ddbab875521da601c80a35cb9a155b481000d4cd.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/dex/debug/classes.dex" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/dex/debug/classes.dex" />
@@ -84,83 +98,33 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/resources-debug-androidTest.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/resources-debug.ap_" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/resources-debug.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/aapt/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/manifest/androidTest/debug/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/aapt/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/AndroidManifest.xml" afterPath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/aapt/AndroidManifest.xml" afterPath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/aapt/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/buildConfig/androidTest/debug/com/SmartParking/Demo/Mapping/test/BuildConfig.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/buildConfig/androidTest/debug/com/SmartParking/Demo/Mapping/test/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/EntryActivity.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/EntryActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/DrawImage.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/DrawImage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/Helper.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/Helper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Order.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Order.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/NaviActivity.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/NaviActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/SmartParking/Demo/Mapping/R.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/SmartParking/Demo/Mapping/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/example/indoornavilib/R.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/example/indoornavilib/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/example/touch/R.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/generated/source/r/debug/com/example/touch/R.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/symbols/debug/R.txt" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/symbols/debug/R.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestClient.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Sampling/ScannedBleDevice.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Sampling/ScannedBleDevice.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/SimilarityComparator.java" afterPath="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/SimilarityComparator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java" afterPath="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/layout/activity_overall_map.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/layout/activity_overall_map.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_overall_map.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_overall_map.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/android_support_v4.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/layout/activity_main.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/layout/activity_main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/outputs/logs/manifest-merger-debug-report.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeAssets/androidTest/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeAssets/debug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeAssets/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeResourcesandroidTest/debug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeResourcesandroidTest/debug/merger.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeResourcesdebug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/incremental/mergeResourcesdebug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeAssets/debug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeAssets/debug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeAssets/release/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeAssets/release/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeResourcesdebug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeResourcesdebug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeResourcesrelease/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/mergeResourcesrelease/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/packageResourcesdebug/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/packageResourcesdebug/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/packageResourcesrelease/merger.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/incremental/packageResourcesrelease/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/intermediates/incremental/mergeAssets/release/merger.xml" afterPath="$PROJECT_DIR$/TouchImageView/build/intermediates/incremental/mergeAssets/release/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/intermediates/incremental/packageResourcesrelease/merger.xml" afterPath="$PROJECT_DIR$/TouchImageView/build/intermediates/incremental/packageResourcesrelease/merger.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-sw720dp-land/values-sw720dp-land.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-sw720dp-land/values-sw720dp-land.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-v11/values-v11.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-v11/values-v11.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-v14/values-v14.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values-v14/values-v14.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-w820dp/values-w820dp.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values-w820dp/values-w820dp.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/IndoorNaviLib/unspecified/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/res/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/res/values/values.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviDemo/build/intermediates/res/merged/debug/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/debug/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/bundles/release/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/res/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/exploded-aar/smartparkingAndroidClient/TouchImageView/unspecified/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/debug/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values/values.xml" afterPath="$PROJECT_DIR$/IndoorNaviLib/build/intermediates/res/merged/release/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/res/values/values.xml" afterPath="$PROJECT_DIR$/TouchImageView/build/intermediates/bundles/release/res/values/values.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="smartparkingAndroidClient.iws" />
@@ -193,80 +157,23 @@
         <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="86" column="72" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OverallMapActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="277" column="56" selection-start-line="277" selection-start-column="56" selection-end-line="277" selection-end-column="56" />
+              <caret line="135" column="153" selection-start-line="135" selection-start-column="67" selection-end-line="135" selection-end-column="153" />
               <folding>
-                <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#4371#8053#0" expanded="true" />
+                <element signature="e#5169#8010#0" expanded="true" />
+                <element signature="e#8009#8010#0" expanded="true" />
+                <element signature="e#8052#8053#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Order.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Order.java">
+      <file leaf-file-name="RestEntityResultDumper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestEntityResultDumper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SampleDescriptor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/SampleDescriptor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="29" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5275229">
-              <caret line="363" column="21" selection-start-line="363" selection-start-column="21" selection-end-line="363" selection-end-column="21" />
-              <folding>
-                <element signature="e#12163#12726#0" expanded="true" />
-                <element signature="e#12423#12699#0" expanded="true" />
-                <element signature="e#12698#12699#0" expanded="true" />
-                <element signature="e#12725#12726#0" expanded="true" />
-                <element signature="e#17293#17925#0" expanded="true" />
-                <element signature="e#17924#17925#0" expanded="true" />
-                <element signature="e#18059#18427#0" expanded="true" />
-                <element signature="e#18426#18427#0" expanded="true" />
-                <element signature="e#18561#19485#0" expanded="true" />
-                <element signature="e#19484#19485#0" expanded="true" />
-                <element signature="e#20205#35700#0" expanded="true" />
-                <element signature="e#21571#21623#0" expanded="false" />
-                <element signature="e#22258#22297#0" expanded="false" />
-                <element signature="e#35699#35700#0" expanded="true" />
-                <element signature="e#35796#36913#0" expanded="true" />
-                <element signature="e#36912#36913#0" expanded="true" />
-                <element signature="e#36965#39392#0" expanded="true" />
-                <element signature="e#39391#39392#0" expanded="true" />
-                <element signature="e#41900#41959#0" expanded="false" />
-                <element signature="e#43067#43111#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Sample.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+              <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -274,47 +181,125 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PositionDescriptor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/PositionDescriptor.java">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LocalPositionDescriptor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TouchImageView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TouchImageView/src/com/ortiz/touch/TouchImageView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="211" column="4" selection-start-line="211" selection-start-column="4" selection-end-line="211" selection-end-column="4" />
+              <caret line="163" column="5" selection-start-line="129" selection-start-column="4" selection-end-line="163" selection-end-column="5" />
               <folding>
-                <element signature="e#6257#6258#0" expanded="true" />
-                <element signature="e#6297#6298#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#29370#29394#0" expanded="true" />
+                <element signature="e#58459#58477#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MarkableTouchImageView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java">
+      <file leaf-file-name="EntityBase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/EntityBase.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="91" column="15" selection-start-line="91" selection-start-column="15" selection-end-line="91" selection-end-column="15" />
+              <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
               <folding>
-                <element signature="e#3185#3186#0" expanded="true" />
-                <element signature="e#3220#3221#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OverallMapActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.72949004">
+              <caret line="501" column="0" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
+              <folding>
+                <element signature="e#9091#14417#0" expanded="true" />
+                <element signature="e#9494#14180#0" expanded="true" />
+                <element signature="e#14179#14180#0" expanded="true" />
+                <element signature="e#14416#14417#0" expanded="true" />
+                <element signature="e#14504#15225#0" expanded="true" />
+                <element signature="e#15224#15225#0" expanded="true" />
+                <element signature="method#addAndRefreshMarkersToMap#0;class#OverallMapActivity#0" expanded="false" />
+                <element signature="method#testMarkerOptionsAndMarkerIfEqual#0;class#OverallMapActivity#0" expanded="false" />
+                <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
+                <element signature="method#onInfoWindowClick#0;class#OverallMapActivity#0" expanded="false" />
+                <element signature="e#20490#21077#0" expanded="true" />
+                <element signature="e#21076#21077#0" expanded="true" />
+                <element signature="e#21230#21817#0" expanded="true" />
+                <element signature="e#21816#21817#0" expanded="true" />
+                <element signature="e#22230#22817#0" expanded="true" />
+                <element signature="e#22816#22817#0" expanded="true" />
+                <element signature="e#23015#23016#0" expanded="true" />
+                <element signature="e#23063#23064#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Board.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Building.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+              <folding>
+                <element signature="e#1230#1231#0" expanded="true" />
+                <element signature="e#1257#1258#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Task.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Task.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.1153846">
+              <caret line="143" column="32" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#waitAll#0;class#Task#0" expanded="false" />
+                <element signature="e#4279#4280#0" expanded="true" />
+                <element signature="method#getAggreatedException#0;class#Task#0" expanded="false" />
+                <element signature="docComment;method#getSingleException#0;class#Task#0" expanded="false" />
+                <element signature="method#getSingleException#0;class#Task#0" expanded="false" />
+                <element signature="docComment;method#cancel#0;class#Task#0" expanded="false" />
+                <element signature="method#waitUntil#0;class#Task#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="51" selection-end-column="5" />
+              <folding>
+                <element signature="e#1637#1638#0" expanded="true" />
+                <element signature="e#1664#1665#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RestClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.461538">
+              <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
+              <folding>
+                <element signature="method#convertStreamToString#0;class#RestClient#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -3094,22 +3079,44 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/IndoorNaviDemo/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/EntryActivity.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java" />
         <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Order.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java" />
         <option value="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_overall_map.xml" />
-        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/Helper.java" />
         <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/SampleDescriptor.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java" />
-        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Sampling/ScannedBleDevice.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/SimilarityComparator.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTaskDispatcher.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/OnBatchAsyncRestTaskFinishedListener.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/OnAsyncRestTaskFinishedListener.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/MultipleRestAction.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/AggregatedContent.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java" />
         <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Action.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/BulkRestClient.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/DrawImage.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/Helper.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/NaviActivity.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/OnActionFinishedListener.java" />
         <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestAction.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestResultDumper.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/EntityBase.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestEntityAction.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/RestAction.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestClient.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Task.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestEntityResultDumper.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java" />
+        <option value="$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java" />
       </list>
     </option>
   </component>
@@ -3119,8 +3126,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="754" />
+    <option name="width" value="1296" />
+    <option name="height" value="706" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -3145,10 +3152,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -3248,6 +3251,28 @@
               <option name="myItemId" value="SmartParking" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebService" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smartparkingAndroidClient" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IndoorNaviLib" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartParking" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -3267,7 +3292,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="UI" />
+              <option name="myItemId" value="Task" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3301,6 +3326,10 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3309,6 +3338,13 @@
     <property name="recentsLimit" value="5" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="5e10f4b8" />
     <property name="FullScreen" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.SmartParking.WebService" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.IndoorNaviDemo">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -3449,8 +3485,8 @@
     </configuration>
     <configuration default="false" name="IndoorNaviDemo" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="IndoorNaviDemo" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
+      <option name="ACTIVITY_CLASS" value="com.SmartParking.Demo.Sampling.LogOnActivity" />
+      <option name="MODE" value="specific_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
@@ -3465,14 +3501,14 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="Please select a project..." />
+      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="Please select a project..." />
       <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="" />
+      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="Cloud configuration not specified" />
       <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="" />
+      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="Cloud configuration not specified" />
       <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
       <method />
     </configuration>
@@ -3506,34 +3542,34 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
+    <frame x="-8" y="-8" width="1296" height="706" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28927493" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13743219" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50083196" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17470881" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3311148" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18801996" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27121463" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.098169714" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18504532" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17138103" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2641357" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5324459" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28947368" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -3551,314 +3587,277 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java</url>
-          <line>303</line>
-          <properties />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="8" />
+      <option name="time" value="63" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Sampling/BleFingerprintCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <caret line="187" column="23" selection-start-line="187" selection-start-column="23" selection-end-line="187" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/SimilarityComparator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="198" column="28" selection-start-line="198" selection-start-column="4" selection-end-line="198" selection-end-column="28" />
-          <folding>
-            <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_overall_map.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java">
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/client/methods/HttpEntityEnclosingRequestBase.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-          <folding />
+        <state vertical-scroll-proportion="0.3912134">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Util/Util.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#12163#12726#0" expanded="true" />
-            <element signature="e#12423#12699#0" expanded="true" />
-            <element signature="e#12698#12699#0" expanded="true" />
-            <element signature="e#12725#12726#0" expanded="true" />
-            <element signature="e#17293#17925#0" expanded="true" />
-            <element signature="e#17924#17925#0" expanded="true" />
-            <element signature="e#18059#18427#0" expanded="true" />
-            <element signature="e#18426#18427#0" expanded="true" />
-            <element signature="e#18561#19485#0" expanded="true" />
-            <element signature="e#19484#19485#0" expanded="true" />
-            <element signature="e#20205#35700#0" expanded="true" />
-            <element signature="e#21571#21623#0" expanded="false" />
-            <element signature="e#22258#22297#0" expanded="false" />
-            <element signature="e#35699#35700#0" expanded="true" />
-            <element signature="e#35796#36913#0" expanded="true" />
-            <element signature="e#36912#36913#0" expanded="true" />
-            <element signature="e#36965#39392#0" expanded="true" />
-            <element signature="e#39391#39392#0" expanded="true" />
-            <element signature="e#41900#41959#0" expanded="false" />
-            <element signature="e#43067#43111#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="50" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/NaviActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="76" selection-start-line="95" selection-start-column="76" selection-end-line="95" selection-end-column="76" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="41" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="464" column="64" selection-start-line="455" selection-start-column="12" selection-end-line="464" selection-end-column="64" />
-          <folding>
-            <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#12163#12726#0" expanded="true" />
-            <element signature="e#12423#12699#0" expanded="true" />
-            <element signature="e#12698#12699#0" expanded="true" />
-            <element signature="e#12725#12726#0" expanded="true" />
-            <element signature="e#17293#17925#0" expanded="true" />
-            <element signature="e#17924#17925#0" expanded="true" />
-            <element signature="e#18059#18427#0" expanded="true" />
-            <element signature="e#18426#18427#0" expanded="true" />
-            <element signature="e#18561#19485#0" expanded="true" />
-            <element signature="e#19484#19485#0" expanded="true" />
-            <element signature="e#20205#35700#0" expanded="true" />
-            <element signature="e#21571#21623#0" expanded="false" />
-            <element signature="e#22258#22297#0" expanded="false" />
-            <element signature="e#35699#35700#0" expanded="true" />
-            <element signature="e#35796#36913#0" expanded="true" />
-            <element signature="e#36912#36913#0" expanded="true" />
-            <element signature="e#36965#39392#0" expanded="true" />
-            <element signature="e#39391#39392#0" expanded="true" />
-            <element signature="e#41900#41959#0" expanded="false" />
-            <element signature="e#43067#43111#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.0">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="63" column="17" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="17" />
-          <folding>
-            <element signature="e#2249#2267#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/IndoorNaviDemo/libs/Android_2DMapApi_V2.5.0.jar!/com/amap/api/maps2d/AMap.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.7605324">
-          <caret line="173" column="24" selection-start-line="173" selection-start-column="24" selection-end-line="173" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/IndoorNaviDemo/libs/Android_2DMapApi_V2.5.0.jar!/com/amap/api/maps2d/model/MarkerOptions.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22616407">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/IndoorNaviDemo/libs/Android_2DMapApi_V2.5.0.jar!/com/amap/api/maps2d/model/Marker.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.862528">
-          <caret line="15" column="19" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.185185">
-          <caret line="19" column="43" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/EntryActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41090146">
-          <caret line="165" column="40" selection-start-line="165" selection-start-column="40" selection-end-line="165" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/io/Serializable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70752686">
-          <caret line="98" column="17" selection-start-line="98" selection-start-column="17" selection-end-line="98" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/content/Intent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1978495">
-          <caret line="3994" column="11" selection-start-line="3994" selection-start-column="11" selection-end-line="3994" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_overall_map.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="215" column="25" selection-start-line="215" selection-start-column="25" selection-end-line="215" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/app/ProgressDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33261338">
-          <caret line="96" column="33" selection-start-line="96" selection-start-column="33" selection-end-line="96" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="96" column="32" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/app/Dialog.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/DrawCircle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3326613">
-          <caret line="321" column="16" selection-start-line="321" selection-start-column="16" selection-end-line="321" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.34747475">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/lang/Throwable.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/OnAsyncRestTaskFinishedListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33125">
-          <caret line="234" column="16" selection-start-line="234" selection-start-column="16" selection-end-line="234" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.75555557">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="docComment;field#MIN_CAPACITY_INCREMENT#0;class#ArrayList#0" expanded="false" />
+            <element signature="docComment;field#size#0;class#ArrayList#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/util/concurrent/Semaphore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.9698277">
+          <caret line="281" column="16" selection-start-line="281" selection-start-column="16" selection-end-line="281" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/util/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="160" column="49" selection-start-line="160" selection-start-column="49" selection-end-line="160" selection-end-column="49" />
+          <folding>
+            <element signature="e#5715#5716#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/AggregatedContent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#241#242#0" expanded="false" />
+            <element signature="e#283#284#0" expanded="false" />
+            <element signature="e#324#325#0" expanded="false" />
+            <element signature="e#369#370#0" expanded="false" />
+            <element signature="e#438#439#0" expanded="false" />
+            <element signature="e#477#478#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33189654">
+          <caret line="35" column="33" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/java/util/Hashtable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/org/json/JSONArray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.911638">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/os/AsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="634" column="5" selection-start-line="634" selection-start-column="5" selection-end-line="634" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Sampling/ScannedBleDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="129" column="42" selection-start-line="129" selection-start-column="42" selection-end-line="129" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TouchImageView/src/com/ortiz/touch/TouchImageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="211" column="4" selection-start-line="211" selection-start-column="4" selection-end-line="211" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/DrawImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/Helper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39297125">
-          <caret line="398" column="55" selection-start-line="398" selection-start-column="55" selection-end-line="398" selection-end-column="55" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="242" column="53" selection-start-line="242" selection-start-column="53" selection-end-line="242" selection-end-column="53" />
+          <folding>
+            <element signature="e#8453#8464#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5800971">
+          <caret line="17069" column="16" selection-start-line="17069" selection-start-column="16" selection-end-line="17069" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/app/Instrumentation.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/OnBitmapInTouchImageClickedListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.3514376">
-          <caret line="1139" column="32" selection-start-line="1139" selection-start-column="32" selection-end-line="1139" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-21/android/app/ActivityTransitionState.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5079872">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="227" column="47" selection-start-line="227" selection-start-column="47" selection-end-line="227" selection-end-column="47" />
+          <folding>
+            <element signature="e#3190#3191#0" expanded="true" />
+            <element signature="e#3225#3226#0" expanded="true" />
+          </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/IndoorNaviDemo/libs/Android_2DMapApi_V2.5.0.jar!/com/amap/api/mapcore2d/ed.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33258426">
+          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_navi.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.814815">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.703704">
+          <caret line="72" column="55" selection-start-line="72" selection-start-column="55" selection-end-line="72" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/NaviActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="76" selection-start-line="95" selection-start-column="76" selection-end-line="95" selection-end-column="76" />
+        <state vertical-scroll-proportion="-12.576923">
+          <caret line="372" column="53" selection-start-line="362" selection-start-column="16" selection-end-line="372" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#6554#10299#0" expanded="false" />
+            <element signature="e#10298#10299#0" expanded="false" />
+            <element signature="e#17194#23091#0" expanded="false" />
+            <element signature="e#22775#22776#0" expanded="false" />
+            <element signature="e#23090#23091#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.254902">
+          <caret line="27" column="51" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/Service.java">
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/client/entity/UrlEncodedFormEntity.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21982759">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/AsyncRestTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="50" selection-start-line="39" selection-start-column="50" selection-end-line="39" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.25105485">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="72" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="72" />
+          <caret line="64" column="41" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/OnActionFinishedListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -3866,7 +3865,15 @@
     <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Order.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -3879,115 +3886,205 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/Service.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2943723">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/BulkRestClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/RestAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="45" selection-start-line="35" selection-start-column="45" selection-end-line="35" selection-end-column="45" />
+          <folding>
+            <element signature="e#2085#2086#0" expanded="true" />
+            <element signature="e#2138#2139#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/HttpResponse.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23658052">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/client/HttpClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5188867">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/impl/client/DefaultHttpClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3499006">
+          <caret line="36" column="28" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/org/apache/http/params/HttpConnectionParams.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4413519">
+          <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.461538">
+          <caret line="125" column="58" selection-start-line="125" selection-start-column="58" selection-end-line="125" selection-end-column="58" />
+          <folding>
+            <element signature="method#convertStreamToString#0;class#RestClient#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Task/Task.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.1153846">
+          <caret line="143" column="32" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#waitAll#0;class#Task#0" expanded="false" />
+            <element signature="e#4279#4280#0" expanded="true" />
+            <element signature="method#getAggreatedException#0;class#Task#0" expanded="false" />
+            <element signature="docComment;method#getSingleException#0;class#Task#0" expanded="false" />
+            <element signature="method#getSingleException#0;class#Task#0" expanded="false" />
+            <element signature="docComment;method#cancel#0;class#Task#0" expanded="false" />
+            <element signature="method#waitUntil#0;class#Task#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebService/RestEntityResultDumper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/EntityBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/UserInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46536797">
-          <caret line="17" column="31" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="51" selection-end-column="5" />
+          <folding>
+            <element signature="e#1637#1638#0" expanded="true" />
+            <element signature="e#1664#1665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding>
+            <element signature="e#1230#1231#0" expanded="true" />
+            <element signature="e#1257#1258#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/LogOnActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="135" column="153" selection-start-line="135" selection-start-column="67" selection-end-line="135" selection-end-column="153" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4371#8053#0" expanded="true" />
+            <element signature="e#5169#8010#0" expanded="true" />
+            <element signature="e#8009#8010#0" expanded="true" />
+            <element signature="e#8052#8053#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44155845">
-          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="277" column="56" selection-start-line="277" selection-start-column="56" selection-end-line="277" selection-end-column="56" />
-          <folding>
-            <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/PositionDescriptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="33" selection-start-line="0" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TouchImageView/src/com/ortiz/touch/TouchImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="211" column="4" selection-start-line="211" selection-start-column="4" selection-end-line="211" selection-end-column="4" />
-          <folding>
-            <element signature="e#6257#6258#0" expanded="true" />
-            <element signature="e#6297#6298#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/UI/MarkableTouchImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="91" column="15" selection-start-line="91" selection-start-column="15" selection-end-line="91" selection-end-column="15" />
-          <folding>
-            <element signature="e#3185#3186#0" expanded="true" />
-            <element signature="e#3220#3221#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/WebServiceEntity/Sample.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+          <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviLib/src/com/SmartParking/Lookup/LocalPositionDescriptor.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
-          <folding />
+          <caret line="163" column="5" selection-start-line="129" selection-start-column="4" selection-end-line="163" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#29370#29394#0" expanded="true" />
+            <element signature="e#58459#58477#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/IndoorNaviDemo/src/com/SmartParking/Demo/Sampling/OverallMapActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5275229">
-          <caret line="363" column="21" selection-start-line="363" selection-start-column="21" selection-end-line="363" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.72949004">
+          <caret line="501" column="0" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
           <folding>
-            <element signature="e#12163#12726#0" expanded="true" />
-            <element signature="e#12423#12699#0" expanded="true" />
-            <element signature="e#12698#12699#0" expanded="true" />
-            <element signature="e#12725#12726#0" expanded="true" />
-            <element signature="e#17293#17925#0" expanded="true" />
-            <element signature="e#17924#17925#0" expanded="true" />
-            <element signature="e#18059#18427#0" expanded="true" />
-            <element signature="e#18426#18427#0" expanded="true" />
-            <element signature="e#18561#19485#0" expanded="true" />
-            <element signature="e#19484#19485#0" expanded="true" />
-            <element signature="e#20205#35700#0" expanded="true" />
-            <element signature="e#21571#21623#0" expanded="false" />
-            <element signature="e#22258#22297#0" expanded="false" />
-            <element signature="e#35699#35700#0" expanded="true" />
-            <element signature="e#35796#36913#0" expanded="true" />
-            <element signature="e#36912#36913#0" expanded="true" />
-            <element signature="e#36965#39392#0" expanded="true" />
-            <element signature="e#39391#39392#0" expanded="true" />
-            <element signature="e#41900#41959#0" expanded="false" />
-            <element signature="e#43067#43111#0" expanded="false" />
+            <element signature="e#9091#14417#0" expanded="true" />
+            <element signature="e#9494#14180#0" expanded="true" />
+            <element signature="e#14179#14180#0" expanded="true" />
+            <element signature="e#14416#14417#0" expanded="true" />
+            <element signature="e#14504#15225#0" expanded="true" />
+            <element signature="e#15224#15225#0" expanded="true" />
+            <element signature="method#addAndRefreshMarkersToMap#0;class#OverallMapActivity#0" expanded="false" />
+            <element signature="method#testMarkerOptionsAndMarkerIfEqual#0;class#OverallMapActivity#0" expanded="false" />
+            <element signature="method#onMarkerClick#0;class#OverallMapActivity#0" expanded="false" />
+            <element signature="method#onInfoWindowClick#0;class#OverallMapActivity#0" expanded="false" />
+            <element signature="e#20490#21077#0" expanded="true" />
+            <element signature="e#21076#21077#0" expanded="true" />
+            <element signature="e#21230#21817#0" expanded="true" />
+            <element signature="e#21816#21817#0" expanded="true" />
+            <element signature="e#22230#22817#0" expanded="true" />
+            <element signature="e#22816#22817#0" expanded="true" />
+            <element signature="e#23015#23016#0" expanded="true" />
+            <element signature="e#23063#23064#0" expanded="true" />
           </folding>
         </state>
       </provider>

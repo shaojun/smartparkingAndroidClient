@@ -12,17 +12,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.SmartParking.Demo.Mapping.R;
+import com.SmartParking.Sampling.BleFingerprintCollector;
+import com.SmartParking.Task.Action;
+import com.SmartParking.Task.OnActionFinishedListener;
+import com.SmartParking.Task.Task;
 import com.SmartParking.Util.Tuple;
 import com.SmartParking.WebService.AsyncRestTask;
+import com.SmartParking.Task.RestAction;
+import com.SmartParking.WebService.RestEntityResultDumper;
+import com.SmartParking.WebService.RestResultDumper;
 import com.SmartParking.WebServiceEntity.Board;
 import com.SmartParking.WebServiceEntity.Building;
-import com.SmartParking.WebService.OnAsyncRestTaskFinishedListener;
 import com.SmartParking.WebServiceEntity.UserInfo;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -50,8 +56,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.List;
 
 
 //import com.SmartParking.Demo.Mapping.R;
@@ -197,6 +202,9 @@ public class OverallMapActivity extends Activity implements LocationSource,
 
     private GeocodeSearch geocoderSearch;
     ProgressDialog progress;
+
+    private boolean keepPolling = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,113 +230,61 @@ public class OverallMapActivity extends Activity implements LocationSource,
         SharedPreferences logOnSharedPreferences = this.getSharedPreferences("LogOn", 0);
         final String userName = logOnSharedPreferences.getString("UserName", null);
         final String password = logOnSharedPreferences.getString("Password", null);
-        progress = ProgressDialog.show(this, "获取中...",
-                "读取停车场位置信息", true);
+        final ProgressDialog progress = ProgressDialog.show(this, "获取中...",
+                "读取可用停车场地理位置信息", true);
+        this.keepPolling = true;
         Thread pollingBuilding = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
-                    AsyncRestTask.Create("buildings/", userName, password, "GET", new OnAsyncRestTaskFinishedListener() {
-                        @Override
-                        public void OnError(String errorMsg) {
-                            progress.dismiss();
-                            new AlertDialog.Builder(
-                                    OverallMapActivity.this)
-                                    .setIcon(
-                                            android.R.drawable.ic_dialog_alert)
-                                    .setTitle("Get Buildings failed")
-                                    .setMessage(errorMsg)
-                                    .setPositiveButton("Failed", null)
-                                    .show();
-                        }
-
-                        @Override
-                        public void OnFinished(Object json) {
-                            progress.dismiss();
-                            if (json instanceof JSONObject) {
-                                new AlertDialog.Builder(
-                                        OverallMapActivity.this)
-                                        .setIcon(
-                                                android.R.drawable.ic_dialog_alert)
-                                        .setTitle("Get Buildings failed")
-                                        .setMessage("Single building returned")
-                                        .setPositiveButton("Failed", null)
-                                        .show();
-                            } else if (json instanceof JSONArray) {
-                                OverallMapActivity.this.Buildings.clear();
-                                JSONArray buildingsJSArray = (JSONArray) json;
-                                for (int i = 0; i < buildingsJSArray.length(); i++) {
-                                    Building __building = new Building();
-                                    try {
-                                        JSONObject buildingJSObject = (JSONObject) (buildingsJSArray.get(i));
-                                        __building.MapUrl = buildingJSObject.getString("mapUrl");
-                                        __building.Latitude = Double.parseDouble(buildingJSObject.getString("latitude"));
-                                        __building.Longitude = Double.parseDouble(buildingJSObject.getString("longitude"));
-                                        __building.Description = buildingJSObject.getString("description");
-                                        __building.CreationTime = buildingJSObject.getString("creationTime");
-                                        __building.DetailUrl = buildingJSObject.getString("url");
-                                    } catch (JSONException e) {
-                                        new AlertDialog.Builder(
-                                                OverallMapActivity.this)
-                                                .setIcon(
-                                                        android.R.drawable.ic_dialog_alert)
-                                                .setTitle("Resolve Buildings failed")
-                                                .setMessage("!!!")
-                                                .setPositiveButton("Failed", null)
-                                                .show();
-                                    }
-
-                                    OverallMapActivity.this.Buildings.add(__building);
-                                }
-
-                                OverallMapActivity.this.addAndRefreshMarkersToMap();
-
-                                AsyncRestTask.Create("boards/", userName, password, "GET", new OnAsyncRestTaskFinishedListener() {
-                                    @Override
-                                    public void OnError(String errorMsg) {
-                                        new AlertDialog.Builder(
-                                                OverallMapActivity.this)
-                                                .setIcon(
-                                                        android.R.drawable.ic_dialog_alert)
-                                                .setTitle("Get boards failed")
-                                                .setMessage(errorMsg)
-                                                .setPositiveButton("Failed", null)
-                                                .show();
-                                    }
-
-                                    @Override
-                                    public void OnFinished(Object json) {
-                                        if (json instanceof JSONObject) {
-                                            JSONObject node = (JSONObject) json;
-                                            new AlertDialog.Builder(
-                                                    OverallMapActivity.this)
-                                                    .setIcon(
-                                                            android.R.drawable.ic_dialog_alert)
-                                                    .setTitle("Get Boards failed")
-                                                    .setMessage("Single board returned")
-                                                    .setPositiveButton("Failed", null)
-                                                    .show();
-
-                                        } else if (json instanceof JSONArray) {
-                                            JSONArray boardsJSArray = (JSONArray) json;
-                                            for (int i = 0; i < boardsJSArray.length(); i++) {
-                                                Board b = new Board();
+                while (keepPolling) {
+                    Task.Create(new RestAction("buildings/", userName, password, "GET", "getRestBuildings"))
+                            .continueWith(new RestAction("boards/", userName, password, "GET", "getRestBoards"))
+                            .Start(
+                                    new OnActionFinishedListener<String>() {
+                                        @Override
+                                        public void Finished(Task task, Action<String> finishedAction) {
+                                            if (!task.isCompleted()) return;
+                                            progress.dismiss();
+                                            if (task.isFaulted()) {
+                                                new AlertDialog.Builder(
+                                                        OverallMapActivity.this)
+                                                        .setIcon(
+                                                                android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Get Buildings failed")
+                                                        .setMessage(task.getSingleException().toString())
+                                                        .setPositiveButton("Failed", null)
+                                                        .show();
+                                            } else {
                                                 try {
-                                                    JSONObject boardJSObject = (JSONObject) (boardsJSArray.get(i));
-                                                    b.OwnedByBuildingUrl = boardJSObject.getString("ownerBuilding");
-                                                    b.IsCovered = boardJSObject.getBoolean("isCovered");
-                                                    b.CoordinateX = boardJSObject.getInt("coordinateX");
-                                                    b.CoordinateY = boardJSObject.getInt("coordinateY");
-                                                    b.Description = boardJSObject.getString("description");
-                                                    b.DetailUrl = boardJSObject.getString("url");
-                                                    for (Building oneBuilding : OverallMapActivity.this.Buildings) {
-                                                        if (oneBuilding.DetailUrl.equals(b.OwnedByBuildingUrl)) {
-                                                            if (oneBuilding.Boards == null)
-                                                                oneBuilding.Boards = new ArrayList<>();
-                                                            oneBuilding.Boards.add(b);
+                                                    OverallMapActivity.this.Buildings.clear();
+                                                    List<Building> buildings = RestEntityResultDumper.dump(task.getAggreatedResult("getRestBuildings").toString(), Building.class);
+                                                    OverallMapActivity.this.Buildings.addAll(buildings);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    new AlertDialog.Builder(
+                                                            OverallMapActivity.this)
+                                                            .setIcon(
+                                                                    android.R.drawable.ic_dialog_alert)
+                                                            .setTitle("Resolve underlying Building failed")
+                                                            .setMessage("!!!")
+                                                            .setPositiveButton("Failed", null)
+                                                            .show();
+                                                    return;
+                                                }
+
+                                                OverallMapActivity.this.addAndRefreshMarkersToMap();
+                                                try {
+                                                    List<Board> boards = RestEntityResultDumper.dump(task.getAggreatedResult("getRestBoards").get(0).toString(), Board.class);
+                                                    for (int i = 0; i < boards.size(); i++) {
+                                                        for (Building oneBuilding : OverallMapActivity.this.Buildings) {
+                                                            if (oneBuilding.DetailUrl.equals(boards.get(i).OwnedByBuildingUrl)) {
+                                                                if (oneBuilding.Boards == null)
+                                                                    oneBuilding.Boards = new ArrayList<>();
+                                                                oneBuilding.Boards.add(boards.get(i));
+                                                            }
                                                         }
                                                     }
-                                                } catch (JSONException e) {
+                                                } catch (Exception e) {
                                                     new AlertDialog.Builder(
                                                             OverallMapActivity.this)
                                                             .setIcon(
@@ -342,11 +298,7 @@ public class OverallMapActivity extends Activity implements LocationSource,
                                                 OverallMapActivity.this.addAndRefreshMarkersToMap();
                                             }
                                         }
-                                    }
-                                }).Start();
-                            }
-                        }
-                    }).Start();
+                                    });
                     try {
                         Thread.sleep(30000);
                     } catch (InterruptedException e) {
@@ -354,20 +306,20 @@ public class OverallMapActivity extends Activity implements LocationSource,
                     }
                 }
             }
-        });
+        }
+        );
         pollingBuilding.start();
-
         buttonGoSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String searchStr = editTextTargetPlace.getText().toString();
-                if (searchStr != null && searchStr != "") {
-                    GeocodeQuery query = new GeocodeQuery(searchStr, "021");
-                    geocoderSearch.getFromLocationNameAsyn(query);
-                }
-            }
-        });
-
+                                              @Override
+                                              public void onClick(View v) {
+                                                  String searchStr = editTextTargetPlace.getText().toString();
+                                                  if (searchStr != null && searchStr != "") {
+                                                      GeocodeQuery query = new GeocodeQuery(searchStr, "021");
+                                                      geocoderSearch.getFromLocationNameAsyn(query);
+                                                  }
+                                              }
+                                          }
+        );
     }
 
     @Override
@@ -528,5 +480,29 @@ public class OverallMapActivity extends Activity implements LocationSource,
     @Override
     public void onMapClick(LatLng latLng) {
         this.addAndRefreshMarkersToMap();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop(); // Always call the superclass method first
+        this.keepPolling = false;
+
+    }
+
+    protected void onRestart() {
+        super.onRestart(); // Always call the superclass method first
+        this.keepPolling = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause(); // Always call the superclass method first
+        this.keepPolling = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume(); // Always call the superclass method first
+        this.keepPolling = true;
     }
 }

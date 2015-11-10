@@ -2,6 +2,7 @@ package com.SmartParking.Demo.Sampling;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,8 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.SmartParking.Demo.Mapping.R;
-import com.SmartParking.WebService.AsyncRestTask;
-import com.SmartParking.WebService.OnAsyncRestTaskFinishedListener;
+import com.SmartParking.Task.Action;
+import com.SmartParking.Task.OnActionFinishedListener;
+import com.SmartParking.Task.Task;
+import com.SmartParking.Task.RestAction;
+import com.SmartParking.WebService.RestEntityResultDumper;
 import com.SmartParking.WebServiceEntity.UserInfo;
 
 import org.json.JSONArray;
@@ -29,100 +33,131 @@ public class LogOnActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_on);
+
+//        Action<String> getWebUserAction = new Action<String>(1) {
+//            @Override
+//            public String exectue(Task ownerTask, Object state) {
+//                return "getWebUserAction";
+//            }
+//        };
+//
+//        Action<Integer> getWebUserAction1 = new Action<Integer>(2) {
+//            @Override
+//            public Integer exectue(Task ownerTask, Object state) {
+//                List<Object> result1 = ownerTask.getAggreatedResult(1);
+//                if (result1.get(0).toString().equals("getWebUserAction"))
+//                    return 8888888;
+//                return 9999999;
+//            }
+//        };
+//
+//        Action getWebUserAction2 = new Action(3) {
+//            @Override
+//            public Object exectue(Task ownerTask, Object state) {
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                return "getWebUserAction2";
+//            }
+//        };
+
+
+//        final Task t = Task.Create(getWebUserAction);
+//        t.continueWith(getWebUserAction1)
+//                .continueWith(getWebUserAction2).Start(new OnActionFinishedListener() {
+//            @Override
+//            public void Finished(Task task, Action<?> finishedAction) {
+//                if (task.isCompleted()) {
+//                    final boolean waitResult = t.waitUntil(5000);
+//                    final boolean isFFaulted = t.isFaulted();
+//                    if (waitResult) {
+//                        final Object result1 = t.getSingleResult(1);
+//                        final Object result2 = t.getSingleResult(2);
+//                        final Object result3 = t.getSingleResult(3);
+//                        final Boolean isCompleted = t.isCompleted();
+//                        final Boolean isFaulted = t.isFaulted();
+//                        final Hashtable<Object, List<Exception>> exceptions = t.getAggreatedException();
+//
+//                        new AlertDialog.Builder(
+//                                LogOnActivity.this)
+//                                .setIcon(
+//                                        android.R.drawable.ic_dialog_alert)
+//                                .setTitle("check is complete?")
+//                                .setMessage(
+//                                        "result1: " + result1.toString() + ", result2: " + result2.toString()
+//                                                + "result3: " + result3.toString() + ", isComp: " + isCompleted.toString()
+//                                                + ", Isfaulted: " + isFaulted.toString() + ", exception count: " + exceptions.size())
+//                                .setPositiveButton("Yes", null)
+//                                .setNegativeButton(
+//                                        "No", null
+//                                ).show();
+//
+//                    }
+//                }
+//            }
+//        });
         logOnSharedPreferences = getSharedPreferences("LogOn", 0);
         Button btnLogOn = (Button) findViewById(R.id.buttonLogOn);
         btnLogOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final ProgressDialog progress = ProgressDialog.show(LogOnActivity.this, "登陆中...",
+                        "获取用户登陆信息", true);
                 findViewById(R.id.editTextPwd).setEnabled(false);
+                EditText uet = (EditText) findViewById(R.id.editTextUserName);
+                EditText pet = (EditText) findViewById(R.id.editTextPwd);
                 if (test) {
-                    SharedPreferences.Editor Ed = logOnSharedPreferences.edit();
-                    Ed.putString("UserName", "shawn");
-                    Ed.putString("Password", "19138177");
-                    Ed.commit();
-                    UserInfo userInfo = new UserInfo();
-                    userInfo.UserName = "shawn";
-                    userInfo.UUID = "00000000000UUID";
-                    userInfo.MajorId = "1111111111MajorId";
-                    userInfo.MinorId = "222222MinorId";
-                    userInfo.MacAddress = "3333MacAddress";
-                    userInfo.CreationTime = "1983";
-                    userInfo.IsActive = true;
-                    userInfo.Groups.add("SuperUsers");
-                    UserInfo.CurrentUserInfo = userInfo;
-                    findViewById(R.id.editTextPwd).setEnabled(true);
-                    Intent i = new Intent(LogOnActivity.this, OverallMapActivity.class);
-                    startActivity(i);
-                } else {
-                    EditText uet = (EditText) findViewById(R.id.editTextUserName);
-                    EditText pet = (EditText) findViewById(R.id.editTextPwd);
+                    uet.setText("shawn");
+                    pet.setText("19138177");
+                }
 
-                    AsyncRestTask.Create("usersInfo/", uet.getText().toString(), pet.getText().toString(), "GET",
-                            new OnAsyncRestTaskFinishedListener() {
-                                @Override
-                                public void OnError(String errorMsg) {
+                Task.Create(new RestAction("usersInfo/",
+                        uet.getText().toString(),
+                        pet.getText().toString(), "GET", "getRestUser")).Start(
+                        new OnActionFinishedListener<String>() {
+                            @Override
+                            public void Finished(Task task, Action<String> finishedAction) {
+                                progress.dismiss();
+                                if (task.isFaulted()) {
                                     findViewById(R.id.editTextPwd).setEnabled(true);
                                     new AlertDialog.Builder(
                                             LogOnActivity.this)
                                             .setIcon(
                                                     android.R.drawable.ic_dialog_alert)
                                             .setTitle("Get usersInfo failed")
-                                            .setMessage(errorMsg)
+                                            .setMessage(task.getSingleException().toString())
                                             .setPositiveButton("Failed", null)
                                             .show();
-                                }
-
-                                @Override
-                                public void OnFinished(Object json) {
+                                } else {
                                     findViewById(R.id.editTextPwd).setEnabled(true);
-                                    if (json instanceof JSONObject) {
+                                    try {
+                                        UserInfo.CurrentUserInfo = RestEntityResultDumper.dump(task.getSingleResult().toString(), UserInfo.class).get(0);
+                                        SharedPreferences.Editor Ed = logOnSharedPreferences.edit();
+                                        Ed.putString("UserName", UserInfo.CurrentUserInfo.UserName);
+                                        Ed.putString("Password", ((EditText) findViewById(R.id.editTextPwd)).getText().toString());
+                                        Ed.commit();
+                                        Intent i = new Intent(LogOnActivity.this, OverallMapActivity.class);
+                                        i.putExtra("userInfoName",
+                                                UserInfo.CurrentUserInfo.UserName);
+                                        startActivity(i);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                         new AlertDialog.Builder(
                                                 LogOnActivity.this)
                                                 .setIcon(
                                                         android.R.drawable.ic_dialog_alert)
-                                                .setTitle("Get usersInfo failed")
-                                                .setMessage("Single usersInfo returned")
+                                                .setTitle("Resolve underlying User failed")
+                                                .setMessage("!!!")
                                                 .setPositiveButton("Failed", null)
                                                 .show();
-                                    } else if (json instanceof JSONArray) {
-                                        try {
-                                            JSONObject targetUser = (JSONObject) (((JSONArray) json).get(0));
-                                            UserInfo userInfo = new UserInfo();
-                                            userInfo.UserName = targetUser.getString("user_name");
-                                            userInfo.UUID = targetUser.getString("uuid");
-                                            userInfo.MajorId = targetUser.getString("major_Id");
-                                            userInfo.MinorId = targetUser.getString("minor_Id");
-                                            userInfo.MacAddress = targetUser.getString("mac_address");
-                                            userInfo.CreationTime = targetUser.getString("creation_Time");
-                                            userInfo.IsActive = targetUser.getBoolean("is_active");
-                                            JSONArray userInfoGroupsJSONArray = targetUser.getJSONArray("groups");
-                                            for (int i = 0; i < userInfoGroupsJSONArray.length(); i++) {
-                                                userInfo.Groups.add(userInfoGroupsJSONArray.getString(i));
-                                            }
-
-                                            UserInfo.CurrentUserInfo = userInfo;
-                                            SharedPreferences.Editor Ed = logOnSharedPreferences.edit();
-                                            Ed.putString("UserName", userInfo.UserName);
-                                            Ed.putString("Password", ((EditText) findViewById(R.id.editTextPwd)).getText().toString());
-                                            Ed.commit();
-                                            Intent i = new Intent(LogOnActivity.this, OverallMapActivity.class);
-                                            i.putExtra("userInfoName",
-                                                    userInfo.UserName);
-                                            startActivity(i);
-                                        } catch (JSONException e) {
-                                            new AlertDialog.Builder(
-                                                    LogOnActivity.this)
-                                                    .setIcon(
-                                                            android.R.drawable.ic_dialog_alert)
-                                                    .setTitle("Resolve Buildings failed")
-                                                    .setMessage("!!!")
-                                                    .setPositiveButton("Failed", null)
-                                                    .show();
-                                        }
+                                        return;
                                     }
                                 }
-                            }).Start();
-                }
+                            }
+                        }
+                );
             }
         });
     }

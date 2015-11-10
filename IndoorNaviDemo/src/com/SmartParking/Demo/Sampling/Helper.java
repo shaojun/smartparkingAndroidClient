@@ -26,13 +26,17 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import com.SmartParking.Demo.Mapping.R;
+import com.SmartParking.Lookup.LocalPositionDescriptor;
 import com.SmartParking.Lookup.PositionDescriptor;
 import com.SmartParking.Sampling.ScannedBleDevice;
 import com.SmartParking.UI.DrawImage;
+import com.SmartParking.UI.MarkableTouchImageView;
 import com.SmartParking.Util.Tuple;
 import com.SmartParking.Util.Tuple3;
 import com.SmartParking.Util.Tuple4;
 import com.SmartParking.Util.Tuple5;
+import com.SmartParking.WebServiceEntity.Board;
+import com.ortiz.touch.TouchImageView;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -77,7 +81,7 @@ public class Helper {
         ObjectOutputStream objectOutputStream = null;
         try {
             /*
-			 * always delete previous one and create a new one
+             * always delete previous one and create a new one
 			 */
 
             File f = new File(context.getFilesDir(), filePath);
@@ -187,12 +191,12 @@ public class Helper {
     }
 
     public static String ToLogString1(
-            Collection<Tuple<Double, PositionDescriptor>> target) {
+            Collection<Tuple<Double, LocalPositionDescriptor>> target) {
         String logString = "";
-        for (Tuple<Double, PositionDescriptor> single : target) {
+        for (Tuple<Double, LocalPositionDescriptor> single : target) {
             logString += "Similarity: " + single.first + ", X-Y: ("
-                    + single.second.getOriginalMesuredOnWidth() + ", "
-                    + single.second.getOriginalMesuredOnHeight()
+                    + single.second.getLocalX() + ", "
+                    + single.second.getLocalY()
                     + ") based on build-in sample: " + "\r\n"
                     + ToLogString0(single.second.Fingerprints, true) + "\r\n";
         }
@@ -230,25 +234,27 @@ public class Helper {
 
     }
 
-    public static List<DrawImage> ConvertParkingPostionsFromWebToDrawImages(
-            List<Tuple5<Float, Float, String, ParkingPositionStatus, Integer>> parkingPositionsFromWeb,
+    public static List<DrawImage> ConvertRestBoardsToDrawImages(
+            List<Board> restBoards, Bitmap remoteBitmap, MarkableTouchImageView localImageView,
             Resources res) {
         List<DrawImage> drawImages = new ArrayList<DrawImage>();
-        for (Tuple5<Float, Float, String, ParkingPositionStatus, Integer> oneParkingPosition : parkingPositionsFromWeb) {
-            DrawImage t = new DrawImage(oneParkingPosition.first,
-                    oneParkingPosition.second, null, oneParkingPosition.third,
-                    oneParkingPosition.fifth);
-			/* draw all parking position icons */
-            if (oneParkingPosition.fourth == ParkingPositionStatus.Busy) {
+        for (Board board : restBoards) {
+            DrawImage t = new DrawImage(
+                    LocalPositionDescriptor.getLocalXByRemoteX(Float.parseFloat(board.CoordinateX.toString()), remoteBitmap, localImageView),
+                    LocalPositionDescriptor.getLocalXByRemoteX(Float.parseFloat(board.CoordinateY.toString()), remoteBitmap, localImageView),
+                    null, board.Description,
+                    board.BoardIdentity);
+            /* draw all parking position icons */
+            if (board.IsCovered) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_busy);
-            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Idle) {
+            } else if (!board.IsCovered && board.OrderDetail == null) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_idle);
-            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Ordered) {
+            } else if (board.OrderDetail != null) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_ordered);
-            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Unknown) {
+            } else {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_unknown);
             }
@@ -258,6 +264,35 @@ public class Helper {
 
         return drawImages;
     }
+
+//    public static List<DrawImage> ConvertParkingPostionsFromWebToDrawImages(
+//            List<Tuple5<Float, Float, String, ParkingPositionStatus, Integer>> parkingPositionsFromWeb,
+//            Resources res) {
+//        List<DrawImage> drawImages = new ArrayList<DrawImage>();
+//        for (Tuple5<Float, Float, String, ParkingPositionStatus, Integer> oneParkingPosition : parkingPositionsFromWeb) {
+//            DrawImage t = new DrawImage(oneParkingPosition.first,
+//                    oneParkingPosition.second, null, oneParkingPosition.third,
+//                    oneParkingPosition.fifth);
+//            /* draw all parking position icons */
+//            if (oneParkingPosition.fourth == ParkingPositionStatus.Busy) {
+//                t.Bitmap = BitmapFactory.decodeResource(res,
+//                        R.drawable.car_busy);
+//            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Idle) {
+//                t.Bitmap = BitmapFactory.decodeResource(res,
+//                        R.drawable.car_idle);
+//            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Ordered) {
+//                t.Bitmap = BitmapFactory.decodeResource(res,
+//                        R.drawable.car_ordered);
+//            } else if (oneParkingPosition.fourth == ParkingPositionStatus.Unknown) {
+//                t.Bitmap = BitmapFactory.decodeResource(res,
+//                        R.drawable.car_unknown);
+//            }
+//
+//            drawImages.add(t);
+//        }
+//
+//        return drawImages;
+//    }
 
     // <X, Y, comments, busyOrIdleOrOrdered(0,1,2), parkingPositionId>,
     // buildingId is the unique id for
@@ -300,7 +335,7 @@ public class Helper {
                             coor_Y, comments, status, id));
                 }
             }
-			/*
+            /*
 			 * parkingPositionCoordinates.add(Tuple5.create((float) 100, (float)
 			 * 50, "pk0", ParkingPositionStatus.Busy, 0));
 			 * parkingPositionCoordinates.add(Tuple5.create((float) 200, (float)

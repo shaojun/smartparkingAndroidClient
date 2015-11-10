@@ -68,7 +68,7 @@ public class MarkableTouchImageView extends TouchImageView {
 	private int defaultCircleTextSize = 14;
 
 	// private boolean customColor = false;
-	private int selectedBitmapId = -1;
+	private String selectedBitmapId = "-1";
 	// <X,Y,R>,Comments
 	List<DrawCircle> drawCircles = new ArrayList<DrawCircle>();
 	// <X, Y, bitmap, comments, id>
@@ -224,8 +224,8 @@ public class MarkableTouchImageView extends TouchImageView {
 				if (!doesThisTimeSelectedOnSth) {
 					// redraw(remove selection) if previous time have sth
 					// selected
-					if (selectedBitmapId != -1) {
-						selectedBitmapId = -1;
+					if (selectedBitmapId != "-1") {
+						selectedBitmapId = "-1";
 						MarkableTouchImageView.this.invalidate();
 					}
 				}
@@ -290,7 +290,7 @@ public class MarkableTouchImageView extends TouchImageView {
 					if (this.parentRelativeLayout != null
 							&& this.selectedView != null
 							&& this.parentRelativeLayout
-									.findViewById(selectedBitmapId) == null
+									.findViewWithTag(selectedBitmapId) == null
 									) {
 						RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 								LayoutParams.WRAP_CONTENT,
@@ -304,7 +304,7 @@ public class MarkableTouchImageView extends TouchImageView {
 								.round((relativeXandY.second
 										- (this.selectedView.getHeight()) - (imageWithText.Bitmap
 										.getHeight() * currentZoom * 0.7)));
-						this.selectedView.setId(selectedBitmapId);
+						this.selectedView.setTag(selectedBitmapId);
 						this.parentRelativeLayout.addView(this.selectedView,
 								params);
 					}

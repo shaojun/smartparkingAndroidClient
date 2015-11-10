@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Created by Think on 10/11/2015.
  */
 public class Sample implements Serializable {
+    public String DetailUrl;
     public String OwnedByBuildingUrl;
     public Integer CoordinateX;
     public Integer CoordinateY;

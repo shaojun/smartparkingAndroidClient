@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
  *
  */
 public class DrawImage {
-	public DrawImage(float x, float y, Bitmap bitmap, String text, Integer id)
+	public DrawImage(float x, float y, Bitmap bitmap, String text, String id)
 	{
 		this.X = x;
 		this.Y = y;
@@ -27,5 +27,5 @@ public class DrawImage {
 	 * will fire this id to click event
 	 *
 	 */
-	public Integer Id;
+	public String Id;
 }

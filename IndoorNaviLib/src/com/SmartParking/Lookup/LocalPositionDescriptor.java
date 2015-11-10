@@ -11,34 +11,55 @@ import com.SmartParking.UI.MarkableTouchImageView;
 
 public class LocalPositionDescriptor implements Serializable {
     private MarkableTouchImageView localImageView;
-    public String Description;
+    private BitmapDrawable drawable;
+    private float localX = -1;
+    private float localY = -1;
+    private float remoteX = -1;
+    private float remoteY = -1;
 
-    public float getLocalXByRemoteX(float remoteX) {
-        BitmapDrawable drawable = (BitmapDrawable) localImageView.getDrawable();
-        // the original bitmap which from web.
-        Bitmap bitmap = drawable.getBitmap();
+    public String Description;
+    public boolean FlushedToWeb = false;
+
+
+    /**
+     * Transfer(caculate) the remote X coordinate based on local image view.
+     *
+     * @param remoteX        X coordinate measured on remote original bitmap.
+     * @param bitmap         remote original bitmap of a map.
+     * @param localImageView local image view to show the bitmap.
+     */
+    public static float getLocalXByRemoteX(float remoteX, Bitmap bitmap, MarkableTouchImageView localImageView) {
         return remoteX * (localImageView.getOnImageLoadWidth() / bitmap.getWidth());
     }
 
-    public float getLocalYByRemoteY(float remoteY) {
-        BitmapDrawable drawable = (BitmapDrawable) localImageView.getDrawable();
-        // the original bitmap which from web.
-        Bitmap bitmap = drawable.getBitmap();
+    public static float getLocalYByRemoteY(float remoteY, Bitmap bitmap, MarkableTouchImageView localImageView) {
         return remoteY * (localImageView.getOnImageLoadHeight() / bitmap.getHeight());
     }
 
-    public float getRemoteXByLocalX(float localX) {
-        BitmapDrawable drawable = (BitmapDrawable) localImageView.getDrawable();
+    public static float getRemoteXByLocalX(float localX, Bitmap bitmap, MarkableTouchImageView localImageView) {
         // the original bitmap which from web.
-        Bitmap bitmap = drawable.getBitmap();
         return localX * (bitmap.getWidth() / localImageView.getOnImageLoadWidth());
     }
 
-    public float getRemoteYByLocalY(float localY) {
-        BitmapDrawable drawable = (BitmapDrawable) localImageView.getDrawable();
+    public static float getRemoteYByLocalY(float localY, Bitmap bitmap, MarkableTouchImageView localImageView) {
         // the original bitmap which from web.
-        Bitmap bitmap = drawable.getBitmap();
         return localY * (bitmap.getHeight() / localImageView.getOnImageLoadHeight());
+    }
+
+    public float getRemoteX() {
+        return this.remoteX;
+    }
+
+    public float getRemoteY() {
+        return this.remoteY;
+    }
+
+    public float getLocalX() {
+        return this.localX;
+    }
+
+    public float getLocalY() {
+        return this.localY;
     }
 
     public final HashSet<ScannedBleDevice> Fingerprints;
@@ -46,15 +67,26 @@ public class LocalPositionDescriptor implements Serializable {
     public LocalPositionDescriptor(String desc, float absoluteLeftOnWebBitmap,
                                    float absoluteTopOnWebBitmap, HashSet<ScannedBleDevice> fingerprints,
                                    MarkableTouchImageView localImageView) {
+        this.remoteX = absoluteLeftOnWebBitmap;
+        this.remoteY = absoluteTopOnWebBitmap;
         this.localImageView = localImageView;
+        this.drawable = (BitmapDrawable) localImageView.getDrawable();
+        this.localX = getLocalXByRemoteX(this.remoteX, this.drawable.getBitmap(), this.localImageView);
+        this.localY = getLocalYByRemoteY(this.remoteY, this.drawable.getBitmap(), this.localImageView);
         this.Description = desc;
         this.Fingerprints = fingerprints;
     }
 
-    public LocalPositionDescriptor(float absoluteLeftOnWebBitmap,
-                                   float absoluteTopOnWebBitmap,
+    public LocalPositionDescriptor(float absoluteLeftOnLocalBitmap,
+                                   float absoluteTopOnLocalBitmap,
                                    HashSet<ScannedBleDevice> fingerprints,
                                    MarkableTouchImageView localImageView) {
+        this.localX = absoluteLeftOnLocalBitmap;
+        this.localY = absoluteTopOnLocalBitmap;
+        this.localImageView = localImageView;
+        this.drawable = (BitmapDrawable) localImageView.getDrawable();
+        this.remoteX = getRemoteXByLocalX(this.localX, this.drawable.getBitmap(), this.localImageView);
+        this.remoteY = getRemoteYByLocalY(this.localY, this.drawable.getBitmap(), this.localImageView);
         this.Fingerprints = fingerprints;
     }
 }
