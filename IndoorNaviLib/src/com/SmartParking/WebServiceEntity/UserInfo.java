@@ -47,7 +47,7 @@ public class UserInfo extends EntityBase implements Serializable {
     }
 
     @Override
-    public String toJson() {
+    public JSONObject toJsonObject() {
         return null;
     }
 }

@@ -29,12 +29,18 @@ public class Board extends EntityBase implements Serializable {
         b.CoordinateY = jsonObject.getInt("coordinateY");
         b.Description = jsonObject.getString("description");
         b.DetailUrl = jsonObject.getString("url");
+        JSONArray orderDetailUrls = jsonObject.getJSONArray("orderDetail");
+        if (orderDetailUrls != null && orderDetailUrls.length() >= 1) {
+            // no resolve the real detail for now, here we just want to know it's get ordered.
+            b.OrderDetail = new Order();
+        }
+
         return b;
     }
 
 
     @Override
-    public String toJson() {
+    public JSONObject toJsonObject() {
         return null;
     }
 }

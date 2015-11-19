@@ -92,7 +92,7 @@ public class Task<TResult> {
      * @param listener all action in this task execute finished will call this listener, and the calling is running on UI thread.
      */
     public void Start(OnActionFinishedListener listener) {
-        Log.i(LOG_TAG, "Task starting...");
+        Log.v(LOG_TAG, "Task starting...");
         if (listener != null)
             listeners.add(listener);
         this.isCompleted = false;
@@ -176,7 +176,7 @@ public class Task<TResult> {
      * @return True for finished successfully, otherwise timeout occured.
      */
     public boolean waitUntil(int timeout) {
-        Log.i(LOG_TAG, "waitUntil was called with timeout: " + timeout);
+        Log.v(LOG_TAG, "waitUntil was called with timeout: " + timeout);
         int totalSpendTime = 0;
         while (!this.isCompleted()) {
             try {
@@ -188,7 +188,7 @@ public class Task<TResult> {
 
             if ((totalSpendTime += 500) >= timeout) {
                 {
-                    Log.i(LOG_TAG, "waitUntil timed out");
+                    Log.e(LOG_TAG, "waitUntil timed out");
                     return false;
                 }
             }
@@ -203,7 +203,7 @@ public class Task<TResult> {
     private boolean isCancelled = false;
 
     private void onActionFinished(Action<TResult> finishedAction, TResult result, boolean errorOccured) {
-        Log.i(LOG_TAG, "An action was finished, continuationActions count: " + continuationActions.size() + ", errorOccured: " + errorOccured);
+        Log.v(LOG_TAG, "An action was finished, continuationActions count: " + continuationActions.size() + ", errorOccured: " + errorOccured);
         if (this.isCancelling) {
             this.isCancelled = true;
             this.isCompleted = true;
@@ -214,11 +214,11 @@ public class Task<TResult> {
                 this.asyncTask = new innerAsyncTask(nextContinuationAction, this);
                 this.asyncTask.execute("");
             } else {
-                Log.i(LOG_TAG, "Task set to IsCommpleted with true ");
+                Log.v(LOG_TAG, "Task set to IsCommpleted with true ");
                 this.isCompleted = true;
             }
         } else {
-            Log.e(LOG_TAG, "Task set to IsCommpleted with true ");
+            Log.v(LOG_TAG, "Task set to IsCommpleted with true ");
             this.isFaulted = true;
             this.isCompleted = true;
         }

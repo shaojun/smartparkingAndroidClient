@@ -2,8 +2,6 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':IndoorNaviLib')
-    compile project(':TouchImageView')
     compile project(':TouchImageView')
     compile project(':IndoorNaviLib')
     compile files('libs/Android_2DMapApi_V2.5.0.jar')

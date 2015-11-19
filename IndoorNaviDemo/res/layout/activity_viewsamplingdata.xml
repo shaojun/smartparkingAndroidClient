@@ -2,25 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/logTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/LogText" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        android:orientation="horizontal">
+    <EditText
+        android:id="@+id/deleteEditText"
+        android:layout_weight="3"
+        android:hint="Input the line No. want to delete"
+        android:layout_width="0px"
+        android:layout_height="wrap_content" />
     <Button
-        android:id="@+id/buttonCleanAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonCleanAll" />
-
+        android:id="@+id/deleteButton"
+        android:layout_weight="1"
+        android:text="Delete it"
+        android:layout_width="0px"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
     <ExpandableListView
         android:id="@+id/sampleExpandableListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp" >
-    </ExpandableListView>
+        android:layout_marginTop="30dp"></ExpandableListView>
 
 </LinearLayout>

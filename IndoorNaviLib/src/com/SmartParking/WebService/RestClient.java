@@ -7,15 +7,18 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +34,7 @@ public class RestClient {
 
     private ArrayList<NameValuePair> params;
     private ArrayList<NameValuePair> headers;
-
+    private JSONObject jsonObject;
     private String url;
 
     private int responseCode;
@@ -59,10 +62,25 @@ public class RestClient {
         this.url = url;
         params = new ArrayList<NameValuePair>();
         headers = new ArrayList<NameValuePair>();
+//        headers.add(new NameValuePair() {
+//            @Override
+//            public String getName() {
+//                return "Content-Type";
+//            }
+//
+//            @Override
+//            public String getValue() {
+//                return "application/json";
+//            }
+//        });
     }
 
     public void AddParam(String name, String value) {
         params.add(new BasicNameValuePair(name, value));
+    }
+
+    public void AddJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
     }
 
     public void AddHeader(String name, String value) {
@@ -107,12 +125,36 @@ public class RestClient {
                     }
                 }
 
-                if (!params.isEmpty() && isJsonObjectPost) {
-
+                if (this.jsonObject != null && isJsonObjectPost) {
+                    StringEntity se = new StringEntity(this.jsonObject.toString());
+                    request.setEntity(se);
+                } else if (!params.isEmpty()) {
+                    request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
                 }
 
+                executeRequest(request, url);
+                break;
+            }
+            case "DELETE": {
+                //add parameters
+                String combinedParams = "";
                 if (!params.isEmpty()) {
-                    request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                    combinedParams += "?";
+                    for (NameValuePair p : params) {
+                        String paramString = p.getName() + "=" + URLEncoder.encode(p.getValue(), "UTF - 8");
+                        if (combinedParams.length() > 1) {
+                            combinedParams += "&" + paramString;
+                        } else {
+                            combinedParams += paramString;
+                        }
+                    }
+                }
+
+                HttpDelete request = new HttpDelete(url + combinedParams);
+
+                //add headers
+                for (NameValuePair h : headers) {
+                    request.addHeader(h.getName(), h.getValue());
                 }
 
                 executeRequest(request, url);
@@ -134,16 +176,14 @@ public class RestClient {
             responseCode = httpResponse.getStatusLine().getStatusCode();
             message = httpResponse.getStatusLine().getReasonPhrase();
             if (responseCode >= 300)
-                throw new HttpResponseException(responseCode, "Http response code is >=300 which considered as an Error in Rest response");
+                throw new HttpResponseException(responseCode, "Http response code is >=300, message: " + message);
             HttpEntity entity = httpResponse.getEntity();
             if (entity != null) {
-
                 InputStream instream = entity.getContent();
                 response = convertStreamToString(instream);
                 // Closing the input stream will trigger connection release
                 instream.close();
             }
-
         } catch (ClientProtocolException e) {
             client.getConnectionManager().shutdown();
             e.printStackTrace();

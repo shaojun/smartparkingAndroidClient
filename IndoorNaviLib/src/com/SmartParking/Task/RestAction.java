@@ -56,6 +56,10 @@ public class RestAction extends Action<String> {
         this.restClient.AddParam(name, value);
     }
 
+    public void AddPostJsonObject(JSONObject jsonObject) {
+        this.restClient.AddJsonObject(jsonObject);
+    }
+
     @Override
     public String execute(Task ownerTask) throws Exception {
         this.restClient.Execute(this.httpAction);

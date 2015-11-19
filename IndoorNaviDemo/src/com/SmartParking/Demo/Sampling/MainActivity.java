@@ -26,10 +26,9 @@ import com.SmartParking.UI.ExpandableListViewItem;
 import com.SmartParking.UI.MarkableTouchImageView;
 import com.SmartParking.Util.Tuple;
 import com.SmartParking.Util.Util;
-import com.SmartParking.WebService.AsyncRestTask;
 import com.SmartParking.WebService.BulkRestClient;
 import com.SmartParking.Task.RestAction;
-import com.SmartParking.WebService.RestResultDumper;
+import com.SmartParking.WebService.RestEntityResultDumper;
 import com.SmartParking.WebServiceEntity.Board;
 import com.SmartParking.WebServiceEntity.Building;
 import com.SmartParking.WebServiceEntity.Order;
@@ -68,6 +67,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements
     private String userName = "";
     private String password = "";
     private BluetoothAdapter mBluetoothAdapter = null;
-    private PowerManager.WakeLock screenOnLock = null;
+    //private PowerManager.WakeLock screenOnLock = null;
     private MarkableTouchImageView image;
     private TextView currentCoorTextView;
     private TextView logTextView;
@@ -131,7 +131,7 @@ public class MainActivity extends Activity implements
     protected void onStop() {
         super.onStop(); // Always call the superclass method first
         this.keepPollingAllParkingPositionsFromWeb = false;
-        this.screenOnLock.release();
+        //this.screenOnLock.release();
         // Log.e(LOG_TAG, "MainActivity stopping the BleFingerprintCollector");
         // BleFingerprintCollector.getDefault().Stop();
         // BleFingerprintCollector.getDefault().RemoveOnBleSampleCollectedListener(this);
@@ -139,10 +139,8 @@ public class MainActivity extends Activity implements
     }
 
     protected void onRestart() {
-
         super.onRestart(); // Always call the superclass method first
-        this.keepPollingAllParkingPositionsFromWeb = true;
-        this.screenOnLock.acquire();
+        //this.screenOnLock.acquire();
         if (!BleFingerprintCollector.getDefault().IsStarted.get()
                 && false == BleFingerprintCollector.getDefault().TurnOn(
                 mBluetoothAdapter, BleScanSettings)) {
@@ -161,101 +159,14 @@ public class MainActivity extends Activity implements
     @Override
     protected void onResume() {
         super.onResume(); // Always call the superclass method first
+        this.keepPollingAllParkingPositionsFromWeb = true;
+        //loadAllWebBoardAndShowOnUI();
     }
 
     @Override
     protected void onStart() {
         super.onStart(); // Always call the superclass method first
-        this.keepPollingAllParkingPositionsFromWeb = true;
 
-        // load the parking positions from web
-        new Thread(new Runnable() {
-            public void run() {
-                while (keepPollingAllParkingPositionsFromWeb) {
-                    //http://rest.shaojun.xyz:8090/boards/
-                    RestAction scanBoardsStatusAction = new RestAction("boards/", userName, password, "GET", "scanBoardsStatus");
-                    Task.Create(scanBoardsStatusAction).Start(
-                            new OnActionFinishedListener<String>() {
-                                @Override
-                                public void Finished(Task task, Action<String> finishedAction) {
-                                    if (task.isFaulted()) {
-                                        findViewById(R.id.editTextPwd).setEnabled(true);
-                                        new AlertDialog.Builder(
-                                                MainActivity.this)
-                                                .setIcon(
-                                                        android.R.drawable.ic_dialog_alert)
-                                                .setTitle("scanBoardsStatus failed")
-                                                .setMessage(task.getSingleException().toString())
-                                                .setPositiveButton("Failed", null)
-                                                .show();
-                                    } else {
-                                        String webRawResult = task.getSingleResult().toString();
-                                        RestResultDumper dumper = null;
-                                        try {
-                                            dumper = new RestResultDumper(webRawResult);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            new AlertDialog.Builder(
-                                                    MainActivity.this)
-                                                    .setIcon(
-                                                            android.R.drawable.ic_dialog_alert)
-                                                    .setTitle("Resolve underlying BoardsStatus failed")
-                                                    .setMessage("!!!")
-                                                    .setPositiveButton("Failed", null)
-                                                    .show();
-                                            return;
-                                        }
-
-                                        JSONArray boardsJSArray = dumper.dumpJSONArray();
-                                        List<Board> boards = new ArrayList<>();
-                                        for (int i = 0; i < boardsJSArray.length(); i++) {
-                                            Board __board = new Board();
-                                            try {
-                                                JSONObject boardJSObject = (JSONObject) (boardsJSArray.get(i));
-                                                __board.IsCovered = boardJSObject.getBoolean("isCovered");
-                                                __board.BoardIdentity = boardJSObject.getString("boardIdentity");
-                                                __board.Description = boardJSObject.getString("description");
-                                                JSONArray orderDetailUrls = boardJSObject.getJSONArray("orderDetail");
-                                                if (orderDetailUrls != null && orderDetailUrls.length() >= 1) {
-                                                    // no resolve the real detail for now, here we just want to know it's get ordered.
-                                                    __board.OrderDetail = new Order();
-                                                }
-
-                                                __board.CoordinateX = boardJSObject.getInt("coordinateX");
-                                                __board.CoordinateY = boardJSObject.getInt("coordinateY");
-                                                boards.add(__board);
-                                            } catch (JSONException e) {
-                                                new AlertDialog.Builder(
-                                                        MainActivity.this)
-                                                        .setIcon(
-                                                                android.R.drawable.ic_dialog_alert)
-                                                        .setTitle("Resolve boards failed")
-                                                        .setMessage("!!!")
-                                                        .setPositiveButton("Failed", null)
-                                                        .show();
-                                                return;
-                                            }
-                                        }
-
-
-                                        List<DrawImage> drawImages = Helper
-                                                .ConvertRestBoardsToDrawImages(boards,
-                                                        ((BitmapDrawable) image.getDrawable()).getBitmap(),
-                                                        image,
-                                                        getResources());
-                                        image.drawMultipleCirclesAndImages(null, drawImages);
-                                    }
-                                }
-                            });
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
     }
 
     @Override
@@ -319,9 +230,10 @@ public class MainActivity extends Activity implements
          */
         PowerManager pm = (PowerManager) this
                 .getSystemService(Context.POWER_SERVICE);
-        this.screenOnLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
-                LOG_TAG);
-        this.screenOnLock.acquire();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        this.screenOnLock = pm.newWakeLock(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,//PowerManager.SCREEN_DIM_WAKE_LOCK,
+//                LOG_TAG);
+//        this.screenOnLock.acquire();
 
         //
         // DecimalFormat rounds to 2 decimal places.
@@ -374,6 +286,7 @@ public class MainActivity extends Activity implements
                     image.setImageDrawable(mapDrawable);
                     setupImageControl();
                     progress.dismiss();
+                    loadAllWebBoardAndShowOnUI();
                     loadSamplesDetailFromWeb();
                 }
             }
@@ -393,9 +306,8 @@ public class MainActivity extends Activity implements
                 new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this,
-                                ViewSamplingDataActivity.class);
-                        i.putExtra("TestIntent", "useless");
+                        Intent i = new Intent(MainActivity.this, ViewSamplingDataActivity.class);
+                        i.putExtra("Building", currentBuilding);
                         startActivity(i);
                     }
                 }
@@ -652,239 +564,257 @@ public class MainActivity extends Activity implements
     private void persistLocalPositionsToWebWithProgressShown(ArrayList<LocalPositionDescriptor> target) {
         persistLocalPositionsToWebProgress = ProgressDialog.show(MainActivity.this, "保存中...",
                 "保存新采样点到服务器", true);
-//        waitSometimeHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                persistLocalPositionsToWebProgress.dismiss();
-//                for (LocalPositionDescriptor pd : InMemPositionDescriptors
-//                        ) {
-//                    if (!pd.FlushedToWeb) {
-//                        new AlertDialog.Builder(
-//                                MainActivity.this)
-//                                .setIcon(
-//                                        android.R.drawable.ic_dialog_alert)
-//                                .setTitle("failed")
-//                                .setMessage("Save Samples to server may or partial failed")
-//                                .setNegativeButton("Cancel", null)
-//                                .setPositiveButton(
-//                                        "Retry",
-//                                        new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(
-//                                                    DialogInterface dialog,
-//                                                    int which) {
-//                                                persistLocalPositionsToWebWithProgressShown(InMemPositionDescriptors);
-//                                            }
-//                                        })
-//                                .show();
-//                        break;
-//                    }
-//                }
-//            }
-//        }, 4000);
         for (LocalPositionDescriptor pd : target
                 ) {
-            if (pd.FlushedToWeb) return;
+            if (pd.FlushedToWeb) continue;
             //http://rest.shaojun.xyz:8090/samples/?ownerBuildingId=1&coordinateX=66&coordinateY=78
             Task.Create(new RestAction("samples/?ownerBuildingId=" + currentBuilding.Id
-                    + "&coordinateX=" + pd.getRemoteX() + "&coordinateY=" + pd.getRemoteY(),
-                    userName, password, "GET", pd)).Start(new OnActionFinishedListener<String>() {
-                @Override
-                public void Finished(Task task, Action<String> finishedAction) {
-                    if (task.isFaulted()) {
-                        persistLocalPositionsToWebProgress.dismiss();
-                        new AlertDialog.Builder(
-                                MainActivity.this)
-                                .setIcon(
-                                        android.R.drawable.ic_dialog_alert)
-                                .setTitle("失败")
-                                .setMessage(
-                                        "上传采样点数据失败(stage 0)")
-                                .setPositiveButton("Ok", null).show();
-                        return;
-                    } else {
-                        String webRawResult = task.getSingleResult().toString();
-                        RestResultDumper dumper = null;
-                        try {
-                            dumper = new RestResultDumper(webRawResult);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            new AlertDialog.Builder(
-                                    MainActivity.this)
-                                    .setIcon(
-                                            android.R.drawable.ic_dialog_alert)
-                                    .setTitle("Resolve underlying Sample failed")
-                                    .setMessage("!!!")
-                                    .setPositiveButton("Failed", null)
-                                    .show();
-                            return;
-                        }
-
-                        // this sample didn't exist in server side
-                        if (dumper.dumpJSONArray().length() == 0) {
-                            final RestAction addingSampleAction = new RestAction("samples/",
-                                    userName, password, "POST", finishedAction.getStateObject());
-                            addingSampleAction.AddParam("ownerBuilding", currentBuilding.DetailUrl);
-                            addingSampleAction.AddParam("coordinateX", Float.toString(
-                                    ((LocalPositionDescriptor) (finishedAction.getStateObject())).getRemoteX()));
-                            addingSampleAction.AddParam("coordinateY", Float.toString(
-                                    ((LocalPositionDescriptor) (finishedAction.getStateObject())).getRemoteY()));
-                            addingSampleAction.AddParam("description", ((LocalPositionDescriptor) (finishedAction.getStateObject())).Description);
-                            Task.Create(addingSampleAction).Start(new OnActionFinishedListener<String>() {
-                                @Override
-                                public void Finished(Task task, Action<String> finishedAction) {
-                                    if (task.isFaulted()) {
-                                        persistLocalPositionsToWebProgress.dismiss();
-                                        new AlertDialog.Builder(
-                                                MainActivity.this)
-                                                .setIcon(
-                                                        android.R.drawable.ic_dialog_alert)
-                                                .setTitle("失败")
-                                                .setMessage(
-                                                        "上传新单个采样点数据失败(stage 1)")
-                                                .setPositiveButton("Ok", null).show();
-                                        return;
-                                    } else {
-                                        String webRawResult = task.getSingleResult().toString();
-                                        RestResultDumper dumper = null;
-                                        try {
-                                            dumper = new RestResultDumper(webRawResult);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            new AlertDialog.Builder(
-                                                    MainActivity.this)
-                                                    .setIcon(
-                                                            android.R.drawable.ic_dialog_alert)
-                                                    .setTitle("Resolve underlying new added Sample failed")
-                                                    .setMessage("!!!")
-                                                    .setPositiveButton("Failed", null)
-                                                    .show();
-                                            return;
-                                        }
-
-                                        JSONObject newAddedSampleJSONObject = dumper.dumpSmartObject();
-                                        String newAddedSampleUrl = "";
-                                        try {
-                                            newAddedSampleUrl = newAddedSampleJSONObject.getString("url");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        LocalPositionDescriptor localPD = ((LocalPositionDescriptor) (finishedAction.getStateObject()));
-                                        localPD.FlushedToWeb = true;
-                                        // uploading all correlated SampleDescriptors.
-                                        for (ScannedBleDevice fp : localPD.Fingerprints
-                                                ) {
-                                            RestAction addingSampleDescAction = new RestAction("sampleDescriptors/",
-                                                    userName, password, "POST", finishedAction.getStateObject());
-                                            addingSampleDescAction.AddParam("ownerSample", newAddedSampleUrl);
-                                            addingSampleDescAction.AddParam("uuid", Util.BytesToHexString(fp.IbeaconProximityUUID));
-                                            addingSampleDescAction.AddParam("major_Id", Util.BytesToHexString(fp.Major));
-                                            addingSampleDescAction.AddParam("minor_Id", Util.BytesToHexString(fp.Minor));
-                                            addingSampleDescAction.AddParam("mac_address", fp.MacAddress);
-                                            addingSampleDescAction.AddParam("rssi_value", Double.toString(fp.RSSI));
-                                            Task.Create(addingSampleDescAction).Start(new OnActionFinishedListener<String>() {
-                                                @Override
-                                                public void Finished(Task task, Action<String> finishedAction) {
-                                                    if (task.isFaulted()) {
-                                                        persistLocalPositionsToWebProgress.dismiss();
-                                                        new AlertDialog.Builder(
-                                                                MainActivity.this)
-                                                                .setIcon(
-                                                                        android.R.drawable.ic_dialog_alert)
-                                                                .setTitle("失败")
-                                                                .setMessage(
-                                                                        "上传新创建的采样点描述数据失败(stage 2)")
-                                                                .setPositiveButton("Ok", null).show();
-                                                        return;
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            });
-                        } else {
-                            // TODO: 11/6/2015  delete all sampleDesc, and then create the new ones.
-                            final JSONObject updateTargetJSONObject = dumper.dumpSmartObject();
-                            JSONArray deletingSampleDescUrlsJSONArray = null;
-                            try {
-                                deletingSampleDescUrlsJSONArray = updateTargetJSONObject.getJSONArray("sampleDescriptors");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            for (int i = 0; i < deletingSampleDescUrlsJSONArray.length(); i++) {
-                                List<String> deletingTargetUrls = new ArrayList<>();
+                    + "&coordinateX=" + (int) (pd.getRemoteX()) + "&coordinateY=" + (int) (pd.getRemoteY()),
+                    userName, password, "GET", pd)).Start(
+                    new OnActionFinishedListener<String>() {
+                        @Override
+                        public void Finished(Task task, Action<String> finishedAction) {
+                            if (task.isFaulted()) {
+                                persistLocalPositionsToWebProgress.dismiss();
+                                new AlertDialog.Builder(
+                                        MainActivity.this)
+                                        .setIcon(
+                                                android.R.drawable.ic_dialog_alert)
+                                        .setTitle("失败")
+                                        .setMessage(
+                                                "上传采样点数据失败(stage 0)")
+                                        .setPositiveButton("Ok", null).show();
+                                return;
+                            } else {
+                                final List<Sample> samples = new ArrayList<>();
                                 try {
-                                    deletingTargetUrls.add(deletingSampleDescUrlsJSONArray.getString(i));
-                                } catch (JSONException e) {
+                                    samples.addAll(RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class));
+                                } catch (Exception e) {
                                     e.printStackTrace();
+                                    new AlertDialog.Builder(
+                                            MainActivity.this)
+                                            .setIcon(
+                                                    android.R.drawable.ic_dialog_alert)
+                                            .setTitle("Resolve underlying Sample failed")
+                                            .setMessage("!!!")
+                                            .setPositiveButton("Failed", null)
+                                            .show();
+                                    return;
                                 }
 
-                                Task.Create(new BulkRestClient(deletingTargetUrls,
-                                        userName, password, "DELETE", finishedAction.getStateObject()))
-                                        .Start(new OnActionFinishedListener<String>() {
-                                            @Override
-                                            public void Finished(Task task, Action<String> finishedAction) {
-                                                if (task.isFaulted()) {
-                                                    persistLocalPositionsToWebProgress.dismiss();
+                                // this sample didn't exist in server side, then need create it.
+                                if (samples.size() == 0) {
+                                    final RestAction addingSampleAction = new RestAction("samples/",
+                                            userName, password, "POST", finishedAction.getStateObject());
+                                    Sample postSample = new Sample();
+                                    postSample.OwnedByBuildingUrl = currentBuilding.DetailUrl;
+                                    postSample.CoordinateX = (int) (
+                                            ((LocalPositionDescriptor) (finishedAction.getStateObject())).getRemoteX());
+                                    postSample.CoordinateY = (int) (
+                                            ((LocalPositionDescriptor) (finishedAction.getStateObject())).getRemoteY());
+                                    postSample.Description = ((LocalPositionDescriptor) (finishedAction.getStateObject())).Description;
+                                    addingSampleAction.AddPostJsonObject(postSample.toJsonObject());
+                                    Task.Create(addingSampleAction).Start(new OnActionFinishedListener<String>() {
+                                        @Override
+                                        public void Finished(Task task, Action<String> finishedAction) {
+                                            if (task.isFaulted()) {
+                                                persistLocalPositionsToWebProgress.dismiss();
+                                                new AlertDialog.Builder(
+                                                        MainActivity.this)
+                                                        .setIcon(
+                                                                android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("失败")
+                                                        .setMessage(
+                                                                "上传新单个采样点数据失败(stage 1)")
+                                                        .setPositiveButton("Ok", null).show();
+                                                return;
+                                            } else {
+                                                persistLocalPositionsToWebProgress.dismiss();
+                                                List<Sample> postedSamples = null;
+                                                try {
+                                                    postedSamples = RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                     new AlertDialog.Builder(
                                                             MainActivity.this)
                                                             .setIcon(
                                                                     android.R.drawable.ic_dialog_alert)
-                                                            .setTitle("失败")
-                                                            .setMessage(
-                                                                    "删除已有采样点描述数据失败(stage 4)")
-                                                            .setPositiveButton("Ok", null).show();
+                                                            .setTitle("Resolve underlying added Sample failed")
+                                                            .setMessage("!!!")
+                                                            .setPositiveButton("Failed", null)
+                                                            .show();
                                                     return;
                                                 }
 
-                                                if (task.isCompleted()) {
-                                                    LocalPositionDescriptor ppd = (LocalPositionDescriptor) (finishedAction.getStateObject());
-                                                    String targetSampleUrl = null;
-                                                    try {
-                                                        targetSampleUrl = updateTargetJSONObject.getString("url");
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                    // uploading all correlated SampleDescriptors.
-                                                    for (ScannedBleDevice fp : ppd.Fingerprints
-                                                            ) {
-                                                        RestAction addingSampleDescAction = new RestAction("sampleDescriptors/",
-                                                                userName, password, "POST", finishedAction.getStateObject());
-                                                        addingSampleDescAction.AddParam("ownerSample", targetSampleUrl);
-                                                        addingSampleDescAction.AddParam("uuid", Util.BytesToHexString(fp.IbeaconProximityUUID));
-                                                        addingSampleDescAction.AddParam("major_Id", Util.BytesToHexString(fp.Major));
-                                                        addingSampleDescAction.AddParam("minor_Id", Util.BytesToHexString(fp.Minor));
-                                                        addingSampleDescAction.AddParam("mac_address", fp.MacAddress);
-                                                        addingSampleDescAction.AddParam("rssi_value", Double.toString(fp.RSSI));
-                                                        Task.Create(addingSampleDescAction).Start(new OnActionFinishedListener<String>() {
-                                                            @Override
-                                                            public void Finished(Task task, Action<String> finishedAction) {
-                                                                if (task.isFaulted()) {
-                                                                    persistLocalPositionsToWebProgress.dismiss();
-                                                                    new AlertDialog.Builder(
-                                                                            MainActivity.this)
-                                                                            .setIcon(
-                                                                                    android.R.drawable.ic_dialog_alert)
-                                                                            .setTitle("失败")
-                                                                            .setMessage(
-                                                                                    "上传新创建的采样点描述数据失败(stage 2)")
-                                                                            .setPositiveButton("Ok", null).show();
-                                                                }
-                                                            }
-                                                        });
-                                                    }
+                                                persistLocalPositionsToWebProgress = ProgressDialog.show(MainActivity.this, "保存中...",
+                                                        "保存新采样点描述信息到服务器", true);
+                                                String newAddedSampleUrl = postedSamples.get(0).DetailUrl;
+                                                LocalPositionDescriptor localPD = ((LocalPositionDescriptor) (finishedAction.getStateObject()));
+                                                localPD.FlushedToWeb = true;
+
+                                                Task<String> addingSampleDescTask = null;
+                                                // uploading all correlated SampleDescriptors.
+                                                for (ScannedBleDevice fp : localPD.Fingerprints
+                                                        ) {
+                                                    RestAction addingSampleDescAction = new RestAction("sampleDescriptors/",
+                                                            userName, password, "POST", finishedAction.getStateObject());
+                                                    SampleDescriptor postSampleDescriptor = new SampleDescriptor();
+                                                    postSampleDescriptor.OwnedSampleUrl = newAddedSampleUrl;
+                                                    postSampleDescriptor.UUID = Util.BytesToHexString(fp.IbeaconProximityUUID);
+                                                    postSampleDescriptor.MajorId = Util.BytesToHexString(fp.Major);
+                                                    postSampleDescriptor.MinorId = Util.BytesToHexString(fp.Minor);
+                                                    postSampleDescriptor.MacAddress = fp.MacAddress;
+                                                    postSampleDescriptor.Rssi = (int) (fp.RSSI);
+                                                    addingSampleDescAction.AddPostJsonObject(postSampleDescriptor.toJsonObject());
+
+                                                    addingSampleDescTask = Task.Create(addingSampleDescAction).continueWith(addingSampleDescAction);
                                                 }
+
+                                                addingSampleDescTask.Start(new OnActionFinishedListener<String>() {
+                                                    @Override
+                                                    public void Finished(Task task, Action<String> finishedAction) {
+                                                        if (task.isFaulted()) {
+                                                            persistLocalPositionsToWebProgress.dismiss();
+                                                            new AlertDialog.Builder(
+                                                                    MainActivity.this)
+                                                                    .setIcon(
+                                                                            android.R.drawable.ic_dialog_alert)
+                                                                    .setTitle("失败")
+                                                                    .setMessage(
+                                                                            "上传新创建的采样点描述数据失败(stage 2),但采样点已经上传成功")
+                                                                    .setPositiveButton("Ok", null).show();
+                                                            return;
+                                                        } else if (task.isCompleted()) {
+                                                            persistLocalPositionsToWebProgress.dismiss();
+                                                        }
+                                                    }
+                                                });
                                             }
-                                        });
+                                        }
+                                    });
+                                } else {
+                                    List<String> deletingTargetUrls = new ArrayList<>();
+                                    for (SampleDescriptor sd : samples.get(0).SampleDescriptors) {
+                                        deletingTargetUrls.add(sd.DetailUrl);
+                                    }
+
+                                    Task.Create(new BulkRestClient(deletingTargetUrls,
+                                            userName, password, "DELETE", finishedAction.getStateObject()))
+                                            .Start(new OnActionFinishedListener<String>() {
+                                                       @Override
+                                                       public void Finished(Task task, Action<String> finishedAction) {
+                                                           if (task.isFaulted()) {
+                                                               persistLocalPositionsToWebProgress.dismiss();
+                                                               new AlertDialog.Builder(
+                                                                       MainActivity.this)
+                                                                       .setIcon(
+                                                                               android.R.drawable.ic_dialog_alert)
+                                                                       .setTitle("失败")
+                                                                       .setMessage(
+                                                                               "删除已有采样点描述数据失败(stage 4)")
+                                                                       .setPositiveButton("Ok", null).show();
+                                                               return;
+                                                           }
+
+                                                           if (task.isCompleted()) {
+                                                               LocalPositionDescriptor ppd = (LocalPositionDescriptor) (finishedAction.getStateObject());
+                                                               String targetSampleUrl = samples.get(0).DetailUrl;
+
+                                                               Task<String> addingSampleDescTask = null;
+                                                               // uploading all correlated SampleDescriptors.
+                                                               for (ScannedBleDevice fp : ppd.Fingerprints
+                                                                       ) {
+                                                                   RestAction addingSampleDescAction = new RestAction("sampleDescriptors/",
+                                                                           userName, password, "POST", finishedAction.getStateObject());
+                                                                   SampleDescriptor postSampleDescriptor = new SampleDescriptor();
+                                                                   postSampleDescriptor.OwnedSampleUrl = targetSampleUrl;
+                                                                   postSampleDescriptor.UUID = Util.BytesToHexString(fp.IbeaconProximityUUID);
+                                                                   postSampleDescriptor.MajorId = Util.BytesToHexString(fp.Major);
+                                                                   postSampleDescriptor.MinorId = Util.BytesToHexString(fp.Minor);
+                                                                   postSampleDescriptor.MacAddress = fp.MacAddress;
+                                                                   postSampleDescriptor.Rssi = (int) (fp.RSSI);
+                                                                   addingSampleDescAction.AddPostJsonObject(postSampleDescriptor.toJsonObject());
+
+                                                                   addingSampleDescTask = Task.Create(addingSampleDescAction).continueWith(addingSampleDescAction);
+                                                               }
+
+                                                               addingSampleDescTask.Start(new OnActionFinishedListener<String>() {
+                                                                   @Override
+                                                                   public void Finished(Task task, Action<String> finishedAction) {
+                                                                       if (task.isFaulted()) {
+                                                                           persistLocalPositionsToWebProgress.dismiss();
+                                                                           new AlertDialog.Builder(
+                                                                                   MainActivity.this)
+                                                                                   .setIcon(
+                                                                                           android.R.drawable.ic_dialog_alert)
+                                                                                   .setTitle("失败")
+                                                                                   .setMessage(
+                                                                                           "上传新创建的采样点描述数据失败(stage 2)")
+                                                                                   .setPositiveButton("Ok", null).show();
+                                                                       }
+                                                                   }
+                                                               });
+                                                           }
+                                                       }
+                                                   }
+                                            );
+                                }
                             }
                         }
                     }
-                }
-            });
+            );
         }
+    }
+
+    private void loadAllWebBoardAndShowOnUI() {
+        //http://rest.shaojun.xyz:8090/boards/
+        RestAction scanBoardsStatusAction = new RestAction("boards/?ownerBuildingId=" + currentBuilding.Id, userName, password, "GET", "scanBoardsStatus");
+        Task.Create(scanBoardsStatusAction).Start(
+                new OnActionFinishedListener<String>() {
+                    @Override
+                    public void Finished(Task task, Action<String> lastFinishedAction) {
+                        if (task.isFaulted()) {
+                            findViewById(R.id.editTextPwd).setEnabled(true);
+                            new AlertDialog.Builder(
+                                    MainActivity.this)
+                                    .setIcon(
+                                            android.R.drawable.ic_dialog_alert)
+                                    .setTitle("scanBoardsStatus failed")
+                                    .setMessage(task.getSingleException().toString())
+                                    .setPositiveButton("Failed", null)
+                                    .show();
+                        } else {
+                            List<Board> boards = null;
+                            try {
+                                boards = RestEntityResultDumper.dump(task.getSingleResult().toString(), Board.class);
+                            } catch (Exception e) {
+                                new AlertDialog.Builder(
+                                        MainActivity.this)
+                                        .setIcon(
+                                                android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Resolve boards failed")
+                                        .setMessage("!!!")
+                                        .setPositiveButton("Failed", null)
+                                        .show();
+                                return;
+                            }
+
+                            List<DrawImage> drawImages = Helper
+                                    .ConvertRestBoardsToDrawImages(boards,
+                                            ((BitmapDrawable) image.getDrawable()).getBitmap(),
+                                            image,
+                                            getResources());
+                            image.drawMultipleCirclesAndImages(null, drawImages);
+                            waitSometimeHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (keepPollingAllParkingPositionsFromWeb)
+                                        loadAllWebBoardAndShowOnUI();
+                                }
+                            }, 8000);
+                        }
+                    }
+                });
     }
 
     private void setupImageControl() {
@@ -1056,56 +986,34 @@ public class MainActivity extends Activity implements
                                     .setPositiveButton("Failed", null)
                                     .show();
                         } else {
-                            String webRawResult = task.getSingleResult().toString();
-                            RestResultDumper dumper = null;
+                            List<String> furtherActionUrls = new ArrayList<>();
+                            final List<Sample> samplesForBuilding;
                             try {
-                                dumper = new RestResultDumper(webRawResult);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                samplesForBuilding = RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class);
+                                // add all sampleDescriptor's url to a list to further 'GET'
+                                for (Sample __sample : samplesForBuilding) {
+                                    for (SampleDescriptor sd : __sample.SampleDescriptors) {
+                                        String sampleDescriptionUrl = sd.DetailUrl;
+                                        furtherActionUrls.add(sampleDescriptionUrl);
+                                    }
+                                }
+
+                                Log.e(LOG_TAG, "Samples total " + samplesForBuilding.size()
+                                        + ", and SampleDescriptor total " + furtherActionUrls.size() + " loaded from Web");
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
                                 new AlertDialog.Builder(
                                         MainActivity.this)
                                         .setIcon(
                                                 android.R.drawable.ic_dialog_alert)
-                                        .setTitle("Resolve underlying User failed")
+                                        .setTitle("Resolve underlying sample failed")
                                         .setMessage("!!!")
                                         .setPositiveButton("Failed", null)
                                         .show();
                                 return;
                             }
 
-                            final List<Sample> samplesForBuilding = new ArrayList<>();
-                            List<String> furtherActionUrls = new ArrayList<>();
-                            JSONArray sampleJSONArray = dumper.dumpJSONArray();
-                            for (int i = 0; i < sampleJSONArray.length(); i++) {
-                                Sample __sample = new Sample();
-                                try {
-                                    JSONObject sampleJSObject = (JSONObject) (sampleJSONArray.get(i));
-                                    __sample.OwnedByBuildingUrl = sampleJSObject.getString("ownerBuilding");
-                                    __sample.CoordinateX = Integer.parseInt(sampleJSObject.getString("coordinateX"));
-                                    __sample.CoordinateY = Integer.parseInt(sampleJSObject.getString("coordinateY"));
-                                    __sample.CreationTime = sampleJSObject.getString("creation_Time");
-                                    __sample.Description = sampleJSObject.getString("description");
-                                    __sample.DetailUrl = sampleJSObject.getString("url");
-                                    JSONArray sampleDescriptorJSONArray = sampleJSObject.getJSONArray("sampleDescriptors");
-                                    for (int j = 0; j < sampleDescriptorJSONArray.length(); j++) {
-                                        String sampleDescriptionUrl = (String) sampleDescriptorJSONArray.get(i);
-                                        furtherActionUrls.add(sampleDescriptionUrl);
-                                    }
-
-                                    samplesForBuilding.add(__sample);
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                    new AlertDialog.Builder(
-                                            MainActivity.this)
-                                            .setIcon(
-                                                    android.R.drawable.ic_dialog_alert)
-                                            .setTitle("Resolve underlying sample failed")
-                                            .setMessage("!!!")
-                                            .setPositiveButton("Failed", null)
-                                            .show();
-                                    return;
-                                }
-                            }
 
                             final ProgressDialog progressSampleDesc = ProgressDialog.show(MainActivity.this, "获取中...",
                                     "获取所有具体采样点信息", true);
@@ -1128,41 +1036,27 @@ public class MainActivity extends Activity implements
                                             }
 
                                             List<SampleDescriptor> allSampleDescs = new ArrayList<>();
-                                            List<String> sampleDescs = (List<String>) task.getSingleResult();//.getAggreatedResult("furtherTask");
-                                            for (Object sampleDesc : sampleDescs) {
-                                                RestResultDumper dumper = null;
-                                                try {
-                                                    dumper = new RestResultDumper(sampleDesc.toString());
-                                                    JSONObject sampleDescriptorJSObject = dumper.dumpJSONObject();
-                                                    SampleDescriptor __sampleDescriptor = new SampleDescriptor();
-                                                    __sampleDescriptor.OwnedSampleUrl = sampleDescriptorJSObject.getString("ownerSample");
-                                                    __sampleDescriptor.UUID = sampleDescriptorJSObject.getString("uuid");
-                                                    __sampleDescriptor.MajorId = sampleDescriptorJSObject.getString("major_Id");
-                                                    __sampleDescriptor.MinorId = sampleDescriptorJSObject.getString("minor_Id");
-                                                    __sampleDescriptor.MacAddress = sampleDescriptorJSObject.getString("mac_address");
-                                                    __sampleDescriptor.Tx = Integer.parseInt(sampleDescriptorJSObject.getString("tx_value"));
-                                                    __sampleDescriptor.Rssi = Integer.parseInt(sampleDescriptorJSObject.getString("rssi_value"));
-                                                    __sampleDescriptor.Distance = Float.parseFloat(sampleDescriptorJSObject.getString("caculated_distance"));
-                                                    __sampleDescriptor.CreationTime = sampleDescriptorJSObject.getString("creation_Time");
-                                                    allSampleDescs.add(__sampleDescriptor);
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                    new AlertDialog.Builder(
-                                                            MainActivity.this)
-                                                            .setIcon(
-                                                                    android.R.drawable.ic_dialog_alert)
-                                                            .setTitle("Parsing sampleDescs failed")
-                                                            .setMessage("get sample descriptor faulted")
-                                                            .setPositiveButton("Failed", null)
-                                                            .show();
-                                                    return;
-                                                }
+                                            try {
+                                                List<String> rawWebResults = (List<String>) (task.getAggreatedResult("furtherTask").get(0));
+                                                for (String oneSampleDescRawWebResult : rawWebResults)
+                                                    allSampleDescs.add(RestEntityResultDumper.dump(oneSampleDescRawWebResult, SampleDescriptor.class).get(0));
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                new AlertDialog.Builder(
+                                                        MainActivity.this)
+                                                        .setIcon(
+                                                                android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Parsing sampleDescs failed")
+                                                        .setMessage("get sample descriptor faulted")
+                                                        .setPositiveButton("Failed", null)
+                                                        .show();
+                                                return;
                                             }
 
-                                            for (SampleDescriptor s : allSampleDescs
-                                                    ) {
-                                                for (Sample sa : samplesForBuilding
-                                                        ) {
+                                            for (Sample sa : samplesForBuilding) {
+                                                // clear the uncompleted SampleDescriptors which created at parsing Sample from raw rest web result.
+                                                sa.SampleDescriptors.clear();
+                                                for (SampleDescriptor s : allSampleDescs) {
                                                     if (s.OwnedSampleUrl.equals(sa.DetailUrl)) {
                                                         sa.SampleDescriptors.add(s);
                                                     }
@@ -1170,36 +1064,34 @@ public class MainActivity extends Activity implements
                                             }
 
                                             InMemPositionDescriptors.clear();
-                                            for (Sample sp : samplesForBuilding
-                                                    ) {
+                                            for (Sample sp : samplesForBuilding) {
                                                 HashSet<ScannedBleDevice> fingerprintsLoadedFromWeb = new HashSet<>();
                                                 for (SampleDescriptor sd
                                                         : sp.SampleDescriptors) {
                                                     ScannedBleDevice _ = new ScannedBleDevice(sd.UUID, sd.MajorId, sd.MinorId, sd.MacAddress, sd.Tx, sd.Rssi, sd.Distance);
                                                     fingerprintsLoadedFromWeb.add(_);
-                                                    try {
-                                                        LocalPositionDescriptor __ = new
-                                                                LocalPositionDescriptor(sp.Description, sp.CoordinateX, sp.CoordinateY, fingerprintsLoadedFromWeb, image);
-                                                        // since it from web, mark it as true;
-                                                        __.FlushedToWeb = true;
-                                                        InMemPositionDescriptors.add(__);
-                                                    } catch (Exception exx) {
-                                                        exx.printStackTrace();
-                                                    }
                                                 }
+                                                LocalPositionDescriptor __ = new
+                                                        LocalPositionDescriptor(sp.Description, sp.CoordinateX, sp.CoordinateY, fingerprintsLoadedFromWeb, image);
+                                                // since it from web, mark it as true;
+                                                __.FlushedToWeb = true;
+                                                InMemPositionDescriptors.add(__);
                                             }
+
+                                            Log.e(LOG_TAG, "Samples total " + MainActivity.this.InMemPositionDescriptors.size() + " loaded from Web");
 
                                             Toast.makeText(
                                                     getBaseContext(),
-                                                    "existed data loaded from web(total "
-                                                            + MainActivity.this.InMemPositionDescriptors.size() + ")",
+                                                    "existed data loaded from web(total " + MainActivity.this.InMemPositionDescriptors.size() + ")",
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     }
                             );
                         }
                     }
-                });
+                }
+
+        );
     }
 
     private void testBle() {

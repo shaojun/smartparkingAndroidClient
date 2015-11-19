@@ -14,23 +14,23 @@ public final class R {
 	public static final class drawable {
 		public static final int ic_launcher = 0x7f020008;
 		public static final int icon = 0x7f020009;
-		public static final int nature_1 = 0x7f02000a;
-		public static final int nature_2 = 0x7f02000b;
-		public static final int nature_3 = 0x7f02000c;
-		public static final int nature_4 = 0x7f02000d;
-		public static final int nature_5 = 0x7f02000e;
+		public static final int nature_1 = 0x7f02000b;
+		public static final int nature_2 = 0x7f02000c;
+		public static final int nature_3 = 0x7f02000d;
+		public static final int nature_4 = 0x7f02000e;
+		public static final int nature_5 = 0x7f02000f;
 	}
 	public static final class id {
-		public static final int action_settings = 0x7f08002b;
+		public static final int action_settings = 0x7f08002e;
 		public static final int bottomImage = 0x7f080016;
-		public static final int current_coordinate = 0x7f080027;
-		public static final int current_zoom = 0x7f080026;
-		public static final int img = 0x7f080022;
-		public static final int scroll_position = 0x7f080024;
+		public static final int current_coordinate = 0x7f080029;
+		public static final int current_zoom = 0x7f080028;
+		public static final int img = 0x7f080024;
+		public static final int scroll_position = 0x7f080026;
 		public static final int topImage = 0x7f080015;
-		public static final int top_text_line = 0x7f080023;
-		public static final int view_pager = 0x7f080028;
-		public static final int zoomed_rect = 0x7f080025;
+		public static final int top_text_line = 0x7f080025;
+		public static final int view_pager = 0x7f08002a;
+		public static final int zoomed_rect = 0x7f080027;
 	}
 	public static final class layout {
 		public static final int activity_main = 0x7f030002;

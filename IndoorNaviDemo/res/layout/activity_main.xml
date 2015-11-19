@@ -15,14 +15,19 @@
             android:background="#ffffff"            
             android:weightSum="2"
             android:orientation="vertical" >
-
-            <com.SmartParking.UI.MarkableTouchImageView
-                android:id="@+id/imgControl"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                />
+                android:id="@+id/imgControlHost"
+                android:orientation="horizontal">
+                <com.SmartParking.UI.MarkableTouchImageView
+                    android:id="@+id/imgControl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/caffebene"
+                    />
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:layout_width="fill_parent"

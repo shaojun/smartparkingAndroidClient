@@ -48,6 +48,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.util.Log;
@@ -64,13 +65,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 
-import com.SmartParking.WebService.AsyncRestTask;
+import com.SmartParking.WebService.BulkRestClient;
 import com.SmartParking.WebService.OnAsyncRestTaskFinishedListener;
 import com.SmartParking.Task.RestAction;
-import com.SmartParking.WebService.RestResultDumper;
+import com.SmartParking.WebService.RestEntityResultDumper;
 import com.SmartParking.WebServiceEntity.Board;
 import com.SmartParking.WebServiceEntity.Building;
 import com.SmartParking.WebServiceEntity.Order;
+import com.SmartParking.WebServiceEntity.Sample;
+import com.SmartParking.WebServiceEntity.SampleDescriptor;
 
 public class NaviActivity extends Activity implements
         OnBleSampleCollectedListener, OnBitmapInTouchImageClickedListener {
@@ -117,6 +120,7 @@ public class NaviActivity extends Activity implements
     private float mapScale = 2;
     ProgressDialog progress;
     private Building currentBuilding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +142,7 @@ public class NaviActivity extends Activity implements
 
         this.image = (MarkableTouchImageView) findViewById(R.id.imgControl);
         this.image.AddBitmapInTouchImageClickedListener(this);
-        Log.e(LOG_TAG, "Loading the indoor map from url: " + currentBuilding.MapUrl);
+        Log.i(LOG_TAG, "Loading the indoor map from url: " + currentBuilding.MapUrl);
         progress = ProgressDialog.show(this, "获取中...",
                 "获取室内地图信息", true);
         Task.Create(new Action<Bitmap>("getImageBitmapFromUrlAction") {
@@ -146,9 +150,9 @@ public class NaviActivity extends Activity implements
             public Bitmap execute(Task ownerTask) throws Exception {
                 return Helper.GetImageBitmapFromUrl(currentBuilding.MapUrl);
             }
-        }).Start(new OnActionFinishedListener() {
+        }).Start(new OnActionFinishedListener<String>() {
             @Override
-            public void Finished(Task task, Action<?> finishedAction) {
+            public void Finished(Task task, Action<String> finishedAction) {
                 progress.dismiss();
                 if (task.isFaulted()) {
                     new AlertDialog.Builder(
@@ -163,51 +167,8 @@ public class NaviActivity extends Activity implements
                     final Drawable mapDrawable = new BitmapDrawable(getResources(),
                             (Bitmap) task.getSingleResult());
                     image.setImageDrawable(mapDrawable);
-                    //setupImageControl();
-                    progress.dismiss();
-
-                    progress = ProgressDialog.show(NaviActivity.this, "获取中...",
-                            "获取定位点信息", true);
-                    loadedBuildInSampleData.clear();
-                    AsyncRestTask.Create("samples/", userName, password, "GET", new OnAsyncRestTaskFinishedListener() {
-                                @Override
-                                public void OnError(String errorMsg) {
-                                }
-
-                                @Override
-                                public void OnFinished(Object json) {
-                                    progress.dismiss();
-                                    //ArrayList<LocalPositionDescriptor> loadData = new ArrayList<>();
-                                    JSONArray samplesJSArray = (JSONArray) json;
-                                    for (int i = 0; i < samplesJSArray.length(); i++) {
-                                        JSONObject sampleJSONObject = null;
-                                        try {
-                                            sampleJSONObject = (JSONObject) samplesJSArray.get(i);
-                                            int coordinateX = sampleJSONObject.getInt("coordinateX");
-                                            int coordinateY = sampleJSONObject.getInt("coordinateY");
-                                            String description = sampleJSONObject.getString("description");
-                                            LocalPositionDescriptor d = new LocalPositionDescriptor(description, coordinateX, coordinateY, null, image);
-                                            loadedBuildInSampleData.add(d);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    if (loadedBuildInSampleData == null
-                                            || loadedBuildInSampleData.size() == 0) {
-                                        Toast.makeText(
-                                                getBaseContext(),
-                                                "Failed to load buildIn sample data, positioning will not work",
-                                                android.widget.Toast.LENGTH_SHORT).show();
-                                        Log.e(LOG_TAG,
-                                                "Failed to load buildIn sample data, but won't quit.");
-                                        BleFingerprintCollector.getDefault().StopSampling();
-                                        // return;
-                                    }
-
-                                }
-                            }
-                    ).Start();
+                    loadAllWebBoardAndShowOnUI();
+                    loadSamplesDetailFromWeb();
                 }
             }
         });
@@ -352,98 +313,191 @@ public class NaviActivity extends Activity implements
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart(); // Always call the superclass method first
-        // load the parking positions from web
-        new Thread(new Runnable() {
-            public void run() {
-                while (keepPollingAllParkingPositionsFromWeb) {
-                    //http://rest.shaojun.xyz:8090/boards/
-                    RestAction scanBoardsStatusAction = new RestAction("boards/", userName, password, "GET", "scanBoardsStatus");
-                    Task.Create(scanBoardsStatusAction).Start(
-                            new OnActionFinishedListener() {
-                                @Override
-                                public void Finished(Task task, Action<?> finishedAction) {
-                                    if (task.isFaulted()) {
-                                        findViewById(R.id.editTextPwd).setEnabled(true);
-                                        new AlertDialog.Builder(
-                                                NaviActivity.this)
-                                                .setIcon(
-                                                        android.R.drawable.ic_dialog_alert)
-                                                .setTitle("scanBoardsStatus failed")
-                                                .setMessage(task.getSingleException().toString())
-                                                .setPositiveButton("Failed", null)
-                                                .show();
-                                    } else {
-                                        String webRawResult = task.getSingleResult().toString();
-                                        RestResultDumper dumper = null;
-                                        try {
-                                            dumper = new RestResultDumper(webRawResult);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            new AlertDialog.Builder(
-                                                    NaviActivity.this)
-                                                    .setIcon(
-                                                            android.R.drawable.ic_dialog_alert)
-                                                    .setTitle("Resolve underlying BoardsStatus failed")
-                                                    .setMessage("!!!")
-                                                    .setPositiveButton("Failed", null)
-                                                    .show();
-                                            return;
-                                        }
+    private void loadSamplesDetailFromWeb() {
+        final ProgressDialog progressSample = ProgressDialog.show(NaviActivity.this, "获取中...",
+                "获取采样点整体信息", true);
+        Action<String> getRestSamplesForABuildingAction = new RestAction("samples/?ownerBuildingId=" + currentBuilding.Id, userName, password, "GET", "getRestSamplesForABuilding");
+        Task.Create(getRestSamplesForABuildingAction).Start(
+                new OnActionFinishedListener<String>() {
+                    @Override
+                    public void Finished(Task task, Action<String> finishedAction) {
+                        progressSample.dismiss();
+                        if (task.isFaulted()) {
+                            new AlertDialog.Builder(
+                                    NaviActivity.this)
+                                    .setIcon(
+                                            android.R.drawable.ic_dialog_alert)
+                                    .setTitle("Get samples failed")
+                                    .setMessage(task.getSingleException().toString())
+                                    .setPositiveButton("Failed", null)
+                                    .show();
+                        } else {
+                            List<String> furtherActionUrls = new ArrayList<>();
+                            final List<Sample> samplesForBuilding;
+                            try {
+                                samplesForBuilding = RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class);
+                                // add all sampleDescriptor's url to a list to further 'GET'
+                                for (Sample __sample : samplesForBuilding) {
+                                    for (SampleDescriptor sd : __sample.SampleDescriptors) {
+                                        String sampleDescriptionUrl = sd.DetailUrl;
+                                        furtherActionUrls.add(sampleDescriptionUrl);
+                                    }
+                                }
 
-                                        JSONArray boardsJSArray = dumper.dumpJSONArray();
-                                        List<Board> boards = new ArrayList<>();
-                                        for (int i = 0; i < boardsJSArray.length(); i++) {
-                                            Board __board = new Board();
-                                            try {
-                                                JSONObject boardJSObject = (JSONObject) (boardsJSArray.get(i));
-                                                __board.IsCovered = boardJSObject.getBoolean("isCovered");
-                                                __board.BoardIdentity = boardJSObject.getString("boardIdentity");
-                                                __board.Description = boardJSObject.getString("description");
-                                                JSONArray orderDetailUrls = boardJSObject.getJSONArray("orderDetail");
-                                                if (orderDetailUrls != null && orderDetailUrls.length() >= 1) {
-                                                    // no resolve the real detail for now, here we just want to know it's get ordered.
-                                                    __board.OrderDetail = new Order();
-                                                }
+                                Log.i(LOG_TAG, "Samples total " + samplesForBuilding.size()
+                                        + ", and SampleDescriptor total " + furtherActionUrls.size() + " loaded from Web");
 
-                                                __board.CoordinateX = boardJSObject.getInt("coordinateX");
-                                                __board.CoordinateY = boardJSObject.getInt("coordinateY");
-                                                boards.add(__board);
-                                            } catch (JSONException e) {
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                new AlertDialog.Builder(
+                                        NaviActivity.this)
+                                        .setIcon(
+                                                android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Resolve underlying sample failed")
+                                        .setMessage("!!!")
+                                        .setPositiveButton("Failed", null)
+                                        .show();
+                                return;
+                            }
+
+
+                            final ProgressDialog progressSampleDesc = ProgressDialog.show(NaviActivity.this, "获取中...",
+                                    "获取所有具体采样点信息", true);
+                            Task.Create(new BulkRestClient(furtherActionUrls, userName, password, "GET", "furtherTask")).Start(
+                                    new OnActionFinishedListener<String>() {
+                                        @Override
+                                        public void Finished(Task task, Action<String> finishedAction) {
+                                            progressSampleDesc.dismiss();
+                                            if (!task.isCompleted()) return;
+                                            if (task.isFaulted()) {
                                                 new AlertDialog.Builder(
                                                         NaviActivity.this)
                                                         .setIcon(
                                                                 android.R.drawable.ic_dialog_alert)
-                                                        .setTitle("Resolve boards failed")
-                                                        .setMessage("!!!")
+                                                        .setTitle("Get sample descriptor faulted")
+                                                        .setMessage("get sample descriptor faulted")
                                                         .setPositiveButton("Failed", null)
                                                         .show();
                                                 return;
                                             }
+
+                                            List<SampleDescriptor> allSampleDescs = new ArrayList<>();
+                                            try {
+                                                List<String> rawWebResults = (List<String>) (task.getAggreatedResult("furtherTask").get(0));
+                                                for (String oneSampleDescRawWebResult : rawWebResults)
+                                                    allSampleDescs.add(RestEntityResultDumper.dump(oneSampleDescRawWebResult, SampleDescriptor.class).get(0));
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                new AlertDialog.Builder(
+                                                        NaviActivity.this)
+                                                        .setIcon(
+                                                                android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Parsing sampleDescs failed")
+                                                        .setMessage("get sample descriptor faulted")
+                                                        .setPositiveButton("Failed", null)
+                                                        .show();
+                                                return;
+                                            }
+
+                                            for (Sample sa : samplesForBuilding) {
+                                                // clear the uncompleted SampleDescriptors which created at parsing Sample from raw rest web result.
+                                                sa.SampleDescriptors.clear();
+                                                for (SampleDescriptor s : allSampleDescs) {
+                                                    if (s.OwnedSampleUrl.equals(sa.DetailUrl)) {
+                                                        sa.SampleDescriptors.add(s);
+                                                    }
+                                                }
+                                            }
+
+                                            NaviActivity.this.loadedBuildInSampleData.clear();
+                                            for (Sample sp : samplesForBuilding) {
+                                                HashSet<ScannedBleDevice> fingerprintsLoadedFromWeb = new HashSet<>();
+                                                for (SampleDescriptor sd
+                                                        : sp.SampleDescriptors) {
+                                                    ScannedBleDevice _ = new ScannedBleDevice(sd.UUID, sd.MajorId, sd.MinorId, sd.MacAddress, sd.Tx, sd.Rssi, sd.Distance);
+                                                    fingerprintsLoadedFromWeb.add(_);
+                                                }
+                                                LocalPositionDescriptor __ = new
+                                                        LocalPositionDescriptor(sp.Description, sp.CoordinateX, sp.CoordinateY, fingerprintsLoadedFromWeb, image);
+                                                // since it from web, mark it as true;
+                                                __.FlushedToWeb = true;
+                                                NaviActivity.this.loadedBuildInSampleData.add(__);
+                                            }
+
+                                            //Log.e(LOG_TAG, "Samples total " + NaviActivity.this.loadedBuildInSampleData.size() + " loaded from Web");
+
+                                            Toast.makeText(
+                                                    getBaseContext(),
+                                                    "existed data loaded from web(total " + NaviActivity.this.loadedBuildInSampleData.size() + ")",
+                                                    Toast.LENGTH_SHORT).show();
                                         }
-
-
-                                        List<DrawImage> drawImages = Helper
-                                                .ConvertRestBoardsToDrawImages(boards,
-                                                        ((BitmapDrawable) image.getDrawable()).getBitmap(),
-                                                        image,
-                                                        getResources());
-                                        image.drawMultipleCirclesAndImages(null, drawImages);
                                     }
-                                }
-                            });
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e)
-                    {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                            );
+                        }
                     }
                 }
-            }
-        }).start();
+
+        );
+    }
+
+    private Handler waitSometimeHandler = new Handler();
+
+    @Override
+    protected void onStart() {
+        super.onStart(); // Always call the superclass method first
+
+    }
+
+    private void loadAllWebBoardAndShowOnUI() {
+        //http://rest.shaojun.xyz:8090/boards/
+        RestAction scanBoardsStatusAction = new RestAction("boards/?ownerBuildingId=" + currentBuilding.Id, userName, password, "GET", "scanBoardsStatus");
+        Task.Create(scanBoardsStatusAction).Start(
+                new OnActionFinishedListener<String>() {
+                    @Override
+                    public void Finished(Task task, Action<String> lastFinishedAction) {
+                        if (task.isFaulted()) {
+                            //findViewById(R.id.editTextPwd).setEnabled(true);
+                            new AlertDialog.Builder(
+                                    NaviActivity.this)
+                                    .setIcon(
+                                            android.R.drawable.ic_dialog_alert)
+                                    .setTitle("scanBoardsStatus failed")
+                                    .setMessage(task.getSingleException().toString())
+                                    .setPositiveButton("Failed", null)
+                                    .show();
+                        } else {
+                            List<Board> boards = null;
+                            try {
+                                boards = RestEntityResultDumper.dump(task.getSingleResult().toString(), Board.class);
+                                Log.d(LOG_TAG, "Boards total " + boards.size() + " loaded from web");
+                            } catch (Exception e) {
+                                new AlertDialog.Builder(
+                                        NaviActivity.this)
+                                        .setIcon(
+                                                android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Resolve boards failed")
+                                        .setMessage("!!!")
+                                        .setPositiveButton("Failed", null)
+                                        .show();
+                                return;
+                            }
+
+                            List<DrawImage> drawImages = Helper
+                                    .ConvertRestBoardsToDrawImages(boards,
+                                            ((BitmapDrawable) image.getDrawable()).getBitmap(),
+                                            image,
+                                            getResources());
+                            image.drawMultipleCirclesAndImages(null, drawImages);
+                            waitSometimeHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (keepPollingAllParkingPositionsFromWeb)
+                                        loadAllWebBoardAndShowOnUI();
+                                }
+                            }, 8000);
+                        }
+                    }
+                });
     }
 
     private AdvertiseData getAdvertiseData() {
@@ -522,6 +576,13 @@ public class NaviActivity extends Activity implements
         super.onPause(); // Always call the superclass method first
         this.keepPollingAllParkingPositionsFromWeb = false;
         BleFingerprintCollector.getDefault().StopSampling();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // load the parking positions from web
+        this.keepPollingAllParkingPositionsFromWeb = true;
     }
 
     List<ScannedBleDevice> rawFingerprints = new ArrayList<ScannedBleDevice>();

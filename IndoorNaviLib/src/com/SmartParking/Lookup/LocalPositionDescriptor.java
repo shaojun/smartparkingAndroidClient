@@ -2,6 +2,7 @@ package com.SmartParking.Lookup;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import com.SmartParking.Sampling.ScannedBleDevice;
 import com.SmartParking.UI.MarkableTouchImageView;
 
 public class LocalPositionDescriptor implements Serializable {
+    private static String LOG_TAG = "LocalPositionDescriptor";
     private MarkableTouchImageView localImageView;
     private BitmapDrawable drawable;
     private float localX = -1;
@@ -29,7 +31,10 @@ public class LocalPositionDescriptor implements Serializable {
      * @param localImageView local image view to show the bitmap.
      */
     public static float getLocalXByRemoteX(float remoteX, Bitmap bitmap, MarkableTouchImageView localImageView) {
-        return remoteX * (localImageView.getOnImageLoadWidth() / bitmap.getWidth());
+        int onImageLoadWidth = localImageView.getOnImageLoadWidth();
+        int bitmapWidth = bitmap.getWidth();
+        Log.v(LOG_TAG, "getLocalXByRemoteX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth);
+        return remoteX * (onImageLoadWidth / bitmapWidth);
     }
 
     public static float getLocalYByRemoteY(float remoteY, Bitmap bitmap, MarkableTouchImageView localImageView) {
@@ -37,8 +42,11 @@ public class LocalPositionDescriptor implements Serializable {
     }
 
     public static float getRemoteXByLocalX(float localX, Bitmap bitmap, MarkableTouchImageView localImageView) {
+        int onImageLoadWidth = localImageView.getOnImageLoadWidth();
+        int bitmapWidth = bitmap.getWidth();
+        Log.v(LOG_TAG, "getRemoteXByLocalX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth);
         // the original bitmap which from web.
-        return localX * (bitmap.getWidth() / localImageView.getOnImageLoadWidth());
+        return localX * (bitmapWidth / onImageLoadWidth);
     }
 
     public static float getRemoteYByLocalY(float localY, Bitmap bitmap, MarkableTouchImageView localImageView) {

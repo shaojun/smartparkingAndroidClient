@@ -21,15 +21,18 @@ public abstract class EntityBase {
     public List<EntityBase> loadMultipleFromJson(JSONArray jsonArray) throws JSONException {
         List<EntityBase> list = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject singleJSONObject = (JSONObject) (jsonArray.get(i));
+            JSONObject singleJSONObject = jsonArray.getJSONObject(i);
             list.add(this.loadSingleFromJson(singleJSONObject));
         }
 
         return list;
     }
 
-    public abstract String toJson();
+    public abstract JSONObject toJsonObject();
 
+    /*
+    * set the error message when trying parse the object from web raw json string to object.
+    */
     public void setErrorMessage(String errorMsg) {
         this.errorMessage = errorMsg;
     }
