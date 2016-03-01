@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.SmartParking.Util.Tuple;
 
+import org.apache.http.client.HttpResponseException;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -91,13 +93,14 @@ public class Task<TResult> {
      *
      * @param listener all action in this task execute finished will call this listener, and the calling is running on UI thread.
      */
-    public void Start(OnActionFinishedListener listener) {
+    public Task<TResult> Start(OnActionFinishedListener listener) {
         Log.v(LOG_TAG, "Task starting...");
         if (listener != null)
-            listeners.add(listener);
+            this.listeners.add(listener);
         this.isCompleted = false;
         this.asyncTask = new innerAsyncTask(this.action, this);
         this.asyncTask.execute("");
+        return this;
     }
 
     private Hashtable<Object, List<Exception>> aggregatedException = new Hashtable<>();
@@ -164,8 +167,24 @@ public class Task<TResult> {
     }
 
     /**
+     * Get the first HttpResponseException's HttpResponseCode
+     *
+     * @return -1 indicate the exception is not the HttpResponseException, otherwise,
+     * >=300 typically indicate an error.
+     */
+    public int getFirstErrorHttpResponseCode() {
+        Exception ex = this.aggregatedException.elements().nextElement().get(0);
+        if (ex.getClass() == HttpResponseException.class) {
+            return ((HttpResponseException) ex).getStatusCode();
+        }
+
+        return -1;
+    }
+
+    /**
      * cancel the task, the rest of actions will not be executed.
      */
+
     public void cancel() {
         this.isCancelling = true;
     }

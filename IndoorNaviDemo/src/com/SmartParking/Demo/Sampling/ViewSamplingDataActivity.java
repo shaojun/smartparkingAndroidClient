@@ -63,13 +63,20 @@ public class ViewSamplingDataActivity extends Activity {
             @Override
             public void onClick(View v) {
                 final int deletingIndex = Integer.parseInt(deleteEditText.getText().toString());
+                // make sure we have the data to be deleting.
+                if (ViewSamplingDataActivity.this.loadedData.size() < deletingIndex + 1) return;
                 new AlertDialog.Builder(
                         ViewSamplingDataActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("sure?")
                         .setMessage(
-                                "Want to delete Sample with line number: " + deletingIndex
+                                "Delete Sample with line No.(0 based): " + deletingIndex
                                         + "?")
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
                         .setPositiveButton(
                                 "Yes",
                                 new DialogInterface.OnClickListener() {
@@ -101,6 +108,17 @@ public class ViewSamplingDataActivity extends Activity {
                                                             final List<Sample> samples = new ArrayList<>();
                                                             try {
                                                                 samples.addAll(RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class));
+                                                                if (samples.size() != 1) {
+                                                                    new AlertDialog.Builder(
+                                                                            ViewSamplingDataActivity.this)
+                                                                            .setIcon(
+                                                                                    android.R.drawable.ic_dialog_alert)
+                                                                            .setTitle("失败")
+                                                                            .setMessage(
+                                                                                    "待删除采样点数据个数为：" + samples.size() + ", 应该仅为1个！")
+                                                                            .setPositiveButton("Ok", null).show();
+                                                                    return;
+                                                                }
                                                             } catch (Exception e) {
                                                                 deletingFromWebProgress.dismiss();
                                                                 e.printStackTrace();

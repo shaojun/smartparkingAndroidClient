@@ -236,22 +236,22 @@ public class Helper {
 
     public static List<DrawImage> ConvertRestBoardsToDrawImages(
             List<Board> restBoards, Bitmap remoteBitmap, MarkableTouchImageView localImageView,
-            Resources res) {
-        List<DrawImage> drawImages = new ArrayList<DrawImage>();
+            Resources res, int mapScale, int desiredCoveredMeters) {
+        List<DrawImage> drawImages = new ArrayList<>();
         for (Board board : restBoards) {
             DrawImage t = new DrawImage(
                     LocalPositionDescriptor.getLocalXByRemoteX(Float.parseFloat(board.CoordinateX.toString()), remoteBitmap, localImageView),
-                    LocalPositionDescriptor.getLocalXByRemoteX(Float.parseFloat(board.CoordinateY.toString()), remoteBitmap, localImageView),
+                    LocalPositionDescriptor.getLocalYByRemoteY(Float.parseFloat(board.CoordinateY.toString()), remoteBitmap, localImageView),
                     null, board.Description,
                     board.BoardIdentity);
             /* draw all parking position icons */
             if (board.IsCovered) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_busy);
-            } else if (!board.IsCovered && board.OrderDetail == null) {
+            } else if (!board.IsCovered && board.OrderDetailUrl == null) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_idle);
-            } else if (board.OrderDetail != null) {
+            } else if (board.OrderDetailUrl != null) {
                 t.Bitmap = BitmapFactory.decodeResource(res,
                         R.drawable.car_ordered);
             } else {
@@ -259,6 +259,9 @@ public class Helper {
                         R.drawable.car_unknown);
             }
 
+            t.Bitmap = getScaledBitmapByMapScale(t.Bitmap, mapScale, desiredCoveredMeters, true);
+            t.X = t.X - t.Bitmap.getWidth();
+            t.Y = t.Y - t.Bitmap.getHeight();
             drawImages.add(t);
         }
 
@@ -336,7 +339,7 @@ public class Helper {
                 }
             }
             /*
-			 * parkingPositionCoordinates.add(Tuple5.create((float) 100, (float)
+             * parkingPositionCoordinates.add(Tuple5.create((float) 100, (float)
 			 * 50, "pk0", ParkingPositionStatus.Busy, 0));
 			 * parkingPositionCoordinates.add(Tuple5.create((float) 200, (float)
 			 * 100, "pk1", ParkingPositionStatus.Idle, 1));
@@ -390,6 +393,24 @@ public class Helper {
 
         }
 
+    }
+
+    /**
+     * scale the src Bitmap to fit a meters that in real.
+     *
+     * @param mapScale        1 meter in real equals how many pixels in map
+     * @param keepAspectRadio
+     */
+    public static Bitmap getScaledBitmapByMapScale(Bitmap src, int mapScale, int desiredCoveredMeters, boolean keepAspectRadio) {
+        if (!keepAspectRadio)
+            return Bitmap.createScaledBitmap(src, mapScale * desiredCoveredMeters, mapScale * desiredCoveredMeters, true);
+        else {
+            // width / height
+            Float radio = Float.parseFloat(Integer.toString(src.getWidth())) / Float.parseFloat(Integer.toString(src.getHeight()));
+            Integer newWidth = mapScale * desiredCoveredMeters;
+            Integer newHeight = Math.round(newWidth / radio);
+            return Bitmap.createScaledBitmap(src, newWidth, newHeight, true);
+        }
     }
 
     // Access a web url by Get method, return true if http response code is 200

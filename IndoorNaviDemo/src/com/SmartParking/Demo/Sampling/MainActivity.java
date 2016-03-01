@@ -36,10 +36,14 @@ import com.SmartParking.WebServiceEntity.Sample;
 import com.SmartParking.WebServiceEntity.SampleDescriptor;
 import com.ortiz.touch.TouchImageView.OnTouchImageViewListener;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -70,6 +74,7 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
@@ -122,10 +127,7 @@ public class MainActivity extends Activity implements
     // 100 px equal how many real life meters, like say the value is 5, means
     // 100px in bitmap equal 5meters. default set to 2.
     private float mapScale = 2;
-    public static ScanSettings BleScanSettings = new ScanSettings.Builder()
-            .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
-                    // .setReportDelay(20)
-            .build();
+
 
     @Override
     protected void onStop() {
@@ -143,11 +145,12 @@ public class MainActivity extends Activity implements
         //this.screenOnLock.acquire();
         if (!BleFingerprintCollector.getDefault().IsStarted.get()
                 && false == BleFingerprintCollector.getDefault().TurnOn(
-                mBluetoothAdapter, BleScanSettings)) {
+                mBluetoothAdapter)) {
             Toast.makeText(getBaseContext(), "Failed to start collect FP",
                     android.widget.Toast.LENGTH_LONG).show();
             return;
         }
+
     }
 
     @Override
@@ -208,7 +211,7 @@ public class MainActivity extends Activity implements
                     "FingerprintCollector already on running",
                     android.widget.Toast.LENGTH_LONG).show();
         } else if (false == BleFingerprintCollector.getDefault().TurnOn(
-                mBluetoothAdapter, BleScanSettings)) {
+                mBluetoothAdapter)) {
             Toast.makeText(getBaseContext(),
                     "Failed to start FingerprintCollector, quit",
                     android.widget.Toast.LENGTH_LONG).show();
@@ -216,14 +219,14 @@ public class MainActivity extends Activity implements
         }
 
 		/* does this device support BLE advertisement */
-        if (!this.mBluetoothAdapter.isMultipleAdvertisementSupported()) {
-            Toast.makeText(getBaseContext(), "Unlikely support for advertisement",
-                    android.widget.Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getBaseContext(),
-                    "Congratulation you support ble advertisement~~~~",
-                    android.widget.Toast.LENGTH_LONG).show();
-        }
+//        if (!this.mBluetoothAdapter.isMultipleAdvertisementSupported()) {
+//            Toast.makeText(getBaseContext(), "Unlikely support for advertisement",
+//                    android.widget.Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(getBaseContext(),
+//                    "Congratulation you support ble advertisement~~~~",
+//                    android.widget.Toast.LENGTH_LONG).show();
+//        }
 
         /******************************
          * make sure the screen always on.
@@ -257,8 +260,8 @@ public class MainActivity extends Activity implements
             this.mapScale = Float.parseFloat(mapScaleValue);
         }
 
-        image = (MarkableTouchImageView) findViewById(R.id.imgControl);
-        image.setScaleType(ScaleType.CENTER_CROP);
+//        image = (MarkableTouchImageView) findViewById(R.id.imgControl);
+//        image.setScaleType(ScaleType.CENTER_CROP);
         Log.e(LOG_TAG, "Loading the indoor map from url: " + currentBuilding.MapUrl);
         progress = ProgressDialog.show(this, "获取中...",
                 "获取室内地图信息", true);
@@ -283,7 +286,11 @@ public class MainActivity extends Activity implements
                 } else {
                     final Drawable mapDrawable = new BitmapDrawable(getResources(),
                             (Bitmap) task.getSingleResult());
+                    image = new MarkableTouchImageView(MainActivity.this);//(MarkableTouchImageView) findViewById(R.id.imgControl);
+                    image.setScaleType(ScaleType.CENTER_CROP);
                     image.setImageDrawable(mapDrawable);
+                    image.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    ((LinearLayout) findViewById(R.id.imgControlHost)).addView(image);
                     setupImageControl();
                     progress.dismiss();
                     loadAllWebBoardAndShowOnUI();
@@ -444,22 +451,18 @@ public class MainActivity extends Activity implements
                                                                     }).show();
                                                 }
                                             }
-
                                         } finally {
                                             MainActivity.this.syncLock.unlock();
                                         }
 
                                         if (!MainActivity.this.shouldIgnoreCurrentSample) {
-                                            String positionComments = "";
                                             // set a default value, they're p0,p1,p2...
-                                            positionComments = "s"
-                                                    + InMemPositionDescriptors.size();
-
+                                            String positionComments = "s" + InMemPositionDescriptors.size();
                                             InMemPositionDescriptors
                                                     .add(new LocalPositionDescriptor(
-                                                            positionComments,
                                                             MainActivity.this.currentAbsoluteXandY.first,
                                                             MainActivity.this.currentAbsoluteXandY.second,
+                                                            positionComments,
                                                             averagedFingerprints, image
                                                     ));
                                             Log.e(LOG_TAG,
@@ -467,15 +470,11 @@ public class MainActivity extends Activity implements
                                             buttonPersist.setEnabled(true);
 
                                             List<ExpandableListViewItem> itemList = new ArrayList<ExpandableListViewItem>();
-                                            ExpandableListViewItem parentNode = new ExpandableListViewItem(
-                                                    "["
-                                                            + "0"
-                                                            + "]"
-                                                            + " X: "
-                                                            + MainActivity.this.currentAbsoluteXandY.first
-                                                            + ", Y: "
-                                                            + MainActivity.this.currentAbsoluteXandY.second
-                                                            + "->" + positionComments);
+                                            ExpandableListViewItem parentNode = new ExpandableListViewItem("[0] X: "
+                                                    + MainActivity.this.currentAbsoluteXandY.first
+                                                    + ", Y: "
+                                                    + MainActivity.this.currentAbsoluteXandY.second
+                                                    + "->" + positionComments);
                                             for (ScannedBleDevice sDevice : averagedFingerprints) {
                                                 parentNode
                                                         .addChildItem(new ExpandableListViewItem(
@@ -562,11 +561,23 @@ public class MainActivity extends Activity implements
     ProgressDialog persistLocalPositionsToWebProgress;
 
     private void persistLocalPositionsToWebWithProgressShown(ArrayList<LocalPositionDescriptor> target) {
-        persistLocalPositionsToWebProgress = ProgressDialog.show(MainActivity.this, "保存中...",
-                "保存新采样点到服务器", true);
         for (LocalPositionDescriptor pd : target
                 ) {
             if (pd.FlushedToWeb) continue;
+            if (pd.Fingerprints.size() == 0) {
+                new AlertDialog.Builder(
+                        MainActivity.this)
+                        .setIcon(
+                                android.R.drawable.ic_dialog_alert)
+                        .setTitle("无效的采样点")
+                        .setMessage(
+                                "采样点:" + pd.Description + " 没有包含采样点描述信息，请重新采样此点再试！")
+                        .setPositiveButton("Ok", null).show();
+                return;
+            }
+
+            persistLocalPositionsToWebProgress = ProgressDialog.show(MainActivity.this, "保存中...",
+                    "保存采样点:" + pd.Description + " 到服务器", true);
             //http://rest.shaojun.xyz:8090/samples/?ownerBuildingId=1&coordinateX=66&coordinateY=78
             Task.Create(new RestAction("samples/?ownerBuildingId=" + currentBuilding.Id
                     + "&coordinateX=" + (int) (pd.getRemoteX()) + "&coordinateY=" + (int) (pd.getRemoteY()),
@@ -582,14 +593,15 @@ public class MainActivity extends Activity implements
                                                 android.R.drawable.ic_dialog_alert)
                                         .setTitle("失败")
                                         .setMessage(
-                                                "上传采样点数据失败(stage 0)")
+                                                "上传采样点: " + ((LocalPositionDescriptor) (finishedAction.getStateObject())).Description + " 数据失败(stage 0)")
                                         .setPositiveButton("Ok", null).show();
                                 return;
                             } else {
-                                final List<Sample> samples = new ArrayList<>();
+                                final List<Sample> existedSamplesOnWeb = new ArrayList<>();
                                 try {
-                                    samples.addAll(RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class));
+                                    existedSamplesOnWeb.addAll(RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class));
                                 } catch (Exception e) {
+                                    persistLocalPositionsToWebProgress.dismiss();
                                     e.printStackTrace();
                                     new AlertDialog.Builder(
                                             MainActivity.this)
@@ -603,7 +615,7 @@ public class MainActivity extends Activity implements
                                 }
 
                                 // this sample didn't exist in server side, then need create it.
-                                if (samples.size() == 0) {
+                                if (existedSamplesOnWeb.size() == 0) {
                                     final RestAction addingSampleAction = new RestAction("samples/",
                                             userName, password, "POST", finishedAction.getStateObject());
                                     Sample postSample = new Sample();
@@ -625,21 +637,22 @@ public class MainActivity extends Activity implements
                                                                 android.R.drawable.ic_dialog_alert)
                                                         .setTitle("失败")
                                                         .setMessage(
-                                                                "上传新单个采样点数据失败(stage 1)")
+                                                                "上传(create)新单个采样点数据失败(stage 1)")
                                                         .setPositiveButton("Ok", null).show();
                                                 return;
                                             } else {
                                                 persistLocalPositionsToWebProgress.dismiss();
-                                                List<Sample> postedSamples = null;
+                                                Sample postedSample;
                                                 try {
-                                                    postedSamples = RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class);
+                                                    postedSample = RestEntityResultDumper.dump(task.getSingleResult().toString(), Sample.class).get(0);
                                                 } catch (Exception e) {
+                                                    persistLocalPositionsToWebProgress.dismiss();
                                                     e.printStackTrace();
                                                     new AlertDialog.Builder(
                                                             MainActivity.this)
                                                             .setIcon(
                                                                     android.R.drawable.ic_dialog_alert)
-                                                            .setTitle("Resolve underlying added Sample failed")
+                                                            .setTitle("Resolve underlying new added Sample failed")
                                                             .setMessage("!!!")
                                                             .setPositiveButton("Failed", null)
                                                             .show();
@@ -648,28 +661,28 @@ public class MainActivity extends Activity implements
 
                                                 persistLocalPositionsToWebProgress = ProgressDialog.show(MainActivity.this, "保存中...",
                                                         "保存新采样点描述信息到服务器", true);
-                                                String newAddedSampleUrl = postedSamples.get(0).DetailUrl;
-                                                LocalPositionDescriptor localPD = ((LocalPositionDescriptor) (finishedAction.getStateObject()));
-                                                localPD.FlushedToWeb = true;
-
                                                 Task<String> addingSampleDescTask = null;
                                                 // uploading all correlated SampleDescriptors.
+                                                LocalPositionDescriptor localPD = ((LocalPositionDescriptor) (finishedAction.getStateObject()));
                                                 for (ScannedBleDevice fp : localPD.Fingerprints
                                                         ) {
                                                     RestAction addingSampleDescAction = new RestAction("sampleDescriptors/",
-                                                            userName, password, "POST", finishedAction.getStateObject());
+                                                            userName, password, "POST", localPD);
                                                     SampleDescriptor postSampleDescriptor = new SampleDescriptor();
-                                                    postSampleDescriptor.OwnedSampleUrl = newAddedSampleUrl;
+                                                    postSampleDescriptor.OwnedSampleUrl = postedSample.DetailUrl;
                                                     postSampleDescriptor.UUID = Util.BytesToHexString(fp.IbeaconProximityUUID);
                                                     postSampleDescriptor.MajorId = Util.BytesToHexString(fp.Major);
                                                     postSampleDescriptor.MinorId = Util.BytesToHexString(fp.Minor);
                                                     postSampleDescriptor.MacAddress = fp.MacAddress;
                                                     postSampleDescriptor.Rssi = (int) (fp.RSSI);
                                                     addingSampleDescAction.AddPostJsonObject(postSampleDescriptor.toJsonObject());
-
-                                                    addingSampleDescTask = Task.Create(addingSampleDescAction).continueWith(addingSampleDescAction);
+                                                    if (addingSampleDescTask == null)
+                                                        addingSampleDescTask = Task.Create(addingSampleDescAction);
+                                                    else
+                                                        addingSampleDescTask.continueWith(addingSampleDescAction);
                                                 }
 
+                                                assert addingSampleDescTask != null;
                                                 addingSampleDescTask.Start(new OnActionFinishedListener<String>() {
                                                     @Override
                                                     public void Finished(Task task, Action<String> finishedAction) {
@@ -686,19 +699,24 @@ public class MainActivity extends Activity implements
                                                             return;
                                                         } else if (task.isCompleted()) {
                                                             persistLocalPositionsToWebProgress.dismiss();
+                                                            // here indicate the sample and its SampleDescriptor had been all uploaded to Web.
+                                                            ((LocalPositionDescriptor) (finishedAction.getStateObject())).FlushedToWeb = true;
+                                                            // move to next sample
+                                                            persistLocalPositionsToWebWithProgressShown(InMemPositionDescriptors);
                                                         }
                                                     }
                                                 });
                                             }
                                         }
                                     });
-                                } else {
-                                    List<String> deletingTargetUrls = new ArrayList<>();
-                                    for (SampleDescriptor sd : samples.get(0).SampleDescriptors) {
-                                        deletingTargetUrls.add(sd.DetailUrl);
+                                } else if (existedSamplesOnWeb.size() == 1) {
+                                    /* here indicate the uploading Sample already existed in Web, so just delete all its SampleDescriptions, and re-add*/
+                                    List<String> deletingExistedSampleDescUrls = new ArrayList<>();
+                                    for (SampleDescriptor sd : existedSamplesOnWeb.get(0).SampleDescriptors) {
+                                        deletingExistedSampleDescUrls.add(sd.DetailUrl);
                                     }
 
-                                    Task.Create(new BulkRestClient(deletingTargetUrls,
+                                    Task.Create(new BulkRestClient(deletingExistedSampleDescUrls,
                                             userName, password, "DELETE", finishedAction.getStateObject()))
                                             .Start(new OnActionFinishedListener<String>() {
                                                        @Override
@@ -718,7 +736,7 @@ public class MainActivity extends Activity implements
 
                                                            if (task.isCompleted()) {
                                                                LocalPositionDescriptor ppd = (LocalPositionDescriptor) (finishedAction.getStateObject());
-                                                               String targetSampleUrl = samples.get(0).DetailUrl;
+                                                               String targetSampleUrl = existedSamplesOnWeb.get(0).DetailUrl;
 
                                                                Task<String> addingSampleDescTask = null;
                                                                // uploading all correlated SampleDescriptors.
@@ -734,23 +752,32 @@ public class MainActivity extends Activity implements
                                                                    postSampleDescriptor.MacAddress = fp.MacAddress;
                                                                    postSampleDescriptor.Rssi = (int) (fp.RSSI);
                                                                    addingSampleDescAction.AddPostJsonObject(postSampleDescriptor.toJsonObject());
-
-                                                                   addingSampleDescTask = Task.Create(addingSampleDescAction).continueWith(addingSampleDescAction);
+                                                                   if (addingSampleDescTask == null)
+                                                                       addingSampleDescTask = Task.Create(addingSampleDescAction);
+                                                                   else
+                                                                       addingSampleDescTask.continueWith(addingSampleDescAction);
                                                                }
 
+                                                               assert addingSampleDescTask != null;
                                                                addingSampleDescTask.Start(new OnActionFinishedListener<String>() {
                                                                    @Override
                                                                    public void Finished(Task task, Action<String> finishedAction) {
+                                                                       persistLocalPositionsToWebProgress.dismiss();
                                                                        if (task.isFaulted()) {
-                                                                           persistLocalPositionsToWebProgress.dismiss();
+
                                                                            new AlertDialog.Builder(
                                                                                    MainActivity.this)
                                                                                    .setIcon(
                                                                                            android.R.drawable.ic_dialog_alert)
                                                                                    .setTitle("失败")
                                                                                    .setMessage(
-                                                                                           "上传新创建的采样点描述数据失败(stage 2)")
+                                                                                           "上传新创建的采样点描述数据失败(stage 5)")
                                                                                    .setPositiveButton("Ok", null).show();
+                                                                       } else if (task.isCompleted()) {
+                                                                           // here indicate the sample and its SampleDescriptor had been all uploaded to Web.
+                                                                           ((LocalPositionDescriptor) (finishedAction.getStateObject())).FlushedToWeb = true;
+                                                                           // move to next sample
+                                                                           persistLocalPositionsToWebWithProgressShown(InMemPositionDescriptors);
                                                                        }
                                                                    }
                                                                });
@@ -763,6 +790,8 @@ public class MainActivity extends Activity implements
                         }
                     }
             );
+            // always break after send one sample, will recursive call once previous done successfully.
+            break;
         }
     }
 
@@ -803,7 +832,7 @@ public class MainActivity extends Activity implements
                                     .ConvertRestBoardsToDrawImages(boards,
                                             ((BitmapDrawable) image.getDrawable()).getBitmap(),
                                             image,
-                                            getResources());
+                                            getResources(), currentBuilding.MapScale, 3);
                             image.drawMultipleCirclesAndImages(null, drawImages);
                             waitSometimeHandler.postDelayed(new Runnable() {
                                 @Override
@@ -888,34 +917,17 @@ public class MainActivity extends Activity implements
                             .GetAbsoluteXAndYFromRelative(lastClickedX,
                                     lastClickedY, zoomedRect, currentZoom,
                                     image);
-                    // we want the circle has 0.5m radius.
-                    image.drawSingleCircle(new DrawCircle(
-                            MainActivity.this.currentAbsoluteXandY.first,
-                            MainActivity.this.currentAbsoluteXandY.second,
-                            Helper.GetCircleRadiusByMapScale(MainActivity.this.mapScale),
-                            "", Color.BLACK));
-                    if (zoomedRect != null) {
 
-                        // Log.e(LOG_TAG, "image OnLongClick, RawX:"
-                        // + lastClickedX + ", absX:" + currentAbsoluteX
-                        // + ", RawY:" + lastClickedY + ", absY:"
-                        // + currentAbsoluteY + ", scaledHeight: "
-                        // + scaledHeight + ", scaledWidth: "
-                        // + scaledWidth + ", zoLeft:" + zoomedRect.left
-                        // + ", zoTop:" + zoomedRect.top + ", zoBot:" +
-                        // zoomedRect.bottom+", curZoom: "
-                        // + currentZoom + ", actX: "
-                        // + additionalCoor[0] + ", actY: "
-                        // + additionalCoor[1] + ", actHeight: "
-                        // + additionalCoor[3] + ", actWidth: "
-                        // +
-                        // additionalCoor[2]+", imgLoadHeight: "+image.onImageLoadHeight
-                        // +", imgLoadWidth: "+image.onImageLoadWidth);
-                        image.drawSingleCircle(new DrawCircle(
-                                MainActivity.this.currentAbsoluteXandY.first,
-                                MainActivity.this.currentAbsoluteXandY.second,
-                                Helper.GetCircleRadiusByMapScale(MainActivity.this.mapScale),
-                                "", Color.BLACK));
+                    if (zoomedRect != null) {
+                        // we want the circle has 1.5m radius.
+                        Bitmap shoePrintIcon = Helper.getScaledBitmapByMapScale(BitmapFactory.decodeResource(
+                                getResources(), R.drawable.shoeprints), currentBuilding.MapScale, 2, false);
+
+                        image.drawImageNewOrUpdate(new DrawImage(
+                                        MainActivity.this.currentAbsoluteXandY.first - shoePrintIcon.getWidth() / 2,
+                                        MainActivity.this.currentAbsoluteXandY.second - shoePrintIcon.getHeight() / 2,
+                                        shoePrintIcon, "", "sampleSelectedSinglePoint")
+                        );
                     }
                 }
                 return true;

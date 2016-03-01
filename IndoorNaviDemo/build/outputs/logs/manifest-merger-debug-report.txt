@@ -87,7 +87,7 @@ ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndro
 application
 ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:33:5-69:19
 MERGED from [smartparkingAndroidClient:TouchImageView:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\TouchImageView\unspecified\AndroidManifest.xml:11:5-26:19
-MERGED from [smartparkingAndroidClient:IndoorNaviLib:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\AndroidManifest.xml:14:5-30:19
+MERGED from [smartparkingAndroidClient:IndoorNaviLib:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\AndroidManifest.xml:14:5-26:19
 MERGED from [smartparkingAndroidClient:TouchImageView:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\TouchImageView\unspecified\AndroidManifest.xml:11:5-26:19
 	android:label
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:36:9-41
@@ -95,10 +95,8 @@ MERGED from [smartparkingAndroidClient:TouchImageView:unspecified] C:\Fun\Code\R
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:34:9-35
 	android:icon
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:35:9-45
-		REJECTED from [smartparkingAndroidClient:IndoorNaviLib:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\AndroidManifest.xml:16:9-45
 	android:theme
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:37:9-40
-		REJECTED from [smartparkingAndroidClient:IndoorNaviLib:unspecified] C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\build\intermediates\exploded-aar\smartparkingAndroidClient\IndoorNaviLib\unspecified\AndroidManifest.xml:18:9-40
 	tools:replace
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:38:9-51
 meta-data#com.amap.api.v2.apikey
@@ -112,7 +110,7 @@ ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndro
 	android:label
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:45:13-45
 	android:theme
-		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:46:13-77
+		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:46:13-48
 	android:name
 		ADDED from C:\Fun\Code\ReposOnGitHub\smartparkingAndroidClient\smartparkingAndroidClient\IndoorNaviDemo\AndroidManifest.xml:44:13-72
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER

@@ -8,64 +8,89 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.SmartParking.Demo.Sampling.LogOnActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/userNameLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="15dp"
-        android:paddingTop="12dp"
-        android:text="用户名：" />
+        android:paddingTop="40dp">
 
-    <EditText
-        android:id="@+id/editTextUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@+id/textView2"
-        android:ems="10"
-        android:hint="UserName"
-        android:inputType="textPersonName" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:paddingBottom="15dp"
+            android:paddingTop="12dp"
+            android:text="用户名：" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView2"
-        android:paddingBottom="15dp"
-        android:paddingTop="12dp"
-        android:text="密码："
-        android:textAlignment="gravity" />
+        <EditText
+            android:id="@+id/editTextUserName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/textView2"
+            android:layout_weight="4"
+            android:hint="UserName"
+            android:inputType="textPersonName" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextPwd"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/passwordLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editTextUserName"
-        android:layout_below="@+id/editTextUserName"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:layout_below="@+id/userNameLinearLayout">
 
-    <Button
-        android:id="@+id/buttonLogOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/registButton"
-        android:layout_below="@+id/editTextPwd"
-        android:layout_marginTop="20dp"
-        android:text="登  陆" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView2"
+            android:layout_weight="1"
+            android:paddingBottom="15dp"
+            android:paddingTop="12dp"
+            android:text="密码："
+            android:textAlignment="gravity" />
 
-    <Button
-        android:id="@+id/registButton"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/editTextPwd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/editTextUserName"
+            android:layout_below="@+id/editTextUserName"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="4"
+            android:hint="Password"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttonsLinearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonLogOn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:enabled="false"
-        android:text="注  册" />
+        android:layout_below="@+id/passwordLinearLayout"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/buttonLogOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="登  陆" />
+
+        <Button
+            android:id="@+id/registButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/buttonLogOn"
+            android:layout_alignStart="@+id/buttonLogOn"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="注  册" />
+    </RelativeLayout>
 </RelativeLayout>

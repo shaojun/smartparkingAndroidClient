@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class Building extends EntityBase implements Serializable {
     public Integer Id;
     public String MapUrl;
+
+    /*
+     *1 meter in real equals how many pixels in map
+     */
+    public Integer MapScale;
     public double Latitude;
     public double Longitude;
     public String Description;
@@ -24,6 +29,7 @@ public class Building extends EntityBase implements Serializable {
         Building __building = new Building();
         __building.Id = Integer.parseInt(jsonObject.getString("id"));
         __building.MapUrl = jsonObject.getString("mapUrl");
+        __building.MapScale = Integer.parseInt(jsonObject.getString("mapScale"));
         __building.Latitude = Double.parseDouble(jsonObject.getString("latitude"));
         __building.Longitude = Double.parseDouble(jsonObject.getString("longitude"));
         __building.Description = jsonObject.getString("description");

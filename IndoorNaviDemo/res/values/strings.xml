@@ -21,11 +21,11 @@
     <string name="promptAction">follow instruction...</string>
     <string name="ComForPosition">Comments for position</string>
     <string name="ConfirmSave">Save</string>
-    <string name="ViewAllBtnText">ShowSamples</string>
+    <string name="ViewAllBtnText">Preview</string>
     <string name="ConfirmPersist">Persist</string>
     <string name="ConfirmSampling">Sampling</string>
     <string name="LogText">log area...</string>
-    <string name="ViewData">Samples detail</string>
+    <string name="ViewData">Sample list</string>
     <string name="buttonCleanAll">cleanAll</string>
     <string name="StartNaviButtonText">Navi</string>
     <string name="buttonShowAllSamplingPointText">Show sampled points</string>

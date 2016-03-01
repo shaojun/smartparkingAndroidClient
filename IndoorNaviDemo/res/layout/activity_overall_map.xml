@@ -32,6 +32,7 @@
             android:id="@+id/editTextTargetPlace"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="18dp"
             android:background="#FFFFFF"
             android:hint=" 查询目标地附近的停车场"

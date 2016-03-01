@@ -32,26 +32,35 @@ public class LocalPositionDescriptor implements Serializable {
      */
     public static float getLocalXByRemoteX(float remoteX, Bitmap bitmap, MarkableTouchImageView localImageView) {
         int onImageLoadWidth = localImageView.getOnImageLoadWidth();
-        int bitmapWidth = bitmap.getWidth();
-        Log.v(LOG_TAG, "getLocalXByRemoteX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth);
-        return remoteX * (onImageLoadWidth / bitmapWidth);
+        float bitmapWidth = bitmap.getWidth();
+        float localX = remoteX * (onImageLoadWidth / bitmapWidth);
+        Log.v(LOG_TAG, "getLocalXByRemoteX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth + ", RemoteX: " + remoteX + ", caculated LocalX: " + localX);
+        return localX;
     }
 
     public static float getLocalYByRemoteY(float remoteY, Bitmap bitmap, MarkableTouchImageView localImageView) {
-        return remoteY * (localImageView.getOnImageLoadHeight() / bitmap.getHeight());
+        int onImageLoadHeight = localImageView.getOnImageLoadHeight();
+        float bitmapHeight = bitmap.getHeight();
+        float localY = remoteY * (onImageLoadHeight / bitmapHeight);
+        Log.v(LOG_TAG, "getLocalYByRemoteY, onImageLoadHeight: " + onImageLoadHeight + ", bitmapHeight: " + bitmapHeight + ", RemoteY: " + remoteY + ", caculated LocalY: " + localY);
+        return localY;
     }
 
     public static float getRemoteXByLocalX(float localX, Bitmap bitmap, MarkableTouchImageView localImageView) {
         int onImageLoadWidth = localImageView.getOnImageLoadWidth();
-        int bitmapWidth = bitmap.getWidth();
-        Log.v(LOG_TAG, "getRemoteXByLocalX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth);
+        float bitmapWidth = bitmap.getWidth();
+        float remoteX = localX * (bitmapWidth / onImageLoadWidth);
+        Log.v(LOG_TAG, "getRemoteXByLocalX, onImageLoadWidth: " + onImageLoadWidth + ", bitmapWidth: " + bitmapWidth + ", LocalX: " + localX + ", caculated RemoteX: " + remoteX);
         // the original bitmap which from web.
-        return localX * (bitmapWidth / onImageLoadWidth);
+        return remoteX;
     }
 
     public static float getRemoteYByLocalY(float localY, Bitmap bitmap, MarkableTouchImageView localImageView) {
-        // the original bitmap which from web.
-        return localY * (bitmap.getHeight() / localImageView.getOnImageLoadHeight());
+        int onImageLoadHeight = localImageView.getOnImageLoadHeight();
+        float bitmapHeight = bitmap.getHeight();
+        float remoteY = localY * (bitmapHeight / onImageLoadHeight);
+        Log.v(LOG_TAG, "getRemoteYByLocalY, onImageLoadHeight: " + onImageLoadHeight + ", bitmapHeight: " + bitmapHeight + ", LocalY: " + localY + ", caculated RemoteY: " + remoteY);
+        return remoteY;
     }
 
     public float getRemoteX() {
@@ -72,11 +81,12 @@ public class LocalPositionDescriptor implements Serializable {
 
     public final HashSet<ScannedBleDevice> Fingerprints;
 
-    public LocalPositionDescriptor(String desc, float absoluteLeftOnWebBitmap,
-                                   float absoluteTopOnWebBitmap, HashSet<ScannedBleDevice> fingerprints,
+    //// TODO: 11/22/2015 2 constructor need refine!!!
+    public LocalPositionDescriptor(String desc, float remoteX,
+                                   float remoteY, HashSet<ScannedBleDevice> fingerprints,
                                    MarkableTouchImageView localImageView) {
-        this.remoteX = absoluteLeftOnWebBitmap;
-        this.remoteY = absoluteTopOnWebBitmap;
+        this.remoteX = remoteX;
+        this.remoteY = remoteY;
         this.localImageView = localImageView;
         this.drawable = (BitmapDrawable) localImageView.getDrawable();
         this.localX = getLocalXByRemoteX(this.remoteX, this.drawable.getBitmap(), this.localImageView);
@@ -85,16 +95,17 @@ public class LocalPositionDescriptor implements Serializable {
         this.Fingerprints = fingerprints;
     }
 
-    public LocalPositionDescriptor(float absoluteLeftOnLocalBitmap,
-                                   float absoluteTopOnLocalBitmap,
+    public LocalPositionDescriptor(float localX,
+                                   float localY, String desc,
                                    HashSet<ScannedBleDevice> fingerprints,
                                    MarkableTouchImageView localImageView) {
-        this.localX = absoluteLeftOnLocalBitmap;
-        this.localY = absoluteTopOnLocalBitmap;
+        this.localX = localX;
+        this.localY = localY;
         this.localImageView = localImageView;
         this.drawable = (BitmapDrawable) localImageView.getDrawable();
         this.remoteX = getRemoteXByLocalX(this.localX, this.drawable.getBitmap(), this.localImageView);
         this.remoteY = getRemoteYByLocalY(this.localY, this.drawable.getBitmap(), this.localImageView);
+        this.Description = desc;
         this.Fingerprints = fingerprints;
     }
 }

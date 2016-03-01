@@ -19,6 +19,7 @@ public class Board extends EntityBase implements Serializable {
     public String DetailUrl;
     public String BoardIdentity;
     public Order OrderDetail;
+    public String OrderDetailUrl;
 
     @Override
     public EntityBase loadSingleFromJson(JSONObject jsonObject) throws JSONException {
@@ -29,10 +30,10 @@ public class Board extends EntityBase implements Serializable {
         b.CoordinateY = jsonObject.getInt("coordinateY");
         b.Description = jsonObject.getString("description");
         b.DetailUrl = jsonObject.getString("url");
+        b.BoardIdentity = jsonObject.getString("boardIdentity");
         JSONArray orderDetailUrls = jsonObject.getJSONArray("orderDetail");
         if (orderDetailUrls != null && orderDetailUrls.length() >= 1) {
-            // no resolve the real detail for now, here we just want to know it's get ordered.
-            b.OrderDetail = new Order();
+            b.OrderDetailUrl = orderDetailUrls.getString(0);
         }
 
         return b;
@@ -43,4 +44,25 @@ public class Board extends EntityBase implements Serializable {
     public JSONObject toJsonObject() {
         return null;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Board))
+            return false;
+
+        Board target = (Board) obj;
+        if (target.BoardIdentity.equals(this.BoardIdentity))
+            return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.BoardIdentity.hashCode();
+    }
+
 }

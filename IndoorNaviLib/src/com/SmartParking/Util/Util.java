@@ -166,7 +166,7 @@ public class Util {
 			if (existed != null) {
 				existed.first++;
 				existed.second += fingerprint.get(i).RSSI;
-				Log.e(LOG_TAG,
+				Log.v(LOG_TAG,
 						"-----------Major:"
 								+ Util.BytesToHexString(fingerprint.get(i).Major)
 								+ ",Minor:"
@@ -176,7 +176,7 @@ public class Util {
 			} else {
 				Tuple<Integer, Double> newAdd = new Tuple<Integer, Double>(1,
 						fingerprint.get(i).RSSI);
-				Log.e(LOG_TAG,
+				Log.v(LOG_TAG,
 						"-----------Major:"
 								+ Util.BytesToHexString(fingerprint.get(i).Major)
 								+ ",Minor:"
@@ -252,7 +252,7 @@ public class Util {
 					* nameWeight * debugPow;
 		}
 
-		Log.e(LOG_TAG, "nameMatchedCount: " + nameMatchedCount
+		Log.v(LOG_TAG, "nameMatchedCount: " + nameMatchedCount
 				+ ", nameMismatchedCount: " + nameMismatchedCount
 				+ ", buildInSamplesCount: " + buildInSamples.size()
 				+ ", nameScore: " + nameScore);
@@ -283,7 +283,7 @@ public class Util {
 					* rssiWeight;
 		}
 
-		Log.e(LOG_TAG, "matchedAtLeastOnce: " + matchedAtLeastOnce
+		Log.v(LOG_TAG, "matchedAtLeastOnce: " + matchedAtLeastOnce
 				+ ", total rssiOffsetPercentage: " + rssiOffsetPercentage
 				+ ", ignore rssi count: " + ignoreCount + ", rssiScore: "
 				+ rssiScore);

@@ -17,8 +17,8 @@
     <string name="Uuid2EditText">02</string>
     <string name="Uuid3EditText">03</string>
     <string name="UuidEditText">2f234454-cf6d-4a0f-adf2-f4911ba9ffa6</string>
-    <string name="ViewAllBtnText">ShowSamples</string>
-    <string name="ViewData">Samples detail</string>
+    <string name="ViewAllBtnText">Preview</string>
+    <string name="ViewData">Sample list</string>
     <string name="action_settings">Settings</string>
     <string name="app_name">优先停车</string>
     <string name="buttonCleanAll">cleanAll</string>

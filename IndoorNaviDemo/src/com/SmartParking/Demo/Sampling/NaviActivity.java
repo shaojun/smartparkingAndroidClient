@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.client.HttpResponseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import com.SmartParking.UI.OnBitmapInTouchImageClickedListener;
 import com.SmartParking.Util.Tuple;
 import com.SmartParking.Util.Util;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -47,6 +49,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -60,6 +63,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,11 +73,13 @@ import com.SmartParking.WebService.BulkRestClient;
 import com.SmartParking.WebService.OnAsyncRestTaskFinishedListener;
 import com.SmartParking.Task.RestAction;
 import com.SmartParking.WebService.RestEntityResultDumper;
+import com.SmartParking.WebService.Service;
 import com.SmartParking.WebServiceEntity.Board;
 import com.SmartParking.WebServiceEntity.Building;
 import com.SmartParking.WebServiceEntity.Order;
 import com.SmartParking.WebServiceEntity.Sample;
 import com.SmartParking.WebServiceEntity.SampleDescriptor;
+import com.SmartParking.WebServiceEntity.UserInfo;
 
 public class NaviActivity extends Activity implements
         OnBleSampleCollectedListener, OnBitmapInTouchImageClickedListener {
@@ -92,8 +98,9 @@ public class NaviActivity extends Activity implements
 	 * Integer>>();
 	 */
     private static final String LOG_TAG = "SmarkParking.Demo.Navi";
+    private static final String LOG_TAG_LOCATION = "Navi.Location";
     private MarkableTouchImageView image = null;
-    private TextView logTextView = null;
+    //private TextView logTextView = null;
     private CheckBox exposeMeCheckBox = null;
     // every 4 scan cycle will trigger a position draw.
     private Integer bufferTimes = 4;
@@ -120,6 +127,9 @@ public class NaviActivity extends Activity implements
     private float mapScale = 2;
     ProgressDialog progress;
     private Building currentBuilding;
+    // all boards in current building, will be updated periodically to reflect the
+    // potential status change(ordered by someone and etc.)
+    private HashSet<Board> boardsInBuilding = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,18 +140,18 @@ public class NaviActivity extends Activity implements
         SharedPreferences logOnSharedPreferences = this.getSharedPreferences("LogOn", 0);
         userName = logOnSharedPreferences.getString("UserName", null);
         password = logOnSharedPreferences.getString("Password", null);
-        this.exposeMeCheckBox = (CheckBox) findViewById(R.id.ExposeMeBtn);
-        this.uuidEditText = (EditText) findViewById(R.id.UuidEditText);
-        this.uuid2EditText = (EditText) findViewById(R.id.Uuid2EditText);
-        this.uuid3EditText = (EditText) findViewById(R.id.Uuid3EditText);
+//        this.exposeMeCheckBox = (CheckBox) findViewById(R.id.ExposeMeBtn);
+//        this.uuidEditText = (EditText) findViewById(R.id.UuidEditText);
+//        this.uuid2EditText = (EditText) findViewById(R.id.Uuid2EditText);
+//        this.uuid3EditText = (EditText) findViewById(R.id.Uuid3EditText);
 
         String mapScaleValue = intent.getStringExtra("mapScale");
         if (mapScaleValue != null && mapScaleValue != "") {
             this.mapScale = Float.parseFloat(mapScaleValue);
         }
 
-        this.image = (MarkableTouchImageView) findViewById(R.id.imgControl);
-        this.image.AddBitmapInTouchImageClickedListener(this);
+        //this.image = (MarkableTouchImageView) findViewById(R.id.imgControl);
+
         Log.i(LOG_TAG, "Loading the indoor map from url: " + currentBuilding.MapUrl);
         progress = ProgressDialog.show(this, "获取中...",
                 "获取室内地图信息", true);
@@ -166,27 +176,26 @@ public class NaviActivity extends Activity implements
                 } else {
                     final Drawable mapDrawable = new BitmapDrawable(getResources(),
                             (Bitmap) task.getSingleResult());
+                    image = new MarkableTouchImageView(NaviActivity.this);//(MarkableTouchImageView) findViewById(R.id.imgControl);
+                    image.setScaleType(ScaleType.CENTER_CROP);
                     image.setImageDrawable(mapDrawable);
+                    image.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+                    ((RelativeLayout) findViewById(R.id.imageViewHostInNavi)).addView(image);
+                    image.setImageDrawable(mapDrawable);
+                    image.AddBitmapInTouchImageClickedListener(NaviActivity.this);
+                    setupImageView();
                     loadAllWebBoardAndShowOnUI();
                     loadSamplesDetailFromWeb();
                 }
             }
         });
-        this.image.setHighlightSelectedBitmap(BitmapFactory.decodeResource(
-                getResources(), R.drawable.car_selected_arrow));
-        Button myButton = new Button(NaviActivity.this);
-        myButton.setText("Order?");
 
-        this.image.setParentRelativeLayoutAndMenuView(
-                (RelativeLayout) findViewById(R.id.imageViewRelativeLayout),
-                myButton);
-        this.image.setScaleType(ScaleType.CENTER_CROP);
-        Drawable mapDrawable = new BitmapDrawable(getResources(),
-                EntryActivity.SelectedBuildingMap);
-        this.image.setImageDrawable(mapDrawable);
+//        Drawable mapDrawable = new BitmapDrawable(getResources(),
+//                EntryActivity.SelectedBuildingMap);
+//        this.image.setImageDrawable(mapDrawable);
         // ============================
 
-        this.logTextView = (TextView) findViewById(R.id.logTextView);
+//        this.logTextView = (TextView) findViewById(R.id.logTextView);
         this.mBluetoothAdapter = ((BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE))
                 .getAdapter();
         if (this.mBluetoothAdapter == null
@@ -200,7 +209,7 @@ public class NaviActivity extends Activity implements
                 + BleFingerprintCollector.getDefault().IsStarted.get());
         if (!BleFingerprintCollector.getDefault().IsStarted.get()
                 && false == BleFingerprintCollector.getDefault().TurnOn(
-                mBluetoothAdapter, MainActivity.BleScanSettings)) {
+                mBluetoothAdapter)) {
             Toast.makeText(getBaseContext(),
                     "Failed to start BleFingerprintCollector",
                     android.widget.Toast.LENGTH_LONG).show();
@@ -208,6 +217,56 @@ public class NaviActivity extends Activity implements
             return;
         }
 
+
+        /******************************
+         * make sure the screen always on.
+         */
+        PowerManager pm = (PowerManager) this
+                .getSystemService(Context.POWER_SERVICE);
+        this.screenOnLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+                | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
+        this.screenOnLock.acquire();
+
+        Button buttonShowAllSamplingPoint = (Button) findViewById(R.id.buttonShowAllSamplingPoint);
+        buttonShowAllSamplingPoint.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (loadedBuildInSampleData == null
+                        || loadedBuildInSampleData.size() == 0) {
+                    image.cleanAllCircles();
+                    return;
+                }
+
+                Bitmap shoePrintIcon = Helper.getScaledBitmapByMapScale(BitmapFactory.decodeResource(
+                        getResources(), R.drawable.shoeprints), currentBuilding.MapScale, 2, false);
+                List<DrawImage> positions = new ArrayList<>();
+                for (LocalPositionDescriptor pd : loadedBuildInSampleData) {
+//                    positions.add(new DrawCircle(
+//                            pd.getLocalX(),
+//                            pd.getLocalY(),
+//                            Helper.GetCircleRadiusByMapScale(NaviActivity.this.mapScale),
+//                            pd.Description, Color.BLACK));
+                    positions.add(new DrawImage(
+                            pd.getLocalX(),
+                            pd.getLocalY(),
+                            shoePrintIcon,
+                            pd.Description, Float.toString(pd.getLocalX()) + Float.toString(pd.getLocalY())));
+                }
+
+                image.drawImages(positions, false);
+            }
+        });
+
+        BleFingerprintCollector.getDefault().AddOnBleSampleCollectedListener(
+                this);
+        // default choose Idle sampling interval
+        BleFingerprintCollector.getDefault().StartSampling();
+
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startBleAdvertising() {
         this.mBluetoothLeAdvertiser = this.mBluetoothAdapter
                 .getBluetoothLeAdvertiser();
 
@@ -271,46 +330,18 @@ public class NaviActivity extends Activity implements
                     }
 
                 });
+    }
 
-        /******************************
-         * make sure the screen always on.
-         */
-        PowerManager pm = (PowerManager) this
-                .getSystemService(Context.POWER_SERVICE);
-        this.screenOnLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
-                | PowerManager.ON_AFTER_RELEASE, LOG_TAG);
-        this.screenOnLock.acquire();
+    private void setupImageView() {
+        this.image.setHighlightSelectedBitmap(BitmapFactory.decodeResource(
+                getResources(), R.drawable.car_selected_arrow));
+        Button myButton = new Button(NaviActivity.this);
+        myButton.setText("预订?");
 
-        Button buttonShowAllSamplingPoint = (Button) findViewById(R.id.buttonShowAllSamplingPoint);
-        buttonShowAllSamplingPoint.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (loadedBuildInSampleData == null
-                        || loadedBuildInSampleData.size() == 0) {
-                    image.cleanAllCircles();
-                    return;
-                }
-
-                List<DrawCircle> positions = new ArrayList<DrawCircle>();
-                for (LocalPositionDescriptor pd : loadedBuildInSampleData) {
-                    positions.add(new DrawCircle(
-                            pd.getLocalX(),
-                            pd.getLocalY(),
-                            Helper.GetCircleRadiusByMapScale(NaviActivity.this.mapScale),
-                            pd.Description, Color.BLACK));
-
-                }
-
-                image.drawMultipleCircles(positions);
-            }
-        });
-
-        BleFingerprintCollector.getDefault().AddOnBleSampleCollectedListener(
-                this);
-        // default choose Idle sampling interval
-        BleFingerprintCollector.getDefault().StartSampling();
-
-
+        this.image.setParentRelativeLayoutAndMenuView(
+                (RelativeLayout) findViewById(R.id.imageViewHostInNavi),
+                myButton);
+        this.image.setScaleType(ScaleType.CENTER_CROP);
     }
 
     private void loadSamplesDetailFromWeb() {
@@ -466,40 +497,95 @@ public class NaviActivity extends Activity implements
                                     .setPositiveButton("Failed", null)
                                     .show();
                         } else {
-                            List<Board> boards = null;
+                            // we only want to get the add or updated board and put them into changeTracker, this is for minimize
+                            // the call for UI draw
+                            ArrayList<Tuple<Board, String>> changeTracker = new ArrayList<>();
                             try {
-                                boards = RestEntityResultDumper.dump(task.getSingleResult().toString(), Board.class);
-                                Log.d(LOG_TAG, "Boards total " + boards.size() + " loaded from web");
+                                List<Board> remoteBoards = RestEntityResultDumper.dump(task.getSingleResult().toString(), Board.class);
+                                Log.d(LOG_TAG, "Boards total " + remoteBoards.size() + " loaded from web");
+                                for (Board remoteBoard : remoteBoards) {
+                                    if (!NaviActivity.this.boardsInBuilding.contains(remoteBoard)) {
+                                        changeTracker.add(new Tuple<>(remoteBoard, "add"));
+                                        Log.v(LOG_TAG, "Board:" + remoteBoard.BoardIdentity + " is marked as 'add'");
+                                    } else {
+                                        Board existed = null;
+                                        for (Board _ : NaviActivity.this.boardsInBuilding) {
+                                            if (_.BoardIdentity.equals(remoteBoard.BoardIdentity))
+                                                existed = _;
+                                        }
+
+                                        if (existed.IsCovered != remoteBoard.IsCovered
+                                                || !existed.CoordinateX.equals(remoteBoard.CoordinateX)
+                                                || !existed.CoordinateY.equals(remoteBoard.CoordinateY)
+                                                || !existed.Description.equals(remoteBoard.Description)
+                                                || !existed.DetailUrl.equals(remoteBoard.DetailUrl)
+                                                || (existed.OrderDetailUrl == null && remoteBoard.OrderDetailUrl != null)
+                                                || (existed.OrderDetailUrl != null && remoteBoard.OrderDetailUrl == null)
+                                                || (existed.OrderDetailUrl != null && remoteBoard.OrderDetailUrl != null && !existed.OrderDetailUrl.equals(remoteBoard.OrderDetailUrl))
+                                                ) {
+                                            changeTracker.add(new Tuple<>(remoteBoard, "update"));
+                                            Log.v(LOG_TAG, "Board:" + remoteBoard.BoardIdentity + " is marked as 'update'");
+                                        }
+                                    }
+                                }
+
+                                for (Board existedBoard : NaviActivity.this.boardsInBuilding) {
+                                    if (!remoteBoards.contains(existedBoard)) {
+                                        changeTracker.add(new Tuple<>(existedBoard, "delete"));
+                                        Log.v(LOG_TAG, "Board:" + existedBoard.BoardIdentity + " is marked as 'delete'");
+                                    }
+                                }
+
+                                NaviActivity.this.boardsInBuilding.clear();
+                                NaviActivity.this.boardsInBuilding.addAll(remoteBoards);
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 new AlertDialog.Builder(
                                         NaviActivity.this)
                                         .setIcon(
                                                 android.R.drawable.ic_dialog_alert)
                                         .setTitle("Resolve boards failed")
-                                        .setMessage("!!!")
+                                        .setMessage(e.getMessage())
                                         .setPositiveButton("Failed", null)
                                         .show();
+                                Log.e(LOG_TAG, "Resolve boards failed: " + e.getMessage());
                                 return;
                             }
 
-                            List<DrawImage> drawImages = Helper
-                                    .ConvertRestBoardsToDrawImages(boards,
-                                            ((BitmapDrawable) image.getDrawable()).getBitmap(),
-                                            image,
-                                            getResources());
-                            image.drawMultipleCirclesAndImages(null, drawImages);
+                            if (changeTracker.size() > 0) {
+                                List<Board> addOrUpdateBoards = new ArrayList<>();
+                                List<String> deleteBoardIds = new ArrayList<>();
+                                for (Tuple<Board, String> change : changeTracker) {
+                                    if (change.second.equals("delete"))
+                                        deleteBoardIds.add(change.first.BoardIdentity);
+                                    else
+                                        addOrUpdateBoards.add(change.first);
+                                }
+
+                                image.drawImagesWithRemove(deleteBoardIds);
+                                List<DrawImage> drawImages = Helper
+                                        .ConvertRestBoardsToDrawImages(addOrUpdateBoards,
+                                                ((BitmapDrawable) image.getDrawable()).getBitmap(),
+                                                image,
+                                                getResources(), currentBuilding.MapScale, 3);
+                                image.drawMultipleCirclesAndImages(null, drawImages);
+                            }
+
                             waitSometimeHandler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (keepPollingAllParkingPositionsFromWeb)
                                         loadAllWebBoardAndShowOnUI();
                                 }
-                            }, 8000);
+                            }, 6000);
                         }
                     }
-                });
+                }
+
+        );
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private AdvertiseData getAdvertiseData() {
         final byte[] manufacturerData = new byte[23];
         ByteBuffer byteBuffer = ByteBuffer.wrap(manufacturerData);
@@ -564,7 +650,7 @@ public class NaviActivity extends Activity implements
         BleFingerprintCollector.getDefault().StartSampling();
         if (!BleFingerprintCollector.getDefault().IsStarted.get()
                 && false == BleFingerprintCollector.getDefault().TurnOn(
-                mBluetoothAdapter, MainActivity.BleScanSettings)) {
+                mBluetoothAdapter)) {
             Toast.makeText(getBaseContext(), "Failed to start collect FP",
                     android.widget.Toast.LENGTH_LONG).show();
             return;
@@ -626,29 +712,27 @@ public class NaviActivity extends Activity implements
             public void run() {
                 new AlertDialog.Builder(NaviActivity.this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("see?")
+                        .setTitle("预订")
                         .setMessage(
-                                "Want to order position " + selectedBitMapId
-                                        + "?")
-                        .setPositiveButton("Yes",
+                                "确定预订车位：" + selectedBitMapId
+                                        + " 吗?")
+                        .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
                                                         int which) {
-                                        SendOrderOrRevertParkingPositionRequest(false);
+                                        SendOrderOrRevertParkingPositionRequest(selectedBitMapId, false);
                                     }
                                 })
-                        .setNegativeButton("No", null)
-                        .setNeutralButton("revert",
+                        .setNegativeButton("Cancel", null)
+                        .setNeutralButton("取消已有预订",
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
                                                         int which) {
-                                        SendOrderOrRevertParkingPositionRequest(true);
+                                        SendOrderOrRevertParkingPositionRequest(selectedBitMapId, true);
                                     }
                                 }).show();
-                logTextView.setText("touched bitmap: " + touchedBitMapId);
-
             }
         });
     }
@@ -657,9 +741,9 @@ public class NaviActivity extends Activity implements
             List<ScannedBleDevice> rawFingerprints) {
         HashSet<ScannedBleDevice> averagedFingerprints = Util
                 .DistinctAndAvgFingerprint(rawFingerprints);
-        Log.e(LOG_TAG, "averagedFingerprints collected:");
-        Log.e(LOG_TAG, Helper.ToLogString0(averagedFingerprints));
-        Log.e(LOG_TAG, "averagedFingerprints collected finished.");
+        Log.v(LOG_TAG_LOCATION, "averagedFingerprints collected:");
+        Log.v(LOG_TAG_LOCATION, Helper.ToLogString0(averagedFingerprints));
+        Log.v(LOG_TAG_LOCATION, "averagedFingerprints collected finished.");
         // need calculate the similarity against all the BuildInSampleData
         final ArrayList<Tuple<Double, LocalPositionDescriptor>> sortedSimilarityList = new ArrayList<>();
         if (this.loadedBuildInSampleData != null
@@ -674,9 +758,9 @@ public class NaviActivity extends Activity implements
         }
 
         Collections.sort(sortedSimilarityList, new SimilarityComparator());
-        Log.e(LOG_TAG, "similarity caculated:");
-        Log.e(LOG_TAG, Helper.ToLogString1(sortedSimilarityList));
-        Log.e(LOG_TAG, "similarity caculated finished");
+        Log.v(LOG_TAG_LOCATION, "similarity caculated:");
+        Log.v(LOG_TAG_LOCATION, Helper.ToLogString1(sortedSimilarityList));
+        Log.v(LOG_TAG_LOCATION, "similarity caculated finished");
         allCandidatesWithText.clear();
 
         // check the similarity to avoid 'false fly jumping'.
@@ -706,52 +790,167 @@ public class NaviActivity extends Activity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 if (!allCandidatesWithText.isEmpty()) {
-
-                    // Calendar c = Calendar.getInstance();
-                    // int seconds = c.get(Calendar.SECOND);
-                    // logTextView.setText("time: " + seconds + "\r\n" +
-                    // logString);
-                    // logTextView.setText("from last refresh (by ms): " + gap);
-                    // draw all points
-                    // image.drawCirclesByXandY(allCandidatesWithText);
+                    // we want the circle has 2m radius.
+                    Bitmap shoePrintIcon = Helper.getScaledBitmapByMapScale(BitmapFactory.decodeResource(
+                            getResources(), R.drawable.shoeprints), currentBuilding.MapScale, 2, false);
                     // only draw the highest similarity point
-                    image.drawSingleCircle(new DrawCircle(allCandidatesWithText
-                            .get(allCandidatesWithText.size() - 1).first.first,
+                    image.drawImageNewOrUpdate(new DrawImage(
+                            allCandidatesWithText
+                                    .get(allCandidatesWithText.size() - 1).first.first,
                             allCandidatesWithText.get(allCandidatesWithText
                                     .size() - 1).first.second,
-                            allCandidatesWithText.get(allCandidatesWithText
-                                    .size() - 1).second, Color.BLACK));
+                            shoePrintIcon, "", "you get here by your feet"));
                 }
             }
         });
     }
 
-    private void SendOrderOrRevertParkingPositionRequest(boolean revert) {
-        final boolean isRevert = revert;
-        NaviActivity.this.orderingProgressDialog = ProgressDialog.show(
-                NaviActivity.this, "requesting...",
-                "wait for put your order...");
-        new Thread(new Runnable() {
-            public void run() {
-                final String webResponseContent = Helper
-                        .OrderOneParkingPosition(
-                                ((EditText) findViewById(R.id.userNameEditText))
-                                        .getText().toString(), (selectedBitMapId), isRevert);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        orderingProgressDialog.dismiss();
-                        new AlertDialog.Builder(NaviActivity.this)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setTitle("operation result")
-                                .setMessage(webResponseContent)
-                                .setPositiveButton("OK", null).show();
-                    }
-                });
+    private void SendOrderOrRevertParkingPositionRequest(String boardId, boolean revert) {
+        if (!revert) {
+            NaviActivity.this.orderingProgressDialog = ProgressDialog.show(
+                    NaviActivity.this, "requesting...",
+                    "wait for create your order...");
 
-            }
-        }).start();
+            RestAction addOrderAction = new RestAction("orders/",
+                    userName, password, "POST", boardId);
+//            {
+//                    "owner": "http://rest.shaojun.xyz:8090/usersInfo/7/",
+//                    "status": "new",
+//                    "to_Board": "http://rest.shaojun.xyz:8090/boards/macmac/",
+//                    "isActive": false
+//            }
+            Order newOrder = new Order();
+            newOrder.Status = "test";
+            newOrder.ToBoardUrl = Service.ServiceUrl + "boards/" + boardId + "/";
+            newOrder.OwnerUrl = UserInfo.CurrentUserInfo.Url;
+            addOrderAction.AddPostJsonObject(newOrder.toJsonObject());
+            Task.Create(addOrderAction).Start(
+                    new OnActionFinishedListener<String>() {
+                        @Override
+                        public void Finished(Task task, Action<String> finishedAction) {
+                            NaviActivity.this.orderingProgressDialog.dismiss();
+                            if (task.isFaulted()) {
+                                if (task.getFirstErrorHttpResponseCode() == 409) {
+                                    new AlertDialog.Builder(
+                                            NaviActivity.this)
+                                            .setIcon(
+                                                    android.R.drawable.ic_dialog_alert)
+                                            .setTitle("失败")
+                                            .setMessage(
+                                                    "此车位已经被预订过！")
+                                            .setPositiveButton("Ok", null).show();
+                                    return;
+                                }
+
+                                new AlertDialog.Builder(
+                                        NaviActivity.this)
+                                        .setIcon(
+                                                android.R.drawable.ic_dialog_alert)
+                                        .setTitle("失败")
+                                        .setMessage(
+                                                "创建订单失败")
+                                        .setPositiveButton("Ok", null).show();
+                                return;
+                            } else
+
+                            {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new AlertDialog.Builder(NaviActivity.this)
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setTitle("预订成功")
+                                                .setMessage("成功预订了车位")
+                                                .setPositiveButton("OK", null).show();
+                                    }
+                                });
+                            }
+                        }
+                    }
+            );
+        } else
+
+        {
+            NaviActivity.this.orderingProgressDialog = ProgressDialog.show(
+                    NaviActivity.this, "requesting...",
+                    "wait for revert your order...");
+            RestAction queryDeletingOrderAction = new RestAction("orders/?to_BoardId=" + boardId, userName, password, "GET", "queryDeletingOrderAction");
+            Task.Create(queryDeletingOrderAction)
+                    .Start(new OnActionFinishedListener<String>() {
+                               @Override
+                               public void Finished(Task task, Action<String> finishedAction) {
+                                   if (task.isFaulted()) {
+                                       NaviActivity.this.orderingProgressDialog.dismiss();
+                                       new AlertDialog.Builder(
+                                               NaviActivity.this)
+                                               .setIcon(
+                                                       android.R.drawable.ic_dialog_alert)
+                                               .setTitle("失败")
+                                               .setMessage(
+                                                       "查询待删除的订单失败，请重试")
+                                               .setPositiveButton("Ok", null).show();
+                                       return;
+                                   } else {
+                                       NaviActivity.this.orderingProgressDialog.dismiss();
+                                       Order deletingOrder;
+                                       try {
+                                           deletingOrder = RestEntityResultDumper.dump(task.getSingleResult().toString(), Order.class).get(0);
+                                       } catch (Exception e) {
+                                           e.printStackTrace();
+                                           new AlertDialog.Builder(
+                                                   NaviActivity.this)
+                                                   .setIcon(
+                                                           android.R.drawable.ic_dialog_alert)
+                                                   .setTitle("Resolve underlying new added Sample failed")
+                                                   .setMessage("resolving deleting order detail failed")
+                                                   .setPositiveButton("Failed", null)
+                                                   .show();
+                                           return;
+                                       }
+
+                                       RestAction delOrderAction = new RestAction(deletingOrder.Url,
+                                               userName, password, "DELETE", "DELETE");
+                                       Task.Create(delOrderAction).Start(new OnActionFinishedListener<String>() {
+                                           @Override
+                                           public void Finished(Task task, Action<String> finishedAction) {
+                                               NaviActivity.this.orderingProgressDialog.dismiss();
+                                               if (task.isFaulted()) {
+                                                   new AlertDialog.Builder(
+                                                           NaviActivity.this)
+                                                           .setIcon(
+                                                                   android.R.drawable.ic_dialog_alert)
+                                                           .setTitle("失败")
+                                                           .setMessage(
+                                                                   "删除订单失败，请重试")
+                                                           .setPositiveButton("Ok", null).show();
+                                                   return;
+                                               } else {
+                                                   new AlertDialog.Builder(
+                                                           NaviActivity.this)
+                                                           .setIcon(
+                                                                   android.R.drawable.ic_dialog_alert)
+                                                           .setTitle("成功")
+                                                           .setMessage(
+                                                                   "删除订单成功")
+                                                           .setPositiveButton("Ok", null).show();
+                                               }
+                                           }
+                                       });
+//            {
+//                    "owner": "http://rest.shaojun.xyz:8090/usersInfo/7/",
+//                    "status": "new",
+//                    "to_Board": "http://rest.shaojun.xyz:8090/boards/macmac/",
+//                    "isActive": false
+//            }
+
+
+                                   }
+
+
+                               }
+                           }
+                    );
+        }
     }
 }

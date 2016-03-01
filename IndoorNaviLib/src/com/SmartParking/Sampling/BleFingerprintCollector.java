@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.SmartParking.Util.Util;
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
@@ -29,6 +30,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.OperationCanceledException;
 import android.util.Log;
@@ -46,10 +48,20 @@ public class BleFingerprintCollector {
     private static final String LOG_TAG = "BleFingerprintCollector";
     // Device scan callback.
     private ScanCallback mLeScanCallback;
+    // Device scan callback.
+    private BluetoothAdapter.LeScanCallback note2mLeScanCallback;
     private BluetoothLeScanner mLescanner;
     // this value was get by massive testing, do not change it unless you know what are u doing.
     private int startAndStopScanInterval = 1100;
     private static final BleFingerprintCollector defaultInstance = new BleFingerprintCollector();
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private ScanSettings getBleScanSettings() {
+        return new ScanSettings.Builder()
+                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                        // .setReportDelay(20)
+                .build();
+    }
 
     /**
      * Indicator for if the Ble Scan is TurnedOn.
@@ -82,6 +94,16 @@ public class BleFingerprintCollector {
     }
 
     private BleFingerprintCollector() {
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentApiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+            setupLollipopmLeScanCallback();
+        } else {
+            setupNote2mLeScanCallback();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupLollipopmLeScanCallback() {
         /* setup the scanning callback... */
         this.mLeScanCallback = new ScanCallback() {
             @Override
@@ -128,31 +150,27 @@ public class BleFingerprintCollector {
             @Override
             public void onScanFailed(int errorCode) {
             }
+        };
+    }
 
-            // old 4.3 one, no used, but leave it here for now.
-            public synchronized void onScan(final BluetoothDevice device,
-                                            int rssi, byte[] scanRecord) {
-
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void setupNote2mLeScanCallback() {
+        this.note2mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+            @Override
+            public void onLeScan(final BluetoothDevice device, int rssi,
+                                 byte[] scanRecord) {
+                Log.v(LOG_TAG, "in onLeScan(NOTE2), " + Util.BytesToHexString(scanRecord) + " is coming...");
                 ScannedBleDevice d = ParseRawScanRecord(device, rssi,
                         scanRecord, UuidMatcher);
-                // could be the one filtered or exceptioned.
-                if (d == null) {
-                    return;
+                if (d != null) {
+                    syncLock.lock();
+                    try {
+                        fingerprints.add(d);
+                        Log.v(LOG_TAG, "Parsed one IBeacon package in NOTE2 Scan: " + d.toSimpleString());
+                    } finally {
+                        syncLock.unlock();
+                    }
                 }
-
-                // Log.i(LOG_TAG,
-                // "onLeScan(...), rssi: " + rssi + ", distance: "
-                // + Util.CalculateAccuracy(-59, rssi) * 100
-                // + ", scanRecord: "
-                // + Util.BytesToHexString(scanRecord, " "));
-                syncLock.lock();
-                try {
-                    fingerprints.add(d);
-                } finally {
-                    syncLock.unlock();
-                }
-
-                // + " in fingerprints hashtable.");
             }
         };
     }
@@ -161,15 +179,15 @@ public class BleFingerprintCollector {
                                                 int rssi, byte[] advertisedData, byte[] uuidMatcher) {
         try {
             Log.v(LOG_TAG, "Try parsing advertise data: " + Util.BytesToHexString(advertisedData));
-			/*
-			 * raw data is like this 02 01 1A 1A FF 4C 00 02 15 E2 C5 6D B5 DF
+            /*
+             * raw data is like this 02 01 1A 1A FF 4C 00 02 15 E2 C5 6D B5 DF
 			 * FB 48 D2 B0 60 D0 F5 A7 10 96 E0 00 0A 00 08 C5 09 09 42 79 74 65
 			 * 72 65 61 6C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 			 * 00 00 00 00
 			 */
 
 			/*
-			 * 02 (Number of bytes that follow in first AD structure) 01 (Flags
+             * 02 (Number of bytes that follow in first AD structure) 01 (Flags
 			 * AD type) 1A (Flags value 0x1A = 000011010 ) 1A (Number of bytes
 			 * that follow in second (and last) AD structure) FF (Manufacturer
 			 * specific data AD type) 4C 00 (Company identifier code (0x004C ==
@@ -274,8 +292,127 @@ public class BleFingerprintCollector {
         return defaultInstance;
     }
 
-    private Thread intervalThread;
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void createAutoOnAndOffScanThread() {
+        this.autoOnAndOffScanThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (BleFingerprintCollector.this.IsStarted.get()) {
+                    try {
+                        // Spin check, sleep a while, avoid too much CPU cost.
+                        Thread.sleep(100);
+                        while (BleFingerprintCollector.this.shouldStartSampling) {
+                            // due to device limitation, need do this
+                            // open and shut, this is no need for NOTE2
+                            BleFingerprintCollector.this.mLescanner
+                                    .startScan(new ArrayList<ScanFilter>(), getBleScanSettings(),
+                                            mLeScanCallback);
+                            // give a chance to quit early once the StopSampling() called in during the reportInterval waiting.
+                            boolean shouldBreakEarlier = false;
+                            // 100ms as a step
+                            int splitPieceCount = BleFingerprintCollector.this.startAndStopScanInterval / 100;
+                            int splitSleepTime = BleFingerprintCollector.this.startAndStopScanInterval
+                                    / splitPieceCount;
+                            for (int i = 0; i < splitPieceCount; i++) {
+                                Thread.sleep(splitSleepTime);
+                                if (!BleFingerprintCollector.this.shouldStartSampling) {
+                                    shouldBreakEarlier = true;
+                                    break;
+                                }
+                            }
+
+                                    /* for avoid blocking access to 'fingerprints' to long in LeScancallback, we copy the list here and send to
+                                    * Listeners
+                                    */
+                            List<ScannedBleDevice> copiedFingerprints;
+                            syncLock.lock();
+                            try {
+                                copiedFingerprints = new ArrayList<>(fingerprints);
+                                fingerprints.clear();
+                            } finally {
+                                syncLock.unlock();
+                            }
+
+                            for (OnBleSampleCollectedListener l : listeners) {
+                                l.onSampleCollected(copiedFingerprints);
+                            }
+
+                            if (shouldBreakEarlier) break;
+
+                        }
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } finally {
+                        BleFingerprintCollector.this.mLescanner
+                                .stopScan(mLeScanCallback);
+                    }
+                }
+            }
+        }
+        );
+    }
+
     private Thread autoOnAndOffScanThread;
+
+    /*
+    * the Note2 scan no need stop and start the ble device.
+    **/
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void createNote2ScanThread() {
+        note2ScanThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (BleFingerprintCollector.this.IsStarted.get()) {
+                    try {
+                        // Spin check, sleep a while for avoid too much CPU cost.
+                        Thread.sleep(100);
+                        // sampling report interval time is specified
+                        // valid,
+                        // now notify the listeners.
+                        while (BleFingerprintCollector.this.shouldStartSampling) {
+                            // give a chance to quit early once the StopSampling() called in during the reportInterval waiting.
+                            boolean shouldBreakEarlier = false;
+                            // 100ms as a step
+                            int splitPieceCount = BleFingerprintCollector.this.startAndStopScanInterval / 100;
+                            int splitSleepTime = BleFingerprintCollector.this.startAndStopScanInterval
+                                    / splitPieceCount;
+                            for (int i = 0; i < splitPieceCount; i++) {
+                                Thread.sleep(splitSleepTime);
+                                if (!BleFingerprintCollector.this.shouldStartSampling) {
+                                    shouldBreakEarlier = true;
+                                    break;
+                                }
+                            }
+
+                           /* for avoid blocking access to 'fingerprints' to long in LeScancallback, we copy the list here and send to
+                            * Listeners
+                            */
+                            List<ScannedBleDevice> copiedFingerprints;
+                            syncLock.lock();
+                            try {
+                                copiedFingerprints = new ArrayList<>(fingerprints);
+                                fingerprints.clear();
+                            } finally {
+                                syncLock.unlock();
+                            }
+                            for (OnBleSampleCollectedListener l : listeners) {
+                                l.onSampleCollected(copiedFingerprints);
+                            }
+
+                            if (shouldBreakEarlier) break;
+                        }
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        );
+    }
+
+    private Thread note2ScanThread;
 
     /**
      * just simply turn on the ble scan on device, the underlying ble scan is on
@@ -285,8 +422,18 @@ public class BleFingerprintCollector {
      * Typically Call this function only onetime, it's life cycle should same
      * with your APP.
      */
-    public boolean TurnOn(BluetoothAdapter bluetoothAdapter,
-                          final ScanSettings settings) {
+    public boolean TurnOn(BluetoothAdapter bluetoothAdapter) {
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentApiVersion <= Build.VERSION_CODES.KITKAT) {
+            return turnOnForNote2(bluetoothAdapter);
+        } else {
+            return turnOn(bluetoothAdapter, getBleScanSettings());
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean turnOn(BluetoothAdapter bluetoothAdapter,
+                           final ScanSettings settings) {
         if (this.IsStarted.compareAndSet(false, true)) {
             if (bluetoothAdapter == null) {
                 throw new IllegalArgumentException(
@@ -312,72 +459,7 @@ public class BleFingerprintCollector {
             }
             Log.i(LOG_TAG,
                     "!!!!!!sbody wants to start a scanning(but no data popup)...");
-            final List<ScanFilter> filters = new ArrayList<ScanFilter>();
-
-            BleFingerprintCollector.this.autoOnAndOffScanThread = new Thread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            while (BleFingerprintCollector.this.IsStarted.get()) {
-                                try {
-                                    // Spin check, sleep a while for avoid too
-                                    // much CPU cost.
-                                    Thread.sleep(100);
-                                } catch (InterruptedException e1) {
-                                    // TODO Auto-generated catch block
-                                    e1.printStackTrace();
-                                }
-
-                                // sampling report interval time is specified
-                                // valid,
-                                // now notify the listeners.
-                                while (BleFingerprintCollector.this.shouldStartSampling) {
-                                    // due to device limitation, need do this
-                                    // open and shut.
-                                    try {
-                                        BleFingerprintCollector.this.mLescanner
-                                                .startScan(filters, settings,
-                                                        mLeScanCallback);
-                                        try {
-                                            // give a chance to quit early once
-                                            // the
-                                            // StopSampling() called during the
-                                            // reportInterval waiting.
-                                            boolean shouldBreakEarlier = false;
-                                            // 100ms as a step
-                                            int splitPieceCount = BleFingerprintCollector.this.startAndStopScanInterval / 100;
-                                            int splitSleepTime = BleFingerprintCollector.this.startAndStopScanInterval
-                                                    / splitPieceCount;
-                                            for (int i = 0; i < splitPieceCount; i++) {
-                                                Thread.sleep(splitSleepTime);
-                                                if (!BleFingerprintCollector.this.shouldStartSampling) {
-                                                    shouldBreakEarlier = true;
-                                                    break;
-                                                }
-                                            }
-
-                                            CopyOnWriteArrayList<ScannedBleDevice> syncedFingerprints = new CopyOnWriteArrayList<ScannedBleDevice>(
-                                                    fingerprints);
-                                            for (OnBleSampleCollectedListener l : listeners) {
-                                                l.onSampleCollected(syncedFingerprints);
-                                            }
-
-                                            fingerprints.clear();
-                                            if (shouldBreakEarlier) {
-                                                break;
-                                            }
-                                        } catch (InterruptedException e) {
-                                            // TODO Auto-generated catch block
-                                            e.printStackTrace();
-                                        }
-                                    } finally {
-                                        BleFingerprintCollector.this.mLescanner
-                                                .stopScan(mLeScanCallback);
-                                    }
-                                }
-                            }
-                        }
-                    });
+            this.createAutoOnAndOffScanThread();
             autoOnAndOffScanThread.start();
             return true;
         } else {
@@ -389,12 +471,67 @@ public class BleFingerprintCollector {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private boolean turnOnForNote2(BluetoothAdapter bluetoothAdapter) {
+        if (this.IsStarted.compareAndSet(false, true)) {
+            if (bluetoothAdapter == null) {
+                throw new IllegalArgumentException(
+                        "'BluetoothAdapter' must be specified.");
+            }
+
+            // Ensures Bluetooth is available on the device and it is
+            // enabled.
+            if (!bluetoothAdapter.isEnabled()) {
+                Log.i(LOG_TAG,
+                        "Bluetooth is disabled in device, failed to TurnOn...");
+                return false;
+            }
+
+            this.mBluetoothAdapter = bluetoothAdapter;
+            try {
+                syncLock.lock();
+                this.fingerprints.clear();
+            } finally {
+                syncLock.unlock();
+            }
+
+            this.mBluetoothAdapter.startLeScan(this.note2mLeScanCallback);
+            Log.i(LOG_TAG,
+                    "!!!!!!sbody wants to start a (note2) scanning...");
+            this.createNote2ScanThread();
+            this.note2ScanThread.start();
+            return true;
+        } else {
+            Log.i(LOG_TAG,
+                    "Previous process is still running, stop it first and then re-try");
+            return false;
+            // throw new UnsupportedOperationException(
+            // "Previous process is still running, stop it and then retry");
+        }
+    }
+
+
     public void TurnOff() {
         Log.i(LOG_TAG, "#############sbody wants to TurnOff the scanning...");
-        if (this.mBluetoothAdapter != null && this.mLescanner != null)
-            this.mLescanner.stopScan(this.mLeScanCallback);
+        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentApiVersion <= Build.VERSION_CODES.KITKAT) {
+            turnOffNote2();
+        } else {
+            turnOff();
+        }
         this.listeners.clear();
         this.IsStarted.set(false);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void turnOffNote2() {
+        this.mBluetoothAdapter.stopLeScan(this.note2mLeScanCallback);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void turnOff() {
+        if (this.mBluetoothAdapter != null && this.mLescanner != null)
+            this.mLescanner.stopScan(this.mLeScanCallback);
     }
 
     /**
@@ -409,7 +546,24 @@ public class BleFingerprintCollector {
         syncLock.lock();
         fingerprints.clear();
         syncLock.unlock();
+        this.startAndStopScanInterval = 1100;
+        this.shouldStartSampling = true;
+    }
 
+    /**
+     * For now, the Sangsum NOTE2 works perfectly for ble scan on Android 4.4, no need to stop and start, so created a dedicated function for this device.
+     * The OnBleSampleCollectedListener will be fired in each ble scan cycle
+     */
+    public void StartNote2Sampling(int reportingInterval) {
+        if (!this.IsStarted.get()) {
+            throw new OperationCanceledException(
+                    "BleFingerprintCollector is not turned on yet, StartSampling failed.");
+        }
+
+        syncLock.lock();
+        fingerprints.clear();
+        syncLock.unlock();
+        this.startAndStopScanInterval = reportingInterval;
         this.shouldStartSampling = true;
     }
 

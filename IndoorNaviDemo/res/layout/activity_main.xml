@@ -11,21 +11,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"            
-            android:weightSum="2"
+            android:layout_height="0dp"
+            android:background="#ffffff"
+            android:layout_weight="9"
             android:orientation="vertical" >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:id="@+id/imgControlHost"
+                android:layout_weight="20"
                 android:orientation="horizontal">
-                <com.SmartParking.UI.MarkableTouchImageView
-                    android:id="@+id/imgControl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/caffebene"
-                    />
+                <!--<com.SmartParking.UI.MarkableTouchImageView-->
+                    <!--android:id="@+id/imgControl"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/caffebene"-->
+                    <!--/>-->
             </LinearLayout>
 
 
@@ -33,6 +34,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:background="#7ed6cb" >
 
                 <Button
@@ -58,8 +60,9 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" >
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:layout_marginTop="10dp" >
 
                 <Button
                     android:id="@+id/buttonPersist"
@@ -83,17 +86,18 @@
                     android:id="@+id/buttonStartNavi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:background="#3b5998"
                     android:text="@string/StartNaviButtonText"
-                    android:textSize="35sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:orientation="vertical" >
 
             <ExpandableListView

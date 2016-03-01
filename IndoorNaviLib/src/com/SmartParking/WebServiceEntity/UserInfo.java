@@ -21,6 +21,7 @@ public class UserInfo extends EntityBase implements Serializable {
     public String MinorId;
     public String MacAddress;
     public String CreationTime;
+    public String Url;
     public ArrayList<String> Groups;
 
     public UserInfo() {
@@ -38,6 +39,7 @@ public class UserInfo extends EntityBase implements Serializable {
         userInfo.MacAddress = jsonObject.getString("mac_address");
         userInfo.CreationTime = jsonObject.getString("creation_Time");
         userInfo.IsActive = jsonObject.getBoolean("is_active");
+        userInfo.Url = jsonObject.getString("url");
         JSONArray userInfoGroupsJSONArray = jsonObject.getJSONArray("groups");
         for (int i = 0; i < userInfoGroupsJSONArray.length(); i++) {
             userInfo.Groups.add(userInfoGroupsJSONArray.getString(i));
